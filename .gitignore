@@ -1,3 +1,6 @@
+# Platform junk
+.DS_Store
+
 # Logs
 logs
 *.log

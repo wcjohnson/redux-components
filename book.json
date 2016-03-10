@@ -3,8 +3,12 @@
   "structure": {
     "summary": "docs/README.md"
   },
-  "plugins": ["prism", "-highlight", "github"],
+  "plugins": ["edit-link", "prism", "-highlight", "github"],
   "pluginsConfig": {
+    "edit-link": {
+      "base": "https://github.com/wcjohnson/redux-components/tree/master",
+      "label": "Edit This Page"
+    },
     "github": {
       "url": "https://github.com/wcjohnson/redux-components"
     }
