@@ -1,0 +1,30 @@
+{
+  "name": "redux-components",
+  "version": "0.0.1",
+  "description": "A component model for Redux state trees based on the React.js component model.",
+  "main": "lib/index.js",
+  "scripts": {
+  },
+  "repository": {
+		"type": "git",
+    "url": "https://github.com/wcjohnson/redux-components.git"
+  },
+  "keywords": [
+    "redux",
+    "flux",
+    "component"
+  ],
+  "author": "William C. Johnson <wcjohnson@oigroup.net> (https://github.com/wcjohnson)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/wcjohnson/redux-components/issues"
+  },
+  "homepage": "https://github.com/",
+  "devDependencies": {
+  },
+  "dependencies": {
+  },
+  "peerDependencies": {
+
+  }
+}
