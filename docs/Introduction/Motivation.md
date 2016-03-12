@@ -18,7 +18,7 @@ Consider a commonly recurring pattern in Redux state design: a leaf node in a st
 
 > **NB:** Example code is in CoffeeScript targeting CommonJS, and as such deviates slightly from the standard 'duck' pattern in that the reducer is exported as 'reducer' rather than as the default export.
 
-```coffee
+```coffeescript
 #### state/ducks/widget/index.coffee
 SET = 'widget:SET'
 MERGE = 'widget:MERGE'
@@ -64,7 +64,7 @@ How best to do that, though? The first two obvious problems are:
 
 The first possible fix is to wrap the whole duck in a closure over where it is in the tree:
 
-```coffee
+```coffeescript
 #### state/hoducks/ObjectStore.coffee
 mountObjectStoreAt = (path) ->
 	SET = "#{path}:SET"
@@ -100,7 +100,7 @@ module.exports = mountObjectStoreAt
 
 Then you can create "instances" of the ```ObjectStore``` duck that you can reuse throughout your state tree:
 
-```coffee
+```coffeescript
 #### state/stateTree.coffee
 mountObjectStoreAt = require 'state/hoducks/ObjectStore'
 
