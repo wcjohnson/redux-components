@@ -1,3 +1,3 @@
 ## Introduction
 * [Motivation](Motivation.md)
-* [Those Who Have Gone Before](PriorArt.md)
+* [Those Who Have Gone Before](RelatedWork.md)
