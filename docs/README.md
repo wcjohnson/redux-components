@@ -10,3 +10,5 @@ A component model for Redux state trees based on the React.js component model.
 * [API](/docs/API/README.md)
 	* [Components](/docs/API/Components.md)
 	* [createClass](/docs/API/createClass.md)
+	* [mountComponent](/docs/API/mountComponent.md)
+	* [SubtreeMixin](/docs/API/SubtreeMixin.md)

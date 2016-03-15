@@ -1,0 +1,7 @@
+///////////////////////////////////////////////////////////////////////
+// EXPORT STUB
+// For internal use, or use by those with CoffeeScript build toolchains.
+// npm build will replace these stubs with the transpiled CoffeeScript.
+///////////////////////////////////////////////////////////////////////
+
+module.exports = require 'src/mountComponent'

@@ -17,7 +17,7 @@ A reference to the scoped subtree of the current Redux state at the mount positi
 
 ### this.store
 ```coffeescript
-this.store = { getState, dispatch, subscribe }
+this.store = { getState, dispatch, subscribe, replaceReducer }
 ```
 A reference to the Redux store to which this instance is mounted.
 

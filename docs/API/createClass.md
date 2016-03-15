@@ -1,5 +1,6 @@
 # createClass
 ```coffeescript
+createClass = require 'redux-components/createClass'
 createClass = ({spec}) -> ReduxComponentClass
 ```
 Creates a component class given a specification object. Generally speaking, any function assigned to a key on the specification object will be copied into the prototype of the class and thus become available as instance methods. The exception to this rule is for certain specially-named keys which are used by redux-components to implement core component behavior. The special keys are as follows:
