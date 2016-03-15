@@ -1,3 +1,4 @@
+# createClass
 ```coffeescript
 createClass = ({spec}) -> ReduxComponentClass
 ```
@@ -23,7 +24,7 @@ All keys and values from ```spec.statics``` are merged onto the constructor for 
 ```coffeescript
 spec.mixins = [ {spec}, {spec}, ... ]
 ```
-An array of additional specs that will be mixed into this spec before creating the class. Mixins are processed in the order they appear in the array. In general, the keys on the mixin specs will be assigned to the base spec by ```Object.assign```, but there is special behavior for certain keys. See [Mixins](Mixins.md) for more.
+An array of additional specs that will be mixed into this spec before creating the class. Mixins are processed in the order they appear in the array. In general, the keys on the mixin specs will be assigned to the base spec as with ```Object.assign```, with auto-binding for functions. There is special behavior for certain keys. See [Mixins](Mixins.md) for more.
 
 ## Lifecycle methods
 
@@ -63,7 +64,7 @@ Reducers made by getReducer are automatically bound to their component instances
 
 > - Do not use magic binding as an excuse to introduce impure behavior into your reducer! If you want the all the benefits of Redux, keep your reducers as pure functions of props and state. Don't make your reducer rely on non-constant properties of the redux-component, and don't be tempted to  store any state on the redux-component itself. (You can sometimes use ```getReducer``` to mimic "impure" behaviors without making your reducer itself impure.)
 
-> - By default, redux-components will call ```getReducer()``` only once when your component is mounted to a state tree. If you expect your reducer to change during the Redux store's lifecycle, you must arrange for ```getReducer()``` to be called at appropriate times, and for ```Store.replaceReducer()``` to be called on your root store. If you use redux-components throughout your state tree, we provide facilities for automating this.
+> - By default, redux-components will call `getReducer()` only once when your component is mounted to a state tree. If you expect your reducer to change during the Redux store's lifecycle, you must arrange for `getReducer()` to be called at appropriate times, and for `Store.replaceReducer()` to be called on your root store. If you use redux-components and `SubtreeMixin` throughout your state tree, we provide facilities for automating this.
 
 ### spec.verbs
 ```coffeescript
@@ -77,5 +78,16 @@ Specifies a list of action names that will be scoped to each instance of the com
 ```coffeescript
 spec.actionCreators = { key: (args...) -> action, ... }
 ```
-This key specifies the action creators associated with this component class. Each property on the ```actionCreators``` object will be bound to each component instance and made available on the instance as a method.
+Specify the action creators associated with this component class. Each property on the ```actionCreators``` object will be bound to each component instance and made available on the instance as a method.
 > **NB:** The redux-components core makes no assumptions about which middleware is present on a store.
+
+### spec.selectors
+```coffeescript
+spec.selectors = { key: (state, ...) -> any, ... }
+```
+Specify the selectors associated with this component class. Each property on the `selectors` object will be bound to each component instance and wrapped in a function that scopes the selector to the instance's state. The net effect will be that the state argument received by the selector will point to the state subtree managed by the particular component instance, rather than the global Redux state.
+> If you don't want a selector to be auto-scoped, don't put it in the selectors object. Instead set it as a property on the specification. This will bypass the auto-scoping behavior.
+
+## Other properties
+
+The specification's other properties will be `Object.assign()`ed onto the prototype for the class. Properties that are functions will be automatically bound to class instances by the constructor. Other properties will be available on the prototype.

@@ -7,3 +7,6 @@ A component model for Redux state trees based on the React.js component model.
 * [Introduction](/docs/Introduction/README.md)
 	* [Motivation](/docs/Introduction/Motivation.md)
 	* [Those Who Have Gone Before](/docs/Introduction/RelatedWork.md)
+* [API](/docs/API/README.md)
+	* [Components](/docs/API/Components.md)
+	* [createClass](/docs/API/createClass.md)
