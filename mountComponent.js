@@ -7,4 +7,4 @@
 // In npm builds, these stubs are replaced with the compiled CoffeeScript.
 ///////////////////////////////////////////////////////////////////////
 
-module.exports = require 'src/mountComponent.coffee'
+module.exports = require('./src/mountComponent.coffee');
