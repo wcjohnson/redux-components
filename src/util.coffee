@@ -8,6 +8,6 @@ get = (object, path) ->
 	index = 0; length = path.length
 	while object? and index < length
 		object = object[path[index++]]
-	if (index and index is length) then object else undefined
+	if (index is length) then object else undefined
 
 module.exports = { assign, chain, get }

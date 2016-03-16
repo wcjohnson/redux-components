@@ -7,7 +7,7 @@ ReduxComponent = require './ReduxComponent'
 createClass = (spec) ->
 	# Apply default mixin, then setup the spec
 	newSpec = { applyMixin }
-	newSpec.applyMixin(DefaultMixin, spec)
+	newSpec.applyMixin(newSpec, DefaultMixin)
 	newSpec.applyMixin(newSpec, spec)
 
 	Constructor = ->
