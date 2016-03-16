@@ -33,22 +33,15 @@ An array of additional specs that will be mixed into this spec before creating t
 ```coffeescript
 spec.componentWillMount = =>
 ```
-Invoked on a component instance immediately before its reducer is attached to the state tree. If this component has a pre-hydrated Redux state (e.g. from deserialization or time-travel), the scoped state for this component will be available inside this method at ```this.state```.
-> When multiple nodes are mounted simultaneously via ```SubtreeMixin```, their ```componentWillMount()``` methods are called in preorder with respect to their place in the  state tree. (leaf nodes last)
-
 ### spec.componentDidMount
 ```coffeescript
 spec.componentDidMount = =>
 ```
-Invoked on a component instance immediately after its reducer is attached to the state tree. Actions understood by this component or its children can safely be dispatched from here.
-> When multiple nodes are mounted simultaneously via ```SubtreeMixin```, their ```componentDidMount()``` methods are called in postorder with respect to their place in the  state tree. (leaf nodes first)
-
 ### spec.componentWillUnmount
 ```coffeescript
 spec.componentWillUnmount = =>
 ```
-Invoked on a component instance immediately before its reducer is removed from the state tree.
-> * When multiple nodes are unmounted simultaneously via ```SubtreeMixin```, their ```componentWillUnmount()``` methods are called in postorder with respect to their place in the state tree. (leaf nodes first)
+Specifies the lifecycle methods for instances of the class. See [Components](Components.md) for details on when the methods are called.
 
 ## Redux-related properties
 
@@ -56,7 +49,7 @@ Invoked on a component instance immediately before its reducer is removed from t
 ```coffeescript
 spec.getReducer = => (state, action) => nextState
 ```
-getReducer is a function that runs in the context of the component instance, and returns a reducer function that will be used for the state subtree managed by this component.
+getReducer returns a reducer function that will be used for the state subtree managed by this component.
 
 Reducers made by getReducer are automatically bound to their component instances so that they can have access to scoped properties, particularly scoped action verbs.
 

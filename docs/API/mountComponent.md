@@ -1,7 +1,12 @@
 # mountComponent
 ```coffeescript
 mountComponent = require 'redux-components/mountComponent'
-mountComponent: (store = { getState, dispatch, subscribe, replaceReducer }, componentInstance = instanceof ReduxComponent, path = [string|number, ...], mounter = (store, componentInstance) ->) ->
+mountComponent: (
+	store = { getState, dispatch, subscribe, replaceReducer },
+	componentInstance = instanceof ReduxComponent,
+	path = [string|number, ...],
+	mounter = (store, componentInstance) ->
+) ->
 ```
 Mounts a component instance to the redux state tree. `store` is a reference to the Redux store. The `componentInstance` is the component instance to be attached to the tree. The `path` is an array path from the root node of the state tree to the node at which this component will be mounted.
 

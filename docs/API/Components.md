@@ -1,4 +1,7 @@
 # Components
+
+## Component Classes
+
 As in React, components are built up from the JavaScript object model. One creates a component class by passing a specification object to  [createClass](createClass.md). Unlike React, there is no analogue of `createElement` in redux-components. One instantiates a class with JavaScript object construction: `new Class()`.
 
 > The constructor function built by createClass will automatically create instances if not called with new, so `Class()` will work as well as `new Class()`.
@@ -9,37 +12,64 @@ Instances of component classes are, in effect, ducks, each having as members a r
 
 Instances have the following members:
 
-### this.state
+### Lifecycle methods
+
+#### componentWillMount
+```coffeescript
+this.componentWillMount = =>
+```
+Invoked on a component instance immediately before its reducer is attached to the state tree. If there is a pre-hydrated Redux state (e.g. from deserialization or time-travel), the scoped state for this component will be available inside this method at ```this.state```.
+
+During this method, the component's reducer has **NOT** yet been attached to the Redux store, so it will not see any actions dispatched to the store. If you need to dispatch actions you expect this component to see, wait until `componentDidMount`.
+> When multiple nodes are mounted simultaneously, their ```componentWillMount()``` methods are called in preorder with respect to their place in the  state tree. (leaf nodes last)
+
+#### componentDidMount
+```coffeescript
+this.componentDidMount = =>
+```
+Invoked on a component instance immediately after its reducer is attached to the state tree. Actions understood by this component or its children can safely be dispatched from here.
+> When multiple nodes are mounted simultaneously, their ```componentDidMount()``` methods are called in postorder with respect to their place in the  state tree. (leaf nodes first)
+
+#### componentWillUnmount
+```coffeescript
+this.componentWillUnmount = =>
+```
+Invoked on a component instance immediately before its reducer is removed from the state tree.
+> When multiple nodes are unmounted simultaneously, their ```componentWillUnmount()``` methods are called in postorder with respect to their place in the state tree. (leaf nodes first)
+
+### Redux state
+
+#### this.state
 ```coffeescript
 this.state = any
 ```
 A reference to the scoped subtree of the current Redux state at the mount position of this component instance.
 
-### this.store
+#### this.store
 ```coffeescript
 this.store = { getState, dispatch, subscribe, replaceReducer }
 ```
 A reference to the Redux store to which this instance is mounted.
 
-### this.parentComponent
+#### this.parentComponent
 ```coffeescript
 this.parentComponent = (instanceof ReduxComponent)?
 ```
 A reference to the component instance mounted at the parent node of the state tree, if any.
 
-### this.path
+#### this.path
 ```coffeescript
 this.path = [ string|number, ... ]
 ```
 Array describing the path from the root of the state tree to the mounted position of this component, as in the second argument of `lodash.get()`.
 
-### this.reducer
+#### this.reducer
 ```coffeescript
 this.reducer = (state, action) => nextState
 ```
 The reducer function for this component instance, as obtained by the `getReducer` function on the class specification.
 
-### Verbs, action creators, and selectors
+#### Verbs, action creators, and selectors
 ```coffeescript
 this.SCOPED_VERB = "path.to.instance:SCOPED_VERB"
 ```

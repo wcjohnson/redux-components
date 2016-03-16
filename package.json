@@ -1,12 +1,11 @@
 {
   "name": "redux-components",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A component model for Redux state trees based on the React.js component model.",
   "main": "src/index.coffee",
-  "scripts": {
-  },
+  "scripts": {},
   "repository": {
-		"type": "git",
+    "type": "git",
     "url": "https://github.com/wcjohnson/redux-components.git"
   },
   "keywords": [
@@ -20,11 +19,11 @@
     "url": "https://github.com/wcjohnson/redux-components/issues"
   },
   "homepage": "https://github.com/",
-  "devDependencies": {
-  },
+  "devDependencies": {},
   "dependencies": {
+    "inv": "0.0.1"
   },
   "peerDependencies": {
-
+    "redux": "^3.3.1"
   }
 }

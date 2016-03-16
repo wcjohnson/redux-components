@@ -159,20 +159,4 @@ Redux-components:
 
 * ...can be individually extended with pieces of functionality using a Mixin pattern like the one found in React.
 
-Here's an example of what it looks like, showing off most of the features. (This is from production session-handling code, with some error handling removed for brevity):
-```coffeescript
-createClass = require 'redux-components/createClass'
-SubtreeMixin = require 'redux-components/SubtreeMixin'
-
-Session = createClass {
-	displayName: 'Session'
-	mixins: [ SubtreeMixin ]
-
-	subtree: -> {
-		metadata: ObjectStore
-		cookie: ObjectStore
-		currentUser: ObjectStore
-	}
-
-}
-```
+Sound interesting? Then read on!
