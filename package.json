@@ -19,7 +19,11 @@
     "url": "https://github.com/wcjohnson/redux-components/issues"
   },
   "homepage": "https://github.com/",
-  "devDependencies": {},
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "coffee-script": "^1.10.0",
+    "mocha": "^2.4.5"
+  },
   "dependencies": {
     "inv": "0.0.1"
   },
