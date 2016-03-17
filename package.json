@@ -2,7 +2,7 @@
   "name": "redux-components",
   "version": "0.0.2",
   "description": "A component model for Redux state trees based on the React.js component model.",
-  "main": "src/index.coffee",
+  "main": "./index.js",
   "scripts": {},
   "repository": {
     "type": "git",
