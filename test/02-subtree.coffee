@@ -59,7 +59,6 @@ describe 'subtree: ', ->
 				getSubtree: -> {
 					foo: new Subcomponent()
 					bar: Subcomponent
-					baz: -> Subcomponent
 					quux: (state = {}, action) -> action?.payload or state
 					deep: {
 						zazz: Subcomponent
@@ -84,15 +83,10 @@ describe 'subtree: ', ->
 			assert(not(Subcomponent instanceof Subcomponent))
 			assert(rootComponentInstance.bar instanceof Subcomponent)
 
-		it 'should hoist functional subtree descriptors', ->
-			assert(rootComponentInstance.baz instanceof Subcomponent)
-
 		it 'should scope actions and selectors', ->
 			store.dispatch(rootComponentInstance.foo.setValue('foo'))
 			store.dispatch(rootComponentInstance.bar.setValue('bar'))
-			store.dispatch(rootComponentInstance.baz.setValue('baz'))
 			store.dispatch(rootComponentInstance.deep.zazz.setValue('deep.zazz'))
 			expect(rootComponentInstance.foo.getValue()).to.equal('foo')
 			expect(rootComponentInstance.bar.getValue()).to.equal('bar')
-			expect(rootComponentInstance.baz.getValue()).to.equal('baz')
 			expect(rootComponentInstance.deep.zazz.getValue()).to.equal('deep.zazz')
