@@ -4,6 +4,10 @@ applyMixin = require './applyMixin'
 DefaultMixin = require './DefaultMixin'
 ReduxComponent = require './ReduxComponent'
 
+dontBindThese = {
+	applyMixin: true
+}
+
 createClass = (spec) ->
 	# Apply default mixin, then setup the spec
 	newSpec = { applyMixin }
@@ -14,7 +18,7 @@ createClass = (spec) ->
 		# Allow Class() instead of new Class() if desired.
 		if not (@ instanceof Constructor) then return new Constructor()
 		# Magic bind all the functions on the prototype
-		(@[k] = f.bind(@)) for k,f of Constructor.prototype when typeof(f) is 'function'
+		(@[k] = f.bind(@)) for k,f of Constructor.prototype when typeof(f) is 'function' and (not dontBindThese[k])
 		# Constructor must return this.
 		@
 
