@@ -3,7 +3,9 @@
 { combineReducers } = require 'redux'
 invariant = require 'inv'
 ReduxComponent = require './ReduxComponent'
+createClass = require './createClass'
 
+##### SubtreeMixin
 attachComponent = (parentComponent, key, component) ->
 	# XXX: invariant or warning here that key is not shadowing anything on the instance?
 	parentComponent[key] = component
@@ -12,17 +14,7 @@ attachComponent = (parentComponent, key, component) ->
 	parentComponent.__reducerMap[key] = component.reducer
 
 applyDescriptor = (parentComponent, key, descriptor) ->
-	if descriptor instanceof ReduxComponent
-		attachComponent(parentComponent, key, descriptor)
-	else if descriptor.prototype and (descriptor.prototype instanceof ReduxComponent)
-		attachComponent(parentComponent, key, new descriptor())
-	else if typeof(descriptor) is 'function'
-		if descriptor.length > 0 # this is a raw reducer
-			parentComponent.__reducerMap[key] = descriptor
-		else # this is a function which will produce a reducer descriptor.
-			applyDescriptor(parentComponent, key, descriptor.call(parentComponent))
-	else
-		invariant(false, "Invalid subtree descriptor at `#{key}`")
+	attachComponent(parentComponent, key, createComponent(descriptor))
 
 SubtreeMixin = {
 	componentWillMount: ->
@@ -39,7 +31,7 @@ SubtreeMixin = {
 		myDidMount = @__originalDidMount = @componentDidMount
 		@componentDidMount = =>
 			@[k]?.componentDidMount?() for k of @__reducerMap
-			myDidMount.call(@)
+			myDidMount?.call(@)
 
 	componentWillUnmount: ->
 		# Undo monkey-patch.
@@ -47,4 +39,33 @@ SubtreeMixin = {
 		@componentDidMount = @__originalDidMount
 }
 
-module.exports = SubtreeMixin
+##### createComponent
+SubtreeNonce = createClass {
+	displayName: '(subtree)'
+	mixins: [ SubtreeMixin ]
+}
+
+ReducerNonce = createClass {
+	displayName: '(reducer)'
+}
+
+createComponent = (descriptor) ->
+	if descriptor instanceof ReduxComponent
+		descriptor
+	else if descriptor.prototype and (descriptor.prototype instanceof ReduxComponent)
+		new descriptor()
+	else if typeof(descriptor) is 'object' and (not Array.isArray(descriptor))
+		component = new SubtreeNonce()
+		component.getSubtree = (-> descriptor)
+		component
+	else if typeof(descriptor) is 'function'
+		if descriptor.length > 0 # this is a raw reducer
+			component = new ReducerNonce()
+			component.getReducer = (-> descriptor)
+			component
+		else # this is a function which will produce a descriptor
+			createComponent(descriptor.call())
+	else
+		throw new Error("invalid component descriptor")
+
+module.exports = { createComponent, SubtreeMixin }

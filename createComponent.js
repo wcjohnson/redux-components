@@ -7,4 +7,4 @@
 // In npm builds, these stubs are replaced with the compiled CoffeeScript.
 ///////////////////////////////////////////////////////////////////////
 
-module.exports = require('./src/subtree.coffee').SubtreeMixin;
+module.exports = require('./src/subtree.coffee').createComponent;
