@@ -3,28 +3,17 @@
 SubtreeMixin = require 'redux-components/SubtreeMixin'
 ```
 
-The `SubtreeMixin` is for creating components that manage a subtree of state. The state of the node is an object whose keys represent distinct subtrees. Each of these nodes has a redux-component instance mounted to it, and their reducers are combined via the standard Redux `combineReducers()` API to obtain the reducers for the parent node.
+The `SubtreeMixin` is for creating components that manage a subtree of state. The state of the node is an object whose keys represent distinct subtrees. Each of these nodes has a redux-component instance mounted to it, and their reducers are combined via the standard Redux `combineReducers()` API to obtain the reducer for the parent node.
 
 A component instance specifies its subtree by providing a method (either on the class specification or on the instance) called `getSubtree`:
 ```coffeescript
 this.getSubtree = => {
-	key: (subtreeDescriptor)
+	key: componentDescriptor
+	...
 }
-
-subtreeDescriptor =
-	instanceof ReduxComponentClass OR
-	instanceof ReduxComponent OR
-	(state, action) -> nextState OR
-	=> subtreeDescriptor
 ```
 
-The `subtreeDescriptor`s are interpreted as follows:
-* If the descriptor is an `instanceof ReduxComponentClass`, a new instance of a component with that class is created and mounted at the `key`.
-* If the descriptor is an `instanceof ReduxComponent`, that instance is mounted at the `key`.
-* If the descriptor has the signature of a reducer, it is mounted as a plain reducer at the `key`, and is not managed by a redux-component.
-* If the descriptor is a function with no arguments, it is called in the context of the component instance, and its return value is matched against the previous three cases.
-
-When a component instance with a `SubtreeMixin` is mounted to a store, references to each subcomponent are available at `this[key]`.
+When the parent component is mounted, child components are instantiated using `createComponent(componentDescriptor)`. See [createComponent docs](createComponent.md) for details on `componentDescriptor`s. References to each child components are placed on the parent component at `this[key]`, where `key` is the key of the child in the subtree map.
 
 ## Example
 

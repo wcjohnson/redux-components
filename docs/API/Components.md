@@ -2,9 +2,13 @@
 
 ## Component Classes
 
-As in React, components are built up from the JavaScript object model. One creates a component class by passing a specification object to  [createClass](createClass.md). Unlike React, there is no analogue of `createElement` in redux-components. One instantiates a class with JavaScript object construction: `new Class()`.
+As in React, components are built up from the JavaScript object model. One creates a component class by passing a specification object to  [createClass](createClass.md). To instantiate an instance of the class, which can then be mounted to a Redux state tree, use [createComponent](createComponent.md):
+```coffeescript
+componentInstance = createComponent(ComponentClass)
+```
 
-> The constructor function built by createClass will automatically create instances if not called with new, so `Class()` will work as well as `new Class()`.
+> * createClass returns a JavaScript constructor function, so it is acceptable to call `new Class()` to create a new instance. This is what createComponent does internally. The constructor function built by createClass will automatically create instances if not called with new, so `Class()` will work as well as `new Class()`.
+> * `createComponent` has some magic syntax to help with speeding along common use cases. See the [createComponent docs](createComponent.md).
 
 ## Component Instances
 

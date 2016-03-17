@@ -64,7 +64,7 @@ createComponent = (descriptor) ->
 			component.getReducer = (-> descriptor)
 			component
 		else # this is a function which will produce a descriptor
-			createComponent(descriptor.call())
+			throw new Error("pure reducer: descriptor function should be a reducer (must have at least one argument)")
 	else
 		throw new Error("invalid component descriptor")
 
