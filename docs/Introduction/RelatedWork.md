@@ -1,6 +1,6 @@
 # Those Who Have Gone Before
 
-react-components takes cues from the fine work of many peer projects and parallel lines of work. There are also projects out there that cover similar use cases. Here are the ones we know of:
+redux-components takes cues from the fine work of many peer projects and parallel lines of work. There are also projects out there that cover similar use cases. Here are the ones we know of:
 
 ### Ducks
 
