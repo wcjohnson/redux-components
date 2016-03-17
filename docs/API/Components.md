@@ -21,13 +21,13 @@ this.componentWillMount = =>
 Invoked on a component instance immediately before its reducer is attached to the state tree. If there is a pre-hydrated Redux state (e.g. from deserialization or time-travel), the scoped state for this component will be available inside this method at ```this.state```.
 
 During this method, the component's reducer has **NOT** yet been attached to the Redux store, so it will not see any actions dispatched to the store. If you need to dispatch actions you expect this component to see, wait until `componentDidMount`.
-> When multiple nodes are mounted simultaneously, their ```componentWillMount()``` methods are called in preorder with respect to their place in the  state tree. (leaf nodes last)
+> When multiple nodes are mounted simultaneously, their ```componentWillMount()``` methods are called in postorder with respect to their place in the  state tree. (leaf nodes first)
 
 #### componentDidMount
 ```coffeescript
 this.componentDidMount = =>
 ```
-Invoked on a component instance immediately after its reducer is attached to the state tree. Actions understood by this component or its children can safely be dispatched from here.
+Invoked on a component instance immediately after its reducer is attached to the state tree. Actions understood by this component or its children will be seen by the appropriate reducers if dispatched from here.
 > When multiple nodes are mounted simultaneously, their ```componentDidMount()``` methods are called in postorder with respect to their place in the  state tree. (leaf nodes first)
 
 #### componentWillUnmount
