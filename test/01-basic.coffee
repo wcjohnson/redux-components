@@ -29,6 +29,9 @@ describe 'basic functions: ', ->
 			rootComponentInstance = new Subcomponent()
 			mountComponent(store, rootComponentInstance)
 
+		it 'should know about the store', ->
+			expect(rootComponentInstance.store).to.equal(store)
+
 		it 'should set the default state', ->
 			expect(store.getState()).to.deep.equal({})
 
@@ -53,6 +56,7 @@ describe 'basic functions: ', ->
 				}
 				selectors: {
 					getValue: (state) -> state
+					amIBound: (state) -> @SET
 				}
 			}
 
@@ -65,6 +69,9 @@ describe 'basic functions: ', ->
 
 		it 'should scope verbs', ->
 			expect(rootComponentInstance.SET).to.equal(':SET')
+
+		it 'should bind selectors to this', ->
+			expect(rootComponentInstance.amIBound()).to.equal(':SET')
 
 		it 'should respond correctly to an action from a scoped creator', ->
 			store.dispatch(rootComponentInstance.setValue( { hello: 'world'} ))
