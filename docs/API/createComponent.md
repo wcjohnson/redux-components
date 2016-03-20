@@ -9,7 +9,7 @@ descriptor =
 	{ key: descriptor, ... }       | # Pure subtree
 	(state, action) -> nextState     # Pure reducer
 ```
-Creates a [component instance](Components.md) given a descriptor. Analogous to `React.createElement()`.
+Creates a [component instance](Components.md) given a descriptor. Analogous to `ReactDOM.createElement()` in React.
 
 ### Descriptor types
 

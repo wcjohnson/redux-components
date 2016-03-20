@@ -3,11 +3,13 @@
 { get } = require './util'
 slice = [].slice
 
+# Scope a selector to a component.
 scopeSelector = (sel, self) -> ->
 	fwdArgs = slice.call(arguments)
 	fwdArgs[0] = self.state
 	sel.apply(self, fwdArgs)
 
+# DefaultMixin is mixed into all component specs automatically by createClass.
 DefaultMixin = {
 	componentWillMount: ->
 		store = @store; myPath = @path

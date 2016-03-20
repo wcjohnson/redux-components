@@ -2,13 +2,14 @@
 
 ## Component Classes
 
-As in React, components are built up from the JavaScript object model. One creates a component class by passing a specification object to  [createClass](createClass.md). To instantiate an instance of the class, which can then be mounted to a Redux state tree, use [createComponent](createComponent.md):
+As in React, components are built up from the JavaScript object model. One creates a component class by passing a specification object to  [createClass](createClass.md). To instantiate an instance of the class, which can then be mounted to a Redux state tree, use [createComponent](createComponent.md), which is the analogue of React's `createElement`:
 ```coffeescript
 componentInstance = createComponent(ComponentClass)
 ```
 
-> * createClass returns a JavaScript constructor function, so it is acceptable to call `new Class()` to create a new instance. This is what createComponent does internally. The constructor function built by createClass will automatically create instances if not called with new, so `Class()` will work as well as `new Class()`.
-> * `createComponent` has some magic syntax to help with speeding along common use cases. See the [createComponent docs](createComponent.md).
+> * `createClass` returns a JavaScript constructor function, so it is acceptable to call `new Class()` to create a new instance. This is what `createComponent` does internally. The constructor function built by `createClass` will automatically create instances if not called with `new`, so `Class()` will work as well as `new Class()`.
+
+> * `createComponent` has some magic syntax for common use cases. See the [createComponent docs](createComponent.md).
 
 ## Component Instances
 
@@ -85,7 +86,9 @@ this.aSelector = (scopedState, ...) => any
 ```
 Action verbs (the strings that are used as Redux action types) from the `verbs` array on the class specification will be available in scoped format on each instance.
 
-Action creators from the `actionCreators` object on the class specification will be available on each instance as automatically-bound functions. Selectors from the `selectors` object on the class specification will be available on each instance. They will be automatically bound and wrapped in a function that invokes them with the scoped state, rather than the global state. See [createClass](createClass.md) for more information.
+Action creators from the `actionCreators` object on the class specification will be available on each instance as automatically-bound functions.
+
+Selectors from the `selectors` object on the class specification will be available on each instance. They will be automatically bound and wrapped in a function that invokes them with the scoped state, rather than the global state. See [createClass](createClass.md) for more information.
 
 > If you want unscoped action creators, selectors, or verbs, assign them at the top level of the specification object. See [createClass](createClass.md) for more.
 

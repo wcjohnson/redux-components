@@ -1,7 +1,9 @@
 # redux-components
-A component model for Redux state trees based on the React.js component model.
+A component model for Redux state trees based on the React.js component model and other familiar design patterns from the React ecosystem.
 
 ## Documentation
+> **NB:** redux-components is a tool that interoperates with [Redux](http://redux.js.org/). This documentation presumes a solid grasp of the fundamentals found in the [Redux docs](http://redux.js.org) -- particularly the concepts of the Redux state tree, reducers, action creators, and selectors.
+
 [GitBook format](https://wcjohnson.gitbooks.io/redux-components/content/)
 
 ## What's it for?
@@ -66,6 +68,6 @@ In addition to the above, you get:
 - Mixins.
 - Lifecycle methods.
 - Dynamic mounting and unmounting of state subtrees.
-- Designed using pure reducers, written against the public Redux API, and no middleware. This means full compatibility with other Redux middlewares, reducers, enhancers, etc.
+- A system designed using pure reducers, written against the public Redux API, that uses no middleware. This means full compatibility with other Redux middlewares, reducers, enhancers, etc.
 
 Please see [the GitBook docs](https://wcjohnson.gitbooks.io/redux-components/content/) for much more information.
