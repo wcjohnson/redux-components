@@ -8,6 +8,11 @@
 # Utilities
 assign = (dst, src) -> (if src.hasOwnProperty(k) then dst[k] = src[k]) for k of src; dst
 chain = (one, two) -> -> one.apply(@, arguments); two.apply(@, arguments)
+get = (object, path) ->
+	index = 0; length = path.length
+	while object? and index < length
+		object = object[path[index++]]
+	if (index is length) then object else undefined
 
 # Constants related to mixins
 bannedMixinKeys = {
@@ -39,6 +44,7 @@ ReduxComponent.prototype.initialize = (@store, @parentComponent, @parentKey) ->
 
 	# Create path to this component. (Must be done before initialize on subcomponents.)
 	@path = parentComponent?.path or []; if parentKey then @path = @path.concat([parentKey])
+	myPath = @path
 
 	# Create path-dependent stuff
 	if parentComponent
@@ -47,6 +53,12 @@ ReduxComponent.prototype.initialize = (@store, @parentComponent, @parentKey) ->
 		@getLocalState = -> (parentComponent.getLocalState())[parentKey]
 	else
 		@getLocalState = -> store.getState()
+
+	# Create local @state getter
+	Object.defineProperty(@, 'state', {
+		configurable: false, enumerable: true
+		get: -> get( store.getState(), myPath )
+	})
 
 	# Construct reducer from shape
 	if @getShape
