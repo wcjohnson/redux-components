@@ -1,4 +1,5 @@
 "use strict"
+_export = null
 
 { get } = require './util'
 slice = [].slice
@@ -32,4 +33,5 @@ DefaultMixin = {
 		undefined
 }
 
-module.exports = DefaultMixin
+_export = DefaultMixin
+module.exports = _export

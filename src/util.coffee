@@ -1,4 +1,5 @@
 "use strict"
+_export = null
 
 assign = (dst, src) -> (if src.hasOwnProperty(k) then dst[k] = src[k]) for k of src; dst
 
@@ -10,4 +11,5 @@ get = (object, path) ->
 		object = object[path[index++]]
 	if (index is length) then object else undefined
 
-module.exports = { assign, chain, get }
+_export = { assign, chain, get }
+module.exports = _export

@@ -1,4 +1,5 @@
 "use strict"
+_export = null
 
 applyMixin = require './applyMixin'
 DefaultMixin = require './DefaultMixin'
@@ -33,4 +34,5 @@ createClass = (spec) ->
 
 	Constructor
 
-module.exports = createClass
+_export = createClass
+module.exports = _export

@@ -1,4 +1,5 @@
 "use strict"
+_export = null
 
 invariant = require 'inv'
 
@@ -14,4 +15,5 @@ ReduxComponent.prototype.__willMount = (@store, @path = [], @parentComponent = n
 	# XXX: should we invariant() that the reducer is an actual reducer?
 	@reducer = @getReducer().bind(@)
 
-module.exports = ReduxComponent
+_export = ReduxComponent
+module.exports = _export

@@ -1,3 +1,6 @@
+"use strict"
+_export = null
+
 { assign, chain } = require './util'
 invariant = require 'inv'
 
@@ -67,4 +70,6 @@ baseApplyMixin = (spec, mixin) ->
 	# Don't let coffeescript make a comprehension here
 	undefined
 
-module.exports = baseApplyMixin
+_export = baseApplyMixin
+
+module.exports = _export

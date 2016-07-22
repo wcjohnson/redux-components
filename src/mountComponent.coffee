@@ -1,4 +1,5 @@
 "use strict"
+_export = null
 
 defaultMounter = (store, componentInstance) ->
 	store.replaceReducer(componentInstance.reducer)
@@ -9,4 +10,5 @@ mountComponent = (store, componentInstance, path = [], mounter = defaultMounter)
 	mounter?(store, componentInstance)
 	componentInstance.componentDidMount?()
 
-module.exports = mountComponent
+_export = mountComponent
+module.exports = _export

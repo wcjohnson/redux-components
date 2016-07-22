@@ -1,4 +1,5 @@
 "use strict"
+_export = null
 
 { combineReducers } = require 'redux'
 invariant = require 'inv'
@@ -68,4 +69,5 @@ createComponent = (descriptor) ->
 	else
 		throw new Error("invalid component descriptor")
 
-module.exports = { createComponent, SubtreeMixin }
+_export = { createComponent, SubtreeMixin }
+module.exports = _export
