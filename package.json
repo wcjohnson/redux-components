@@ -1,9 +1,13 @@
 {
   "name": "redux-components",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "A component model for Redux state trees based on the React.js component model.",
   "main": "./index.js",
-  "scripts": {},
+  "scripts": {
+    "clean": "rm -rf lib",
+    "build": "mkdir -p lib && coffee -o lib src/*.coffee",
+    "prepublish": "npm run clean && npm run build"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/wcjohnson/redux-components.git"

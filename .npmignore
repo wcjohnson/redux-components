@@ -1,0 +1,11 @@
+.git*
+docs/
+test/
+*.swp
+.DS_Store
+src/
+scripts/
+book.json
+coffeelint.json
+.eslintrc
+.babelrc
