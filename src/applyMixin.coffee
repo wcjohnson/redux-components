@@ -1,8 +1,5 @@
-"use strict"
-_export = null
-
-{ assign, chain } = require './util'
-invariant = require 'inv'
+import { assign, chain } from './util'
+import invariant from 'inv'
 
 # Handle various special mixin keys
 chainedKeyHandler = (spec, mixin, key, val) ->
@@ -57,7 +54,7 @@ mixinKeyHandlers = {
 	reducer: bannedKeyHandler
 }
 
-baseApplyMixin = (spec, mixin) ->
+export default baseApplyMixin = (spec, mixin) ->
 	# Force mixin of submixins to happen before everything else.
 	if mixin.mixins then mixinKeyHandlers.mixins(spec, mixin, 'mixins', mixin.mixins)
 	# Apply this mixin
@@ -69,7 +66,3 @@ baseApplyMixin = (spec, mixin) ->
 				spec[key] = val
 	# Don't let coffeescript make a comprehension here
 	undefined
-
-_export = baseApplyMixin
-
-module.exports = _export

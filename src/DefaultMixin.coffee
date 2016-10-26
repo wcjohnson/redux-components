@@ -1,7 +1,4 @@
-"use strict"
-_export = null
-
-{ get } = require './util'
+import { get } from './util'
 slice = [].slice
 
 # Scope a selector to a component.
@@ -11,7 +8,7 @@ scopeSelector = (sel, self) -> ->
 	sel.apply(self, fwdArgs)
 
 # DefaultMixin is mixed into all component specs automatically by createClass.
-DefaultMixin = {
+export default DefaultMixin = {
 	componentWillMount: ->
 		store = @store; myPath = @path
 
@@ -32,6 +29,3 @@ DefaultMixin = {
 		# Make sure coffeescript doesn't generate an extra array here.
 		undefined
 }
-
-_export = DefaultMixin
-module.exports = _export

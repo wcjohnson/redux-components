@@ -4,7 +4,9 @@ test/
 *.swp
 .DS_Store
 src/
+coverage/
 scripts/
+build/
 book.json
 coffeelint.json
 .eslintrc

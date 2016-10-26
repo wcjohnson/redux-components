@@ -1,15 +1,12 @@
-"use strict"
-_export = null
-
-applyMixin = require './applyMixin'
-DefaultMixin = require './DefaultMixin'
-ReduxComponent = require './ReduxComponent'
+import applyMixin from './applyMixin'
+import DefaultMixin from './DefaultMixin'
+import ReduxComponent from './ReduxComponent'
 
 dontBindThese = {
 	applyMixin: true
 }
 
-createClass = (spec) ->
+export default createClass = (spec) ->
 	# Apply default mixin, then setup the spec
 	newSpec = { applyMixin }
 	newSpec.applyMixin(newSpec, DefaultMixin)
@@ -33,6 +30,3 @@ createClass = (spec) ->
 		Constructor[k] = v
 
 	Constructor
-
-_export = createClass
-module.exports = _export

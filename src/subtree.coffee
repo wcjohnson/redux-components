@@ -1,10 +1,8 @@
-"use strict"
-_export = null
+import { combineReducers } from 'redux'
+import invariant from 'inv'
+import ReduxComponent from './ReduxComponent'
+import createClass from './createClass'
 
-{ combineReducers } = require 'redux'
-invariant = require 'inv'
-ReduxComponent = require './ReduxComponent'
-createClass = require './createClass'
 
 ##### SubtreeMixin
 attachComponent = (parentComponent, key, component) ->
@@ -17,7 +15,7 @@ attachComponent = (parentComponent, key, component) ->
 applyDescriptor = (parentComponent, key, descriptor) ->
 	attachComponent(parentComponent, key, createComponent(descriptor))
 
-SubtreeMixin = {
+export SubtreeMixin = {
 	componentWillMount: ->
 		subtree = @getSubtree(); @__reducerMap = {}
 		# Conjure child components
@@ -50,7 +48,7 @@ ReducerNonce = createClass {
 	displayName: '(reducer)'
 }
 
-createComponent = (descriptor) ->
+export createComponent = (descriptor) ->
 	if descriptor instanceof ReduxComponent
 		descriptor
 	else if descriptor.prototype and (descriptor.prototype instanceof ReduxComponent)
@@ -68,6 +66,3 @@ createComponent = (descriptor) ->
 			throw new Error("pure reducer: descriptor function should be a reducer (must have at least one argument)")
 	else
 		throw new Error("invalid component descriptor")
-
-_export = { createComponent, SubtreeMixin }
-module.exports = _export
