@@ -72,7 +72,7 @@ Array describing the path from the root of the state tree to the mounted positio
 ```coffeescript
 this.reducer = (state, action) => nextState
 ```
-The reducer function for this component instance, as obtained by the `getReducer` function on the class specification.
+The reducer function for this component instance.
 
 #### Verbs, action creators, and selectors
 ```coffeescript

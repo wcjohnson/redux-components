@@ -4,6 +4,8 @@ import ReduxComponent from './ReduxComponent'
 
 dontBindThese = {
 	applyMixin: true
+	updateReducer: true
+	'__willMount': true
 }
 
 export default createClass = (spec) ->

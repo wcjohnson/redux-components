@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import invariant from 'inv'
+import invariant from 'invariant'
 import ReduxComponent from './ReduxComponent'
 import createClass from './createClass'
 

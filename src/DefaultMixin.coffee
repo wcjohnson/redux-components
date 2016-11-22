@@ -7,21 +7,24 @@ scopeSelector = (sel, self) -> ->
 	fwdArgs[0] = self.state
 	sel.apply(self, fwdArgs)
 
+# Bind an action to automatically dispatch to the right store.
+bindAction = (actionCreator, self) -> ->
+	self.store.dispatch(actionCreator.apply(self, arguments))
+
 # DefaultMixin is mixed into all component specs automatically by createClass.
 export default DefaultMixin = {
 	componentWillMount: ->
-		store = @store; myPath = @path
-
 		## Scope the bits that need scoping.
-		# Scope @state
-		Object.defineProperty(@, 'state', { configurable: false, enumerable: true, get: -> get( store.getState(), myPath ) })
 		# Scope verbs
 		if @verbs
-			stringPath = myPath.join('.')
+			stringPath = @path.join('.')
 			(@[verb] = "#{stringPath}:#{verb}") for verb in @verbs
 		# Bind action creators
 		if @actionCreators
 			(@[acKey] = ac.bind(@)) for acKey, ac of @actionCreators
+		# Bind actions
+		if @actions
+			(@[acKey] = bindAction(ac, @)) for acKey, ac of @actions
 		# Scope selectors
 		if @selectors
 			(@[selKey] = scopeSelector(sel, @)) for selKey, sel of @selectors

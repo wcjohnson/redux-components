@@ -1,5 +1,5 @@
 import { assign, chain } from './util'
-import invariant from 'inv'
+import invariant from 'invariant'
 
 # Handle various special mixin keys
 chainedKeyHandler = (spec, mixin, key, val) ->
@@ -43,8 +43,9 @@ mixinKeyHandlers = {
 		spec[key] = val
 	# verbs: concatenate arrays
 	verbs: concatKeyHandler
-	# actionCreators, selectors: assign
+	# actionCreators, actions, selectors: assign
 	actionCreators: assignKeyHandler
+	actions: assignKeyHandler
 	selectors: assignKeyHandler
 	# Prevent mixins from shadowing stuff
 	state: bannedKeyHandler
