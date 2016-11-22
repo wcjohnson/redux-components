@@ -2,8 +2,24 @@
   "name": "redux-components",
   "version": "0.1.1",
   "description": "A component model for Redux state trees based on the React.js component model.",
+  "keywords": [
+    "redux",
+    "flux",
+    "component"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wcjohnson/redux-components.git"
+  },
+  "author": "William C. Johnson <wcjohnson@oigroup.net> (https://github.com/wcjohnson)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/wcjohnson/redux-components/issues"
+  },
+  "homepage": "https://github.com/wcjohnson/redux-components",
   "main": "lib/index.js",
   "jsnext:main": "es/index.js",
+  "module": "es/index.js",
   "scripts": {
     "clean": "rimraf lib build es coverage",
     "build:babel:commonjs": "cross-env BABEL_ENV=commonjs babel build --out-dir lib",
@@ -15,21 +31,6 @@
     "coverage": "node_modules/.bin/mocha --recursive --compilers coffee:coffee-script/register --require coffee-coverage/register-istanbul",
     "coverageReport": "node_modules/.bin/istanbul report"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/wcjohnson/redux-components.git"
-  },
-  "keywords": [
-    "redux",
-    "flux",
-    "component"
-  ],
-  "author": "William C. Johnson <wcjohnson@oigroup.net> (https://github.com/wcjohnson)",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/wcjohnson/redux-components/issues"
-  },
-  "homepage": "https://github.com/",
   "devDependencies": {
     "babel-cli": "^6.3.15",
     "babel-core": "^6.3.15",
@@ -62,7 +63,8 @@
     "coffeelint": "^1.16.0",
     "cross-env": "^1.0.7",
     "istanbul": "^0.4.5",
-    "mocha": "^2.4.5"
+    "mocha": "^2.4.5",
+    "rimraf": "^2.5.4"
   },
   "dependencies": {
     "inv": "0.0.1"

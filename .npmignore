@@ -1,6 +1,5 @@
 .git*
 docs/
-test/
 *.swp
 .DS_Store
 src/
