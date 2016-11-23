@@ -2,7 +2,7 @@
 
 ## Component Classes
 
-As in React, components are built up from the JavaScript object model. One creates a component class by passing a specification object to  [createClass](createClass.md). To instantiate an instance of the class, which can then be mounted to a Redux state tree, use [createComponent](createComponent.md), which is the analogue of React's `createElement`:
+As in React, components are built up from the JavaScript object model. One creates a component class by passing a [specification object](ComponentSpecification.md) to  [createClass](createClass.md). To instantiate an instance of the class, which can then be mounted to a Redux state tree, use [createComponent](createComponent.md), which is the analogue of React's `createElement`:
 ```coffeescript
 componentInstance = createComponent(ComponentClass)
 ```

@@ -1,6 +1,6 @@
 # mountComponent
 ```coffeescript
-mountComponent = require 'redux-components/mountComponent'
+{ mountComponent } = require 'redux-components'
 mountComponent: (
 	store = { getState, dispatch, subscribe, replaceReducer },
 	componentInstance = instanceof ReduxComponent,

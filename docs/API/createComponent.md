@@ -1,6 +1,6 @@
 # createComponent
 ```coffeescript
-createComponent = require 'redux-components/createComponent'
+{ createComponent } = require 'redux-components'
 createComponent = (descriptor) -> instanceof ReduxComponent
 
 descriptor =

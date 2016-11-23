@@ -1,6 +1,6 @@
 # SubtreeMixin
 ```coffeescript
-SubtreeMixin = require 'redux-components/SubtreeMixin'
+{ SubtreeMixin } = require 'redux-components'
 ```
 
 The `SubtreeMixin` is for creating components that manage a subtree of state. The state of the node is an object whose keys represent distinct subtrees. Each of these nodes has a redux-component instance mounted to it, and their reducers are combined via the standard Redux `combineReducers()` API to obtain the reducer for the parent node.

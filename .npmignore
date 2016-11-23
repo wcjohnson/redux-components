@@ -9,4 +9,3 @@ build/
 book.json
 coffeelint.json
 .eslintrc
-.babelrc
