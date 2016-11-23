@@ -1,16 +1,28 @@
-## 0.2
+# 0.2
 
-### **BREAKING CHANGE:** require() targeting package root no longer supported.
+This is a major release that brings some changes that my team is excited about.
 
-In 0.1.x, under CommonJS, you could `require()` specific submodules with e.g. `require('redux-components/createClass')`. This cherry-picking is no longer supported.
+We want to know what you think about redux-components. As always, feel free to file an issue if you find a bug or want a feature.
 
-Redux-components is moving to the ES Modules + Babel model, so individual submodules are exported from the `index` module.
+We'd also love to see more people using the library. Many people in the Redux community are now catching on to this concept (e.g. [redux-interactions](https://github.com/convoyinc/redux-interactions), [redux-modules](https://github.com/procore/redux-modules)) which leads me to believe there's something important at the bottom here. If you like redux-components, tell your friends! If you're using redux-components (or another library like redux-components) tell us what works and doesn't work for you.
 
-The correct way to pick out modules going forward is `{ createClass } = require('redux-components')`.
+### **BREAKING CHANGE:** CommonJS require() cherry-picking from package root is no longer supported.
+
+In 0.1.x, under CommonJS, you could `require()` specific submodules with e.g. `require('redux-components/createClass')`. This cherry-picking is no longer supported. Redux-components is moving to the ES Modules + Babel model, so individual submodules are exported from the `index` module.
+
+The correct way to pick out submodules under CommonJS going forward is `{ createClass } = require('redux-components')`.
+
+Unfortunately, the docs were written in the cherry-picking style, so users of the library are likely doing so as well. The docs have been updated to reflect the Babel+CommonJS style.
 
 ### ES2015 Module build
 
-0.2.x now exports appropriate `jsnext:main` and `module` entries from `package.json` allowing use as an ES2015 module. CommonJS is still supported subject to the caveats above.
+0.2.x now exports appropriate `jsnext:main` and `module` entries from `package.json` allowing for `import` as an ES2015 module:
+
+```coffeescript
+import { createClass } from 'redux-components'
+```
+
+CommonJS is still supported subject to the caveats above.
 
 ### Git Submodule support
 

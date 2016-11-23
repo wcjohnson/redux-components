@@ -1,33 +1,40 @@
-# Dynamic Reducers
+# Observable Selectors
 
-It is occasionally necessary to modify reducer behavior within a running app, as evidenced by Redux's own `store.replaceReducer` function. In 0.2, Redux Components is introducing its own version of this behavior, which allows you to build predictable dynamic reducer behaviors into your components.
+Redux 3.6.x adds the ability for Stores to function as [ES7 Observables](https://github.com/tc39/proposal-observable). Building on this capability, Redux Components 0.2.x now allows `selectors` that are specified on your components to be used as [Observables](https://github.com/tc39/proposal-observable) as well.
 
-> **NB:** Dynamic reducers are an advanced and dangerous feature. It is very easy to break the Redux contract by abusing a dynamic reducer. Dynamic reducers are rarely necessary and you should only use them if you are completely certain that you need them. As correct dynamic reducers are tricky to write, you should also prefer pre-written and tested libraries that use dynamic reducers to writing your own whenever practical.
+## Functionality
 
-## When do I need a dynamic reducer?
+Observable selectors are provided by adding the `ObservableSelectorMixin` to your component class:
+```coffeescript
+{ ObservableSelectorMixin, createClass } = require 'redux-components'
 
-If your reducer needs to behave in a fundamentally different way based on the state of your application, and you **cannot** implement this behavior as a single pure function of state, then you need a dynamic reducer.
+MyClass = createClass {
+	mixins: [ ObservableSelectorMixin ]
+	...
+	selectors: {
+		mySelector: (state) -> state.myValue
+	}
+	...
+}
+```
 
-An example is the `Map` class implemented in redux-component-map, which allows Redux Components to be dynamically mounted and unmounted from a node of the state tree of a live application.
+Behind the scenes, this mixin ensures that when an instance of your component is mounted, all of the `selectors` on the instance will be augmented to conform to the [ES7 Observable](https://github.com/tc39/proposal-observable) pattern.
 
-In order to implement this behavior, it is necessary to define a new reducer function each time the tree of components changes, because the reducer function is a composition of other functions and the composition depends on the shape of the tree. This is the typical use case for which dynamic reducers were developed.
+Here are the details:
 
-Dynamic reducers are dangerous in general. Most of the time someone needs a dynamic reducer, it is basically to implement `Map` or something like it. If that's you, consider redux-component-map before writing your own.
+- To watch an observable selector for changes, you call the `subscribe(Observer)` method on the selector, passing an object that conforms to the ES7 `Observer` interface. The `subscribe` method returns an ES7 `Subscription` object that can be used to unsubscribe later.
+```coffeescript
+subscription = myClassInstance.mySelector.subscribe({
+	next: (value) -> console.log "mySelector just changed value:", value
+})
+...
+subscription.unsubscribe()
+```
 
-## How do I create a component with a dynamic reducer?
+- An observable selector will call `observer.next(value)` on each observer immediately with the value of the selector at initialization time, and then subsequently whenever the value returned by the selector would change. It always passes the current value of the selector.
 
-If you [specify a component](/docs/API/ComponentSpecification.md) with a `getReducer` function taking zero arguments, you are creating a `ReduxComponent` with a *static reducer*. `getReducer` will be called once, when the component is mounted, and never again throughout the lifecycle.
+- An observable selector is what is sometimes called a "hot observable" -- it never calls `observer.complete()`. It also never calls `observer.error()`, even if your selector throws an error.
 
-If, however, you specify a `getReducer` function taking one or more arguments (as measured by `Function.length`), you are specifying a *dynamic reducer*. If you do this, then the internal behavior of the component changes:
+- Observable selectors assume conformance with the Redux contract, and therefore use shallow (`===`) equality to detect changes. Your Redux stores are expected to return unequal objects when changes are made.
 
-- `getReducer` will be passed the current state of the component at call-time as its first argument.
-- The final component will have a thunk reducer that will call whatever you most recently returned from `getReducer`, allowing you to update your reducer dynamically.
-- Your component instance will have an `updateReducer()` method that will cause `getReducer` to be invoked. `updateReducer` is impure. **DO NOT** call `updateReducer` from inside of a reducer.
-
-## What are the dangers of dynamic reducers?
-
-- You should think of "the state of your dynamic reducer" as part of your app's state. When Redux rehydrates your store from a serialized state, you must ensure your dynamic reducer can be recovered during the hydration. Like reducers themselves, the `getReducer()` that produces your dynamic reducers must be a pure function of state. If your `getReducer()` impurely depends on app state that is outside of Redux, you are virtually guaranteed to break the Redux contract and lose coherence under state rehydration.
-
-- You are responsible for keeping your reducer up to date. In particular, you must arrange for `updateReducer()` to be called whenever a state change would impact your dynamic reducer. If you do not synchronize this correctly, you will again almost certainly break Redux's contract.
-
-- `updateReducer()` is of course an impure operation and cannot be called within a reducer. Thus you must ensure that your synchronization system runs in an impure context, e.g. on `store.subscribe()`. Observable selectors can help you implement this pattern correctly.
+- Your component must be mounted to a stored before you may subscribe to observable selectors.
