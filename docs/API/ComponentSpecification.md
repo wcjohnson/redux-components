@@ -61,7 +61,7 @@ Reducers made by getReducer are automatically bound to their component instances
 ```coffeescript
 spec.getReducer = (stateNow) => (state, action) => nextState
 ```
-> If you do this, your reducer is considered to be a [dynamic reducer](/docs/Advanced/DynamicReducer.md). The JavaScript `Function.length` property is used to make this determination. Dynamic reducers are an advanced feature and should not be used lightly or frequently. Please read [the dynamic reducer documentation](/docs/Advanced/DynamicReducer.md) carefully before use.
+> If you do this, your reducer is considered to be a [dynamic reducer](../Advanced/DynamicReducer.md). The JavaScript `Function.length` property is used to make this determination. Dynamic reducers are an advanced feature and should not be used lightly or frequently. Please read [the dynamic reducer documentation](../Advanced/DynamicReducer.md) carefully before use.
 
 ### spec.verbs
 ```coffeescript
