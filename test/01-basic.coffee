@@ -1,11 +1,9 @@
 { expect } = require 'chai'
-{ createStore } = require 'redux'
 
-createClass = require '../createClass'
-mountComponent = require '../mountComponent'
+{ createClass, mountComponent, createComponent, SubtreeMixin } = require '..'
+{ makeAStore } = require './helpers/store'
 
 describe 'basic functions: ', ->
-	makeAStore = -> createStore( (x) -> x )
 	store = makeAStore()
 
 	RootComponent = null

@@ -3,6 +3,7 @@ import createClass from './createClass'
 import DefaultMixin from './DefaultMixin'
 import mountComponent from './mountComponent'
 import ReduxComponent from './ReduxComponent'
+import ObservableSelectorMixin from './ObservableSelectorMixin'
 import { createComponent, SubtreeMixin } from './subtree'
 
 export {
@@ -13,4 +14,5 @@ export {
 	ReduxComponent
 	createComponent
 	SubtreeMixin
+	ObservableSelectorMixin
 }

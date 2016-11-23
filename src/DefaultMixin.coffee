@@ -8,7 +8,7 @@ scopeSelector = (sel, self) -> ->
 	sel.apply(self, fwdArgs)
 
 # Bind an action to automatically dispatch to the right store.
-bindAction = (actionCreator, self) -> ->
+dispatchAction = (actionCreator, self) -> ->
 	self.store.dispatch(actionCreator.apply(self, arguments))
 
 # DefaultMixin is mixed into all component specs automatically by createClass.
@@ -23,8 +23,8 @@ export default DefaultMixin = {
 		if @actionCreators
 			(@[acKey] = ac.bind(@)) for acKey, ac of @actionCreators
 		# Bind actions
-		if @actions
-			(@[acKey] = bindAction(ac, @)) for acKey, ac of @actions
+		if @actionDispatchers
+			(@[acKey] = dispatchAction(ac, @)) for acKey, ac of @actionDispatchers
 		# Scope selectors
 		if @selectors
 			(@[selKey] = scopeSelector(sel, @)) for selKey, sel of @selectors

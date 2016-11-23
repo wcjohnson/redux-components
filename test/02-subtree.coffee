@@ -1,15 +1,10 @@
 { inspect } = require 'util'
 
 { expect, assert } = require 'chai'
-{ createStore } = require 'redux'
-
-createClass = require '../createClass'
-mountComponent = require '../mountComponent'
-SubtreeMixin = require '../SubtreeMixin'
-createComponent = require '../createComponent'
+{ createClass, mountComponent, createComponent, SubtreeMixin } = require '..'
+{ makeAStore } = require './helpers/store'
 
 describe 'subtree: ', ->
-	makeAStore = -> createStore( (x) -> x )
 	store = makeAStore()
 
 	RootComponent = null

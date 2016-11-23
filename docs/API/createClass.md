@@ -75,11 +75,11 @@ spec.actionCreators = { key: (args...) -> action, ... }
 Specify the action creators associated with this component class. Each property on the ```actionCreators``` object will be bound to each component instance and made available on the instance as a method.
 > **NB:** The redux-components core makes no assumptions about which middleware is present on a store. If you have e.g. `redux-thunk` middleware installed, you may of course return thunks from your actions and actionCreators.
 
-### spec.actions
+### spec.actionDispatchers
 ```coffeescript
-spec.actions = { key: (args...) -> action, ... }
+spec.actionDispatchers = { key: (args...) -> action, ... }
 ```
-Specify actions associated with this component class. Actions are like action creators, except the value returned is automatically `dispatch()`ed to the Store where this component is mounted. The wrapped action function will return the same thing as `dispatch()`, allowing it to be used with thunks and other related middleware.
+Specify actions associated with this component class. Action dispatchers are like action creators, except the value returned is automatically `dispatch()`ed to the Store where this component is mounted. The wrapped action function will return the same thing as `dispatch()`, allowing it to be used with thunks and other related middleware.
 
 ### spec.selectors
 ```coffeescript

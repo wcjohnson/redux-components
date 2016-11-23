@@ -8,3 +8,6 @@ export get = (object, path) ->
 	while object? and index < length
 		object = object[path[index++]]
 	if (index is length) then object else undefined
+
+export removeFromList = (list, value) ->
+	if (i = list.indexOf(value)) > -1 then list.splice(i, 1)

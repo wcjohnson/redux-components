@@ -30,7 +30,7 @@ describe 'reducer indirection: ', ->
 							when @CHANGE_MAGIC_WORD then Object.assign({}, state, { magicWord: action.payload or 'please'})
 							when currentState.magicWord then Object.assign({}, state, {payload: 'got the magic word'})
 							else state
-				actions: {
+				actionDispatchers: {
 					setValue: (val) -> { type: @SET, payload: val }
 					sayMagicWord: -> { type: @state.magicWord }
 					setMagicWord: (val) -> { type: @CHANGE_MAGIC_WORD, payload: val }
