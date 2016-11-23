@@ -57,13 +57,11 @@ Reducers made by getReducer are automatically bound to their component instances
 
 > - Do not use magic binding as an excuse to introduce impure behavior into your reducer! If you want the all the benefits of Redux, keep your reducers as pure functions of props and state. Don't make your reducer rely on non-constant properties of the redux-component, and don't be tempted to  store any state on the redux-component itself. (You can sometimes use ```getReducer``` to mimic "impure" behaviors without making your reducer itself impure.)
 
-> - By default, redux-components will call `getReducer()` only once when your component is mounted to a state tree. If you expect your reducer to change during the Redux store's lifecycle, you must arrange for `getReducer()` to be called at appropriate times, and for `Store.replaceReducer()` to be called on your root store. If you use redux-components and `SubtreeMixin` throughout your state tree, we provide facilities for automating this.
-
-> - You may optionally declare a `getReducer` method that accepts a `stateNow` argument:
+> - By default, redux-components will call `getReducer()` only once when your component is mounted to a state tree. If you expect your reducer to change during the Redux store's lifecycle, you must utilize dynamic reducers. To do so, declare a `getReducer` method that accepts a `stateNow` argument:
 ```coffeescript
 spec.getReducer = (stateNow) => (state, action) => nextState
 ```
-> If you do, your reducer is considered to be a [dynamic reducer](/docs/Advanced/DynamicReducer.md). The JavaScript `Function.length` property is used to make this determination. Dynamic reducers are an advanced feature and should not generally be used. Please read [the dynamic reducer documentation](/docs/Advanced/DynamicReducer.md) carefully before use.
+> If you do this, your reducer is considered to be a [dynamic reducer](/docs/Advanced/DynamicReducer.md). The JavaScript `Function.length` property is used to make this determination. Dynamic reducers are an advanced feature and should not be used lightly or frequently. Please read [the dynamic reducer documentation](/docs/Advanced/DynamicReducer.md) carefully before use.
 
 ### spec.verbs
 ```coffeescript
