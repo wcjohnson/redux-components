@@ -2,10 +2,9 @@
 docs/
 *.swp
 .DS_Store
-src/
 coverage/
-scripts/
 build/
+node_modules/
 book.json
 coffeelint.json
 .eslintrc
