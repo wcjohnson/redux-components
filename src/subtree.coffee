@@ -51,7 +51,7 @@ ReducerNonce = createClass {
 export createComponent = (descriptor) ->
 	if descriptor instanceof ReduxComponent
 		descriptor
-	else if descriptor.prototype and (descriptor.prototype instanceof ReduxComponent)
+	else if descriptor?.prototype and (descriptor.prototype instanceof ReduxComponent)
 		new descriptor()
 	else if typeof(descriptor) is 'object' and (not Array.isArray(descriptor))
 		component = new SubtreeNonce()
