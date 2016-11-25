@@ -17,6 +17,8 @@ export default createClass = (spec) ->
 	Constructor = ->
 		# Allow Class() instead of new Class() if desired.
 		if not (@ instanceof Constructor) then return new Constructor()
+		# Call prototype init
+		@__init()
 		# Magic bind all the functions on the prototype
 		(@[k] = f.bind(@)) for k,f of Constructor.prototype when typeof(f) is 'function' and (not dontBindThese[k])
 		# Constructor must return this.

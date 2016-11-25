@@ -11,3 +11,5 @@ export get = (object, path) ->
 
 export removeFromList = (list, value) ->
 	if (i = list.indexOf(value)) > -1 then list.splice(i, 1)
+
+export nullIdentity = (x) -> if x is undefined then null else x

@@ -1,13 +1,18 @@
 import invariant from 'invariant'
-import { get } from './util'
+import { get, nullIdentity } from './util'
 import $$observable from 'symbol-observable'
+
+indirectReducer = (state, action) ->
+	@state = @__internalReducer.call(@, state, action)
 
 ################################
 # Component prototype
 export default ReduxComponent = ( -> )
 
-indirectReducer = (state, action) ->
-	@state = @__internalReducer.call(@, state, action)
+ReduxComponent.prototype.__init = ->
+	@reducer = indirectReducer.bind(@)
+	@__internalReducer = nullIdentity
+	undefined
 
 ReduxComponent.prototype.updateReducer = ->
 	# XXX: should we invariant() that the reducer is an actual reducer?
@@ -21,5 +26,4 @@ ReduxComponent.prototype.__willMount = (@store, @path = [], @parentComponent = n
 	@state = get(@store.getState(), @path)
 
 	@componentWillMount?()
-	@reducer = indirectReducer.bind(@)
 	@updateReducer()
