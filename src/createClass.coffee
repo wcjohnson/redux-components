@@ -5,7 +5,10 @@ import ReduxComponent from './ReduxComponent'
 dontBindThese = {
 	applyMixin: true
 	updateReducer: true
-	'__willMount': true
+	__willMount: true
+	__willUnmount: true
+	__mounter: true
+	__init: true
 }
 
 export default createClass = (spec) ->
