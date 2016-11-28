@@ -8,7 +8,7 @@ It is occasionally necessary to modify reducer behavior within a running app, as
 
 If your reducer needs to behave in a fundamentally different way based on the state of your application, and you **cannot** implement this behavior as a single pure function of state, then you need a dynamic reducer.
 
-An example is the `Map` class implemented in redux-component-map, which allows Redux Components to be dynamically mounted and unmounted from a node of the state tree of a live application.
+An example is the `ComponentMap` class implemented in [redux-component-map](https://github.com/wcjohnson/redux-components-map), which allows Redux Components to be dynamically mounted and unmounted from a node of the state tree of a live application.
 
 In order to implement this behavior, it is necessary to define a new reducer function each time the tree of components changes, because the reducer function is a composition of other functions and the composition depends on the shape of the tree. This is the typical use case for which dynamic reducers were developed.
 

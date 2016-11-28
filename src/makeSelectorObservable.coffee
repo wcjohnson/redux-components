@@ -47,10 +47,11 @@ export default makeSelectorObservable = (componentInstance, selector) ->
 			lastSeenValue = undefined
 			observeState = ->
 				val = selector(componentInstance.store.getState())
-				if val isnt lastSeenValue then lastSeenValue = val; selector.next(val)
+				if val isnt lastSeenValue
+					lastSeenValue = val; selector.next(val)
 
-			observeState()
 			@__unsubscriber = componentInstance.store.subscribe(observeState)
+			observeState()
 		else
 			@__unsubscriber?(); delete @__unsubscriber
 		undefined

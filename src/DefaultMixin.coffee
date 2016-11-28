@@ -14,7 +14,11 @@ dispatchAction = (actionCreator, self) -> ->
 # DefaultMixin is mixed into all component specs automatically by createClass.
 export default DefaultMixin = {
 	componentWillMount: ->
+		store = @store; myPath = @path
+
 		## Scope the bits that need scoping.
+		# Scope @state
+		Object.defineProperty(@, 'state', { configurable: false, enumerable: true, get: -> get( store.getState(), myPath ) })
 		# Scope verbs
 		if @verbs
 			stringPath = @path.join('.')
