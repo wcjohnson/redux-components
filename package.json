@@ -1,6 +1,6 @@
 {
   "name": "redux-components",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "A component model for Redux state trees based on the React.js component model.",
   "keywords": [
     "redux",
