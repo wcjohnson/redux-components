@@ -35,6 +35,6 @@ subscription.unsubscribe()
 
 - An observable selector is what is sometimes called a "hot observable" -- it never calls `observer.complete()`. It also never calls `observer.error()`, even if your selector throws an error.
 
-- Observable selectors assume conformance with the Redux contract, and therefore use shallow (`===`) equality to detect changes. Your Redux stores are expected to return unequal objects when changes are made.
+- Observable selectors assume conformance with the Redux contract, and therefore use identity (`===`) comparison to detect changes. Your Redux stores are expected to return unequal objects when changes are made.
 
-- Your component must be mounted to a stored before you may subscribe to observable selectors.
+- Your component must be mounted to a store before you may subscribe to observable selectors.
