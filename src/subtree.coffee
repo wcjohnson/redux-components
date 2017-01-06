@@ -17,7 +17,11 @@ applyDescriptor = (parentComponent, key, descriptor) ->
 
 export SubtreeMixin = {
 	componentWillMount: ->
-		subtree = @getSubtree(); @__reducerMap = {}
+		if process.env.NODE_ENV isnt 'production'
+			invariant(typeof @getSubtree is 'function', "redux-component of type #{@displayName} (mounted at location #{@path}) is using SubtreeMixin, but does not have a getSubtree() method.")
+
+		subtree = @getSubtree()
+		@__reducerMap = {}
 		# Conjure child components
 		for key, descriptor of subtree
 			applyDescriptor(@, key, descriptor)

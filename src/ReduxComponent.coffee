@@ -16,6 +16,8 @@ ReduxComponent.prototype.__init = ->
 
 ReduxComponent.prototype.updateReducer = ->
 	# XXX: should we invariant() that the reducer is an actual reducer?
+	if process.env.NODE_ENV isnt 'production'
+		invariant(typeof @getReducer is 'function', "redux-component of type #{@displayName} (mounted at location #{@path}) is updating its reducer, but does not have a getReducer() method.")
 	@__internalReducer = @getReducer(@state)
 
 ReduxComponent.prototype.__willMount = (@store, @path = [], @parentComponent = null) ->
