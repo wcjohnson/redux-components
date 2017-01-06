@@ -1,8 +1,6 @@
-import makeSelectorObservable from './makeSelectorObservable'
+import { makeSelectorsObservable } from './makeSelectorObservable'
 
 export default ObservableSelectorMixin = {
 	componentWillMount: ->
-		if @selectors
-			makeSelectorObservable(@, @[selKey]) for selKey of @selectors
-		undefined
+		makeSelectorsObservable(@)
 }

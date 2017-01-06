@@ -45,6 +45,7 @@ mixinKeyHandlers = {
 	verbs: concatKeyHandler
 	# actionCreators, actions, selectors: assign
 	actionCreators: assignKeyHandler
+	actionDispatchers: assignKeyHandler
 	actions: assignKeyHandler
 	selectors: assignKeyHandler
 	# Prevent mixins from shadowing stuff

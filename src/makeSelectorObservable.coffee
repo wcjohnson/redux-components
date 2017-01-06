@@ -1,5 +1,6 @@
 import { removeFromList, assign } from './util'
 import $$observable from 'symbol-observable'
+import ReduxComponent from './ReduxComponent'
 
 # A quick and dirty "Subject" mixin.
 # XXX: Would like to depend on a trusted library here, but the only one I know of is rxJS which is simply too bloated.
@@ -55,3 +56,12 @@ export default makeSelectorObservable = (componentInstance, selector) ->
 		else
 			@__unsubscriber?(); delete @__unsubscriber
 		undefined
+
+# Make all selectors on the given component instance observable.
+export makeSelectorsObservable = (componentInstance) ->
+	if not (componentInstance instanceof ReduxComponent)
+		throw new Error("makeSelectorsObservable: argument must be instanceof ReduxComponent")
+	
+	if componentInstance.selectors
+		makeSelectorObservable(componentInstance, componentInstance[selKey]) for selKey of componentInstance.selectors
+	componentInstance
