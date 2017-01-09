@@ -7,6 +7,7 @@ import ObservableSelectorMixin from './ObservableSelectorMixin'
 import { makeSelectorsObservable } from './makeSelectorObservable'
 import { createComponent, SubtreeMixin } from './subtree'
 import ValueComponent from './ValueComponent'
+import ObjectComponent from './ObjectComponent'
 
 export {
 	applyMixin
@@ -19,4 +20,5 @@ export {
 	ObservableSelectorMixin
 	makeSelectorsObservable
 	ValueComponent
+	ObjectComponent
 }
