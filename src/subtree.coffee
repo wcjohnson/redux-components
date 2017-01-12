@@ -10,35 +10,35 @@ attachComponent = (parentComponent, key, component) ->
 	parentComponent[key] = component
 	childPath = parentComponent.path.concat( [ key ] )
 	component.__willMount(parentComponent.store, childPath, parentComponent)
-	parentComponent.__reducerMap[key] = component.reducer
+	# Return the reducer
+	component.reducer
 
 applyDescriptor = (parentComponent, key, descriptor) ->
 	attachComponent(parentComponent, key, createComponent(descriptor))
 
 export SubtreeMixin = {
 	componentWillMount: ->
+		# Sanity check that our component supports subtrees
 		if process.env.NODE_ENV isnt 'production'
 			invariant(typeof @getSubtree is 'function', "redux-component of type #{@displayName} (mounted at location #{@path}) is using SubtreeMixin, but does not have a getSubtree() method.")
 
+		# Get the subtree structure
 		subtree = @getSubtree()
-		@__reducerMap = {}
-		# Conjure child components
+		# Conjure child components and gather their reducers
+		__reducerMap = {}
 		for key, descriptor of subtree
-			applyDescriptor(@, key, descriptor)
-
-		# Create reducer
-		reducer = combineReducers(@__reducerMap)
+			__reducerMap[key] = applyDescriptor(@, key, descriptor)
+		# Create composite reducer for parent component
+		reducer = combineReducers(__reducerMap)
 		@getReducer = -> reducer
 
 		# Monkey-patch didMount to call subtree didMounts in the right order.
 		myDidMount = @__originalDidMount = @componentDidMount
-		@componentDidMount = =>
-			@[k]?.componentDidMount?() for k of @__reducerMap
+		@componentDidMount = ->
+			@[k]?.componentDidMount?() for k of __reducerMap
 			myDidMount?.call(@)
 
 	componentWillUnmount: ->
-		# Undo monkey-patch.
-		delete @__reducerMap
 		@componentDidMount = @__originalDidMount
 }
 
