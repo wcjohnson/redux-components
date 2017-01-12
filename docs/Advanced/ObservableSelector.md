@@ -37,4 +37,4 @@ subscription.unsubscribe()
 
 - Observable selectors assume conformance with the Redux contract, and therefore use identity (`===`) comparison to detect changes. Your Redux stores are expected to return unequal objects when changes are made.
 
-- Your component must be mounted to a store before you may subscribe to observable selectors.
+- Your component must be mounted to a store before you may subscribe to observable selectors. (This means, inter alia, that while inside a component's `componentWillMount` method, you cannot observe the selectors of that component. You must wait until `componentDidMount`.)
