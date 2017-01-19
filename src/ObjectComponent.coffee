@@ -22,7 +22,7 @@ export default ObjectComponent = createClass {
 			when @SET
 				if shallowEqual(state, action.payload) then state else Object.assign({}, action.payload)
 			when @MERGE
-				maybeNextState = Object.assign({}, action.payload)
+				maybeNextState = Object.assign({}, state, action.payload)
 				if shallowEqual(state, maybeNextState) then state else maybeNextState
 			else
 				state
