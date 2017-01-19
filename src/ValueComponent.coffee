@@ -11,7 +11,7 @@ export default ValueComponent = createClass {
 	verbs: [ 'SET' ]
 
 	getReducer: -> (state = null, action) ->
-		if action is @SET
+		if action.type is @SET
 			action.payload
 		else
 			state
