@@ -1,5 +1,6 @@
 import { assign, chain } from './util'
 import invariant from 'invariant'
+import ReduxComponent from './ReduxComponent'
 
 # Handle various special mixin keys
 chainedKeyHandler = (spec, mixin, key, val) ->
@@ -57,6 +58,9 @@ mixinKeyHandlers = {
 }
 
 export default baseApplyMixin = (spec, mixin) ->
+	# Allow the use of ReduxComponentClasses as mixins
+	if mixin?.prototype and (mixin.prototype instanceof ReduxComponent)
+		mixin = mixin.prototype.__spec
 	# Force mixin of submixins to happen before everything else.
 	if mixin.mixins then mixinKeyHandlers.mixins(spec, mixin, 'mixins', mixin.mixins)
 	# Apply this mixin

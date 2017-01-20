@@ -30,6 +30,7 @@ export default createClass = (spec) ->
 	# inherit from ReduxComponent
 	Constructor.prototype = new ReduxComponent
 	Constructor.prototype.constructor = Constructor
+	Constructor.prototype.__spec = spec
 	# Apply spec to prototype, statics to constructor
 	for own k,v of newSpec
 		Constructor.prototype[k] = v
