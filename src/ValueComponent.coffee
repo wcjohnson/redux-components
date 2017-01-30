@@ -12,7 +12,8 @@ export default ValueComponent = createClass {
 
 	getReducer: -> (state = null, action) ->
 		if action.type is @SET
-			action.payload
+			# Reducer may not return undefined. Promote to null.
+			if action.payload is undefined then null else action.payload
 		else
 			state
 
