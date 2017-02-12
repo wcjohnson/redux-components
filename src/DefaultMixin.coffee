@@ -9,7 +9,8 @@ scopeSelector = (sel, self) -> ->
 
 # Bind an action to automatically dispatch to the right store.
 dispatchAction = (actionCreator, self) -> ->
-	self.store.dispatch(actionCreator.apply(self, arguments))
+	action = actionCreator.apply(self, arguments)
+	if action? then self.store.dispatch(action)
 
 # DefaultMixin is mixed into all component specs automatically by createClass.
 export default DefaultMixin = {
