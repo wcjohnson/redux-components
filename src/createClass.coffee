@@ -7,7 +7,6 @@ dontBindThese = {
 	updateReducer: true
 	__willMount: true
 	__willUnmount: true
-	__mounter: true
 	__init: true
 }
 

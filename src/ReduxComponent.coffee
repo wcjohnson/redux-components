@@ -24,10 +24,11 @@ ReduxComponent.prototype.__willMount = (@store, @path = [], @parentComponent = n
 	invariant(not @__mounted, "redux-component of type #{@displayName} was multiply initialized. This can indicate a cycle in your component graph, which is illegal. Make sure each instance is only used once in your tree. If you wish to use a component in multiple places, construct additional instances.")
 	@__mounted = true
 	@componentWillMount?()
-	@reducer = indirectReducer.bind(@)
+	#@reducer = indirectReducer.bind(@)
 	@updateReducer()
 
 ReduxComponent.prototype.__willUnmount = ->
 	invariant(@__mounted, "redux-component of type #{@displayName} was unmounted when not mounted. This can indicate an issue in a dynamic reducer component such as redux-components-map.")
 	@componentWillUnmount?()
+	@__internalReducer = nullIdentity
 	delete @__mounted

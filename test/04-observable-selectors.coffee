@@ -1,7 +1,7 @@
 { inspect } = require 'util'
 
 { expect, assert } = require 'chai'
-{ createClass, mountComponent, createComponent, ObservableSelectorMixin } = require '..'
+{ createClass, mountRootComponent, createComponent, ObservableSelectorMixin } = require '..'
 { makeAStore } = require './helpers/store'
 
 expectTestSequence = (tests) ->
@@ -48,7 +48,7 @@ describe 'observable selectors: ', ->
 
 		it 'should mount subcomponent', ->
 			rootComponentInstance = createComponent( { foo: Subcomponent } )
-			mountComponent(store, rootComponentInstance)
+			mountRootComponent(store, rootComponentInstance)
 
 		it 'should print the whole component tree for your viewing pleasure', ->
 			console.log(inspect(rootComponentInstance))

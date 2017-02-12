@@ -1,7 +1,7 @@
 { inspect } = require 'util'
 
 { expect, assert } = require 'chai'
-{ createClass, mountComponent, createComponent, SubtreeMixin } = require '..'
+{ createClass, mountRootComponent, createComponent, SubtreeMixin } = require '..'
 { makeAStore } = require './helpers/store'
 
 describe 'subtree: ', ->
@@ -37,7 +37,7 @@ describe 'subtree: ', ->
 
 		it 'should mount subcomponent using direct syntax', ->
 			rootComponentInstance = createComponent( { foo: Subcomponent } )
-			mountComponent(store, rootComponentInstance)
+			mountRootComponent(store, rootComponentInstance)
 
 	describe 'complex: ', ->
 		it 'should create new store', ->
@@ -65,7 +65,7 @@ describe 'subtree: ', ->
 			rootComponentInstance = new RootComponent()
 
 		it 'should mount root instance on store', ->
-			mountComponent(store, rootComponentInstance)
+			mountRootComponent(store, rootComponentInstance)
 
 		it 'should print the whole component tree for your viewing pleasure', ->
 			console.log(inspect(rootComponentInstance))

@@ -1,8 +1,15 @@
-defaultMounter = (store, componentInstance) ->
+export mountRootComponent = (store, componentInstance) ->
+	componentInstance.__willMount(store, [], null)
 	store.replaceReducer(componentInstance.reducer)
-
-export default mountComponent = (store, componentInstance, path = [], mounter = defaultMounter) ->
-	componentInstance.__mounter = mounter
-	componentInstance.__willMount(store, path, null)
-	mounter?(store, componentInstance)
 	componentInstance.componentDidMount?()
+
+export willMountComponent = (store, componentInstance, path) ->
+	componentInstance.__manualMount = true
+	componentInstance.__willMount(store, path, null)
+	componentInstance.reducer
+
+export didMountComponent = (componentInstance) ->
+	componentInstance.componentDidMount?()
+
+export willUnmountComponent = (componentInstance) ->
+	componentInstance.__willUnmount()

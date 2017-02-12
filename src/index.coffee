@@ -1,7 +1,7 @@
 import applyMixin from './applyMixin'
 import createClass from './createClass'
 import DefaultMixin from './DefaultMixin'
-import mountComponent from './mountComponent'
+import { mountRootComponent, willMountComponent, didMountComponent, willUnmountComponent } from './mountComponent'
 import ReduxComponent from './ReduxComponent'
 import ObservableSelectorMixin from './ObservableSelectorMixin'
 import { makeSelectorsObservable } from './makeSelectorObservable'
@@ -13,7 +13,10 @@ export {
 	applyMixin
 	createClass
 	DefaultMixin
-	mountComponent
+	mountRootComponent
+	willMountComponent
+	didMountComponent
+	willUnmountComponent
 	ReduxComponent
 	createComponent
 	SubtreeMixin

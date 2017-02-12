@@ -1,6 +1,6 @@
 { expect } = require 'chai'
 
-{ createClass, mountComponent, createComponent, SubtreeMixin } = require '..'
+{ createClass, mountRootComponent, createComponent, SubtreeMixin } = require '..'
 { makeAStore } = require './helpers/store'
 
 describe 'basic functions: ', ->
@@ -25,7 +25,7 @@ describe 'basic functions: ', ->
 
 		it 'should mount instance of class on store', ->
 			rootComponentInstance = new Subcomponent()
-			mountComponent(store, rootComponentInstance)
+			mountRootComponent(store, rootComponentInstance)
 
 		it 'should know about the store', ->
 			expect(rootComponentInstance.store).to.equal(store)
@@ -60,7 +60,7 @@ describe 'basic functions: ', ->
 
 		it 'should mount instance of class on store', ->
 			rootComponentInstance = new Subcomponent()
-			mountComponent(store, rootComponentInstance)
+			mountRootComponent(store, rootComponentInstance)
 
 		it 'should set the default state', ->
 			expect(store.getState()).to.deep.equal({})

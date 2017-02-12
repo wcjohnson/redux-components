@@ -4,7 +4,7 @@
 { createStore, applyMiddleware } = require 'redux'
 ReduxDebug = require 'redux-debug'
 ReduxFreeze = require 'redux-freeze'
-{ createClass, mountComponent, SubtreeMixin, createComponent } = require '..'
+{ createClass, mountRootComponent, SubtreeMixin, createComponent } = require '..'
 
 describe 'reducer indirection: ', ->
 	makeAStore = (initialState) -> createStore( ((x) -> x) , initialState, applyMiddleware(ReduxDebug(console.log), ReduxFreeze) )
@@ -45,7 +45,7 @@ describe 'reducer indirection: ', ->
 
 		it 'should mount subcomponent', ->
 			rootComponentInstance = createComponent( { foo: Subcomponent } )
-			mountComponent(store, rootComponentInstance)
+			mountRootComponent(store, rootComponentInstance)
 
 		it 'should print the whole component tree for your viewing pleasure', ->
 			console.log(inspect(rootComponentInstance))
