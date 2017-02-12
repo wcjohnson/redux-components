@@ -20,8 +20,8 @@ When the parent component is mounted, child components are instantiated using `c
 In vanilla Redux, a root reducer is often the result of a `combineReducers` over several reducers handling separate branches of app state. In redux-components, the corresponding pattern is a component using `SubtreeMixin` to combine several subcomponents:
 
 ```coffeescript
-createClass = require 'redux-components/createClass'
-SubtreeMixin = require 'redux-components/SubtreeMixin'
+{ createStore } = require 'redux'
+{ createClass, SubtreeMixin, mountRootComponent } = require 'redux-components'
 Foo = require 'MyComponents/Foo', ...
 
 RootComponent = createClass {
@@ -35,6 +35,13 @@ RootComponent = createClass {
 		...
 	}
 }
+
+rootComponent = new RootComponent
+
+# Create store with empty reducer
+store = createStore( (x) -> x )
+# Generate the reducer from the component tree and attach it.
+mountRootComponent(store, rootComponent)
 ```
 
 ## Details
@@ -43,4 +50,4 @@ When a component with a `SubtreeMixin` enters `componentWillMount`, it calls `ge
 
 ## Notes
 
-> `SubtreeMixin` is an optimized implementation for the most common use case: nodes with a static shape. This is when the keys and subcomponent classes returned by getSubtree do not depend on the Redux state or change throughout the app lifecycle. For subtrees that are stateful or dynamic, see `DynamicSubtreeMixin`.
+> `SubtreeMixin` is an optimized implementation for the most common use case: nodes with a static shape. This is when the keys and subcomponent classes returned by getSubtree do not depend on the Redux state or change throughout the app lifecycle. For subtrees that are stateful or dynamic, see the `redux-components-map` project.

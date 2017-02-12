@@ -1,34 +1,29 @@
 # mountComponent
-```coffeescript
-{ mountComponent } = require 'redux-components'
-mountComponent: (
-	store = { getState, dispatch, subscribe, replaceReducer },
-	componentInstance = instanceof ReduxComponent,
-	path = [string|number, ...],
-	mounter = (store, componentInstance) ->
-) ->
-```
-Mounts a component instance to the redux state tree. `store` is a reference to the Redux store. The `componentInstance` is the component instance to be attached to the tree. The `path` is an array path from the root node of the state tree to the node at which this component will be mounted.
-
-The `mounter` is a function that will be called as the component is mounting, and additionally whenever the subtree managed by this component requests a change in reducer. It should have the effect of replacing the store's root reducer via `store.replaceReducer()` as appropriate.
 
 ## State tree design
 
-### Root managed by redux-components; connected subtrees
+Broadly speaking, there are two ways to manage your Redux state tree using redux-components. You can let redux-components manage the root of your tree (as well as all subnodes) or your state tree can be managed manually, with redux-components being mounted at one or more subnodes of the state tree.
 
-In this case, a redux-component instance will be mounted at the root of the state tree, and hence will manage the root reducer. You will only ever call `mountComponent` once, to connect this root component. Trees of subcomponents descending from the root will be managed by `SubtreeMixin`.
+We discuss both of these cases.
 
-We expect this to be the typical (or if not typical, then certainly simplest) case and so we provide a default implementation of `mounter` for this scenario:
+### redux-component at the root
+
+The easiest way to use redux-components is to let it manage the root node of your state tree. In this case, a redux-component instance will be mounted at the root of the state tree, and hence will manage the root reducer. To do this, use `mountRootComponent`.
 
 ```coffeescript
-mounter = (store, componentInstance) ->
-	store.replaceReducer(componentInstance.reducer)
+{ mountRootComponent } = require 'redux-components'
+mountRootComponent: (
+	store = { getState, dispatch, subscribe, replaceReducer },
+	componentInstance = instanceof ReduxComponent
+) ->
 ```
+`mountRootComponent` attaches a ReduxComponent to the root of the state tree, allowing it to manage the entire tree. `store` is a reference to the Redux store. The `componentInstance` is the component instance to be attached to the tree.
+
+Internally, this function uses `store.replaceReducer()` to attach the reducer of the `componentInstance` to the Redux store, allowing it to manage the store's whole state.
 
 If this is your use case, you will initialize your store like this:
 ```coffeescript
-mountComponent = require 'redux-components/mountComponent'
-createClass = require 'redux-components/createClass'
+{ mountRootComponent, createClass } = require 'redux-components'
 { createStore } = require 'redux'
 
 RootComponentClass = createClass {
@@ -39,17 +34,40 @@ rootComponent = new RootComponentClass
 # Create store with empty reducer
 store = createStore( (x) -> x )
 # Generate the reducer from the component tree and attach it.
-mountComponent(store, rootComponent)
+mountRootComponent(store, rootComponent)
 ```
 
 > * When using this approach, you can still attach reducers not managed by redux-components to nodes of your state tree beneath the root. Use `SubtreeMixin`.
-> * If you need to use a higher-order reducer at the root of your state tree, you must provide a `mounter` that wraps `componentInstance.reducer` in your higher-order reducer before attaching it to the store.
-> * Don't disconnect subtrees of redux-components! Every redux-component should have a parent that is a redux-component, except the unique root component at the top of the tree. If this is not so, you are in the (more difficult) case described below.
 
-### Unmanaged root and/or disconnected subtrees
+### Manual mounting
 
-We strongly recommend allowing redux-components to manage your root reducer if possible. It makes everything work better. But maybe this is impossible for your use case.
+If redux-components does not manage your root reducer, then you will need to mount and unmount components manually using the following API:
 
-If so, you can implement a design where you will manage your own state tree from the root, with one or more subtrees managed by redux-components. You will call `mountComponent` for each such subtree. For each component you mount, you must provide your own implementation of `mounter` that will rebuild and reattach the root reducer, taking into account the fact that the `mountedInstance`'s reducer may have changed.
+```coffeescript
+{ willMountComponent, didMountComponent, willUnmountComponent } = require 'redux-components'
+willMountComponent: (
+	store = { getState, dispatch, subscribe, replaceReducer },
+	componentInstance = instanceof ReduxComponent
+	path = [string|number, ...]
+) -> reducer
 
-> If you have multiple disconnected subtrees managed by redux-components, the `mounter` for each subtree must be aware of the others and reattach their reducers correctly!
+didMountComponent: (
+	componentInstance = instanceof ReduxComponent
+) ->
+
+willUnmountComponent: (
+	componentInstance = instanceof ReduxComponent
+) ->
+```
+
+The manual mounting process works as follows: first you call `willMountComponent(store, componentInstance, path)`, providing the Redux `store`, the `componentInstance` you wish to mount, as well as the `path` from the root node of the store to the spot where the component will be mounted. The `path` is provided in the array form that would be used by `lodash.get()`.
+
+`willMountComponent` will return a reducer, which you must then attach to your state tree at the given `path` using something like `store.replaceReducer()`. Once the reducer is in place, you must call `didMountComponent(componentInstance)` on the component in order to honor the redux-components lifecycle contract.
+
+> * Do not manually mount components beneath redux-components that manage children, such as `SubtreeMixin` nodes or `redux-components-map`. This will bypass the internal logic of those components and almost certainly break your reducer tree. Use the correct APIs of the parent component to add child nodes beneath these components.
+
+### Manual unmounting
+
+If you want to unmount a manually-mounted component, you should call `willUnmountComponent(componentInstance)` on it first. This will invoke the `willUnmount` method as required by redux-components' lifecycle contract, as well as replacing the reducer for the component with the identity.
+
+You must then manually patch up the state tree. (e.g. by calling `replaceReducer()` to remove the manually-mounted reducer) Such is the nature of manual mounting, and why we recommend letting redux-components manage your root nodes.

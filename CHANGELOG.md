@@ -1,3 +1,26 @@
+# 0.3
+
+### **BREAKING CHANGE:** New component mounting API
+
+In light of the architectural changes in 0.2, and because the old API was quite confusing, we've designed a new API for mounting components. The `mounter` function has been eliminated and replaced with an imperative API for mounting and unmounting.
+
+For those managing their entire state tree with `redux-components`, the transition should be easy: replace your single `mountComponent` statement with the new `mountRootComponent`, which has the same argument signature.
+
+Those with more complex state tree designs will want to [read the docs](https://wcjohnson.gitbooks.io/redux-components/content/docs/API/mountComponent.html).
+
+### ReduxComponentClasses can now be used as mixins.
+
+A `ReduxComponentClass` (the object returned by `createClass`) can now be used as a mixin on any other class. This can be used to simulate class inheritance in many use cases.
+
+### actionDispatchers now support falsy return values
+
+In 0.2, `actionDispatchers` were added to directly dispatch actions to a mounted component's store. They were required to return a valid Redux action. Now they may return a falsy value, in which case no action will be dispatched.
+
+### Minor changes and fixes
+
+- Redux is now listed as a dependency rather than a peerDependency.
+- The internal `__reducerMap` variable on `SubtreeMixin` instances has been removed.
+
 # 0.2
 
 This is a major release that brings some changes that my team is excited about.

@@ -1,6 +1,6 @@
 {
   "name": "redux-components",
-  "version": "0.2.3",
+  "version": "0.3.0",
   "description": "A component model for Redux state trees based on the React.js component model.",
   "keywords": [
     "redux",
@@ -51,9 +51,7 @@
   },
   "dependencies": {
     "invariant": "^2.2.2",
-    "symbol-observable": "^1.0.4"
-  },
-  "peerDependencies": {
+    "symbol-observable": "^1.0.4",
     "redux": "^3.6.0"
   }
 }

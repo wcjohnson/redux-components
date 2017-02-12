@@ -12,7 +12,7 @@ An example is the `ComponentMap` class implemented in [redux-component-map](http
 
 In order to implement this behavior, it is necessary to define a new reducer function each time the tree of components changes, because the reducer function is a composition of other functions and the composition depends on the shape of the tree. This is the typical use case for which dynamic reducers were developed.
 
-Dynamic reducers are dangerous in general. Most of the time someone needs a dynamic reducer, it is basically to implement `Map` or something like it. If that's you, consider redux-component-map before writing your own.
+Dynamic reducers are dangerous in general. Most of the time someone needs a dynamic reducer, it is basically to implement `Map` or something like it. If that's you, consider `redux-components-map` before writing your own.
 
 ## How do I create a component with a dynamic reducer?
 
