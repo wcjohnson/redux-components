@@ -17,3 +17,4 @@ A component model for Redux state trees based on the React.js component model.
 * [Advanced](/docs/Advanced/README.md)
 	* [Dynamic Reducers](/docs/Advanced/DynamicReducer.md)
 	* [Observable Selectors](/docs/Advanced/ObservableSelector.md)
+* [Version History](/CHANGELOG.md)
