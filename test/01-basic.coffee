@@ -26,6 +26,7 @@ describe 'basic functions: ', ->
 		it 'should mount instance of class on store', ->
 			rootComponentInstance = new Subcomponent()
 			mountRootComponent(store, rootComponentInstance)
+			expect(rootComponentInstance.isMounted()).to.be.ok
 
 		it 'should know about the store', ->
 			expect(rootComponentInstance.store).to.equal(store)
@@ -60,7 +61,9 @@ describe 'basic functions: ', ->
 
 		it 'should mount instance of class on store', ->
 			rootComponentInstance = new Subcomponent()
+			expect(rootComponentInstance.isMounted()).to.not.be.ok
 			mountRootComponent(store, rootComponentInstance)
+			expect(rootComponentInstance.isMounted()).to.be.ok
 
 		it 'should set the default state', ->
 			expect(store.getState()).to.deep.equal({})

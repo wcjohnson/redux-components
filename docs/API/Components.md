@@ -42,6 +42,12 @@ this.componentWillUnmount = =>
 Invoked on a component instance immediately before its reducer is removed from the state tree.
 > When multiple nodes are unmounted simultaneously, their ```componentWillUnmount()``` methods are called in postorder with respect to their place in the state tree. (leaf nodes first)
 
+#### isMounted
+```coffeescript
+this.isMounted = => boolean
+```
+Returns `true` if the component's reducer is mounted to the Redux store, `false` otherwise.
+
 ### Redux state
 
 #### this.state

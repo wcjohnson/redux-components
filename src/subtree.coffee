@@ -6,7 +6,9 @@ import createClass from './createClass'
 
 ##### SubtreeMixin
 attachComponent = (parentComponent, key, component) ->
-	# XXX: invariant or warning here that key is not shadowing anything on the instance?
+	# Development invariant: prevent shadowing of parent keys
+	if process.env.NODE_ENV isnt 'production'
+		invariant(not parentComponent[key]?, "redux-component of type #{parentComponent.displayName} (mounted at location #{parentComponent.path}) is using SubtreeMixin, and one of its children would shadow the key `#{key}` on the parent component.")
 	parentComponent[key] = component
 	childPath = parentComponent.path.concat( [ key ] )
 	component.__willMount(parentComponent.store, childPath, parentComponent)
@@ -35,7 +37,7 @@ export SubtreeMixin = {
 		# Monkey-patch didMount to call subtree didMounts in the right order.
 		myDidMount = @__originalDidMount = @componentDidMount
 		@componentDidMount = ->
-			@[k]?.componentDidMount?() for k of __reducerMap
+			@[k]?.__didMount() for k of __reducerMap
 			myDidMount?.call(@)
 
 	componentWillUnmount: ->

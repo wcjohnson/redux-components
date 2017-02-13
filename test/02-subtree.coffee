@@ -77,6 +77,7 @@ describe 'subtree: ', ->
 		it 'should instantiate class keys on subtree', ->
 			assert(not(Subcomponent instanceof Subcomponent))
 			assert(rootComponentInstance.bar instanceof Subcomponent)
+			assert(rootComponentInstance.bar.isMounted())
 
 		it 'should scope actions and selectors', ->
 			store.dispatch(rootComponentInstance.foo.setValue('foo'))

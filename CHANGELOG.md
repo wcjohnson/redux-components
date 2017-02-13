@@ -1,5 +1,15 @@
 # 0.3
 
+## 0.3.1
+
+### Added `component.isMounted()` API
+
+As we roll out increased support for dynamic mounting, knowing whether or not a component is currently mounted becomes increasingly relevant. In previous versions this could be checked by looking for the `__mounted` internal variable on the component instance (which is now deprecated)
+
+There is now a `component.isMounted()` API which returns true when the component is mounted and false otherwise.
+
+## 0.3.0
+
 ### **BREAKING CHANGE:** New component mounting API
 
 In light of the architectural changes in 0.2, and because the old API was quite confusing, we've designed a new API for mounting components. The `mounter` function has been eliminated and replaced with an imperative API for mounting and unmounting.
