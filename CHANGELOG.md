@@ -1,5 +1,17 @@
 # 0.3
 
+## 0.3.2
+
+### Observable selector changes
+
+We've made some changes to make observable selectors more convenient. None of these are breaking changes.
+
+- All selectors on all ReduxComponents are now observable by default. It is no longer necessary to use `ObservableSelectorMixin`. `ObservableSelectorMixin` will continue to  exist for backwards compatibility, but is simply an empty mixin now.
+
+- It is now possible to call `selector.next` even if the selector's owning component is not yet mounted. The attachment of the `Observer` to the selector will then be deferred until the component is mounted.
+
+- The internal implementation of selectors has been refactored so that there is no penalty for the `Observable` implementation unless you actually attach an `Observer`.
+
 ## 0.3.1
 
 ### Added `component.isMounted()` API

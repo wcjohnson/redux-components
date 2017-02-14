@@ -1,17 +1,45 @@
 import invariant from 'invariant'
 import { get, nullIdentity } from './util'
 import $$observable from 'symbol-observable'
+import makeSelectorObservable from './makeSelectorObservable'
+
+slice = [].slice
 
 ################################
 # Component prototype
 export default ReduxComponent = ( -> )
 
+# Indirect reducer to allow components to dynamically update reducers.
 indirectReducer = (state, action) ->
 	@__internalReducer.call(@, state, action)
+
+# Bind an action to automatically dispatch to the right store.
+dispatchAction = (actionCreator, self) -> ->
+	action = actionCreator.apply(self, arguments)
+	if action? then self.store.dispatch(action)
+
+# Scope a selector to a component.
+scopeSelector = (sel, self) -> ->
+	fwdArgs = slice.call(arguments)
+	fwdArgs[0] = self.state
+	sel.apply(self, fwdArgs)
 
 ReduxComponent.prototype.__init = ->
 	@reducer = indirectReducer.bind(@)
 	@__internalReducer = nullIdentity
+
+	# Bind action creators
+	if @actionCreators
+		(@[key] = func.bind(@)) for key, func of @actionCreators
+	# Bind actions
+	if @actionDispatchers
+		(@[key] = dispatchAction(func, @)) for key, func of @actionDispatchers
+	# Scope selectors
+	if @selectors
+		for key, func of @selectors
+			scoped = scopeSelector(func, @)
+			@[key] = makeSelectorObservable(@, scoped)
+
 	undefined
 
 ReduxComponent.prototype.updateReducer = ->

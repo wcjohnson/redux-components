@@ -1,4 +1,4 @@
-import { removeFromList, assign } from './util'
+import { removeFromList } from './util'
 import $$observable from 'symbol-observable'
 import ReduxComponent from './ReduxComponent'
 
@@ -34,34 +34,56 @@ subjectMixin = {
 		}
 }
 
+# Property definition for Symbol.observable
+observablePropertyDefinition = { writable: true, configurable: true, value: (-> @) }
+
+selectorIsBeingObserved = (isBeingObserved) ->
+	selector = @; componentInstance = @__componentInstance
+	if isBeingObserved
+		lastSeenValue = undefined
+
+		# If component isn't mounted, defer.
+		if not componentInstance.isMounted()
+			componentInstance.__deferObservedSelectors = (componentInstance.__deferObservedSelectors or []).concat([selector])
+			return
+
+		# Closure to detect changes in the selector.
+		observeState = ->
+			val = selector(componentInstance.store.getState())
+			if val isnt lastSeenValue
+				lastSeenValue = val; selector.next(val)
+
+		# Connect to the store; observe the initial state.
+		@__unsubscriber = componentInstance.store.subscribe(observeState)
+		observeState()
+	else
+		# If component isn't mounted, clear deferral.
+		if not componentInstance.isMounted()
+			removeFromList(componentInstance.__deferObservedSelectors, selector)
+			return
+
+		# Unsubscribe from the store if previously subscribed.
+		@__unsubscriber?(); delete @__unsubscriber
+	undefined
+
 # Make a selector on a ReduxComponentInstance into an ES7 Observable.
 export default makeSelectorObservable = (componentInstance, selector) ->
 	# Make the selector a Subject.
-	assign(selector, subjectMixin)
-
+	Object.assign(selector, subjectMixin)
 	# Make the selector an ES7 Observable
-	Object.defineProperty(selector, $$observable, { writable: true, configurable: true, value: (-> @) })
-
-	# Attach the selector to the Redux store when it is being observed.
-	selector.__isBeingObserved = (isBeingObserved) ->
-		if isBeingObserved
-			lastSeenValue = undefined
-			observeState = ->
-				val = selector(componentInstance.store.getState())
-				if val isnt lastSeenValue
-					lastSeenValue = val; selector.next(val)
-
-			@__unsubscriber = componentInstance.store.subscribe(observeState)
-			observeState()
-		else
-			@__unsubscriber?(); delete @__unsubscriber
-		undefined
+	Object.defineProperty(selector, $$observable, observablePropertyDefinition)
+	# Store the componentInstance on the selector.
+	selector.__componentInstance = componentInstance
+	# Attach the observation function
+	selector.__isBeingObserved = selectorIsBeingObserved
+	# Return the selector
+	selector
 
 # Make all selectors on the given component instance observable.
 export makeSelectorsObservable = (componentInstance) ->
 	if not (componentInstance instanceof ReduxComponent)
 		throw new Error("makeSelectorsObservable: argument must be instanceof ReduxComponent")
-	
+
 	if componentInstance.selectors
 		makeSelectorObservable(componentInstance, componentInstance[selKey]) for selKey of componentInstance.selectors
 	componentInstance

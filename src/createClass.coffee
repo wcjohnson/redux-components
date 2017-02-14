@@ -5,8 +5,14 @@ import ReduxComponent from './ReduxComponent'
 dontBindThese = {
 	applyMixin: true
 	updateReducer: true
+	isMounted: true
+	componentWillMount: true
+	componentDidMount: true
+	componentWillUnmount: true
+	getReducer: true
 	__willMount: true
 	__willUnmount: true
+	__didMount: true
 	__init: true
 }
 
@@ -16,24 +22,24 @@ export default createClass = (spec) ->
 	newSpec.applyMixin(newSpec, DefaultMixin)
 	newSpec.applyMixin(newSpec, spec)
 
-	Constructor = ->
+	SpecifiedReduxComponent = ->
 		# Allow Class() instead of new Class() if desired.
-		if not (@ instanceof Constructor) then return new Constructor()
+		if not (@ instanceof SpecifiedReduxComponent) then return new SpecifiedReduxComponent()
 		# Call prototype init
 		@__init()
 		# Magic bind all the functions on the prototype
-		(@[k] = f.bind(@)) for k,f of Constructor.prototype when typeof(f) is 'function' and (not dontBindThese[k])
+		(@[k] = f.bind(@)) for k,f of SpecifiedReduxComponent.prototype when typeof(f) is 'function' and (not dontBindThese[k])
 		# Constructor must return this.
 		@
 
 	# inherit from ReduxComponent
-	Constructor.prototype = new ReduxComponent
-	Constructor.prototype.constructor = Constructor
-	Constructor.prototype.__spec = spec
+	SpecifiedReduxComponent.prototype = new ReduxComponent
+	SpecifiedReduxComponent.prototype.constructor = SpecifiedReduxComponent
+	SpecifiedReduxComponent.prototype.__spec = spec
 	# Apply spec to prototype, statics to constructor
 	for own k,v of newSpec
-		Constructor.prototype[k] = v
+		SpecifiedReduxComponent.prototype[k] = v
 	for own k,v of (newSpec.statics or {})
-		Constructor[k] = v
+		SpecifiedReduxComponent[k] = v
 
-	Constructor
+	SpecifiedReduxComponent

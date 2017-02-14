@@ -7,7 +7,9 @@
 expectTestSequence = (tests) ->
 	i = 0
 	{
-		next: (x) -> expect(tests[i++]?(x)).to.equal(true)
+		next: (x) ->
+			console.log "Observer saw", { x }
+			expect(tests[i++]?(x)).to.equal(true)
 		error: (x) -> throw x
 		complete: -> expect(i).to.equal(tests.length)
 	}
@@ -39,6 +41,7 @@ describe 'observable selectors: ', ->
 				}
 				selectors: {
 					getValue: (state) ->
+						console.log "Selector called:", { state }
 						state.payload
 				}
 			}
@@ -67,3 +70,17 @@ describe 'observable selectors: ', ->
 			rootComponentInstance.foo.setValue('goodbye world')
 			subscription.unsubscribe()
 			rootComponentInstance.foo.setValue('bar')
+
+	describe 'deferred: ', ->
+		it 'should create new store', ->
+			store = makeAStore({ foo: { payload: 'bar' } })
+
+		it 'should attach observer while unmounted', ->
+			fooComponent = new Subcomponent
+			rootComponentInstance = createComponent( { foo: fooComponent } )
+			fooComponent.getValue.subscribe(
+				expectTestSequence([ ((x) -> x is 'bar') ] )
+			)
+			expect(fooComponent.__deferObservedSelectors).to.be.ok
+			mountRootComponent(store, rootComponentInstance)
+			expect(fooComponent.__deferObservedSelectors).to.not.be.ok

@@ -10,6 +10,7 @@ export get = (object, path) ->
 	if (index is length) then object else undefined
 
 export removeFromList = (list, value) ->
-	if (i = list.indexOf(value)) > -1 then list.splice(i, 1)
+	if list? and ((i = list.indexOf(value)) > -1) then list.splice(i, 1)
+	undefined
 
 export nullIdentity = (x) -> if x is undefined then null else x
