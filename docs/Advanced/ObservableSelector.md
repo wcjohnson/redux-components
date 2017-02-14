@@ -4,12 +4,12 @@ Redux 3.6.x adds the ability for Stores to function as [ES7 Observables](https:/
 
 ## Functionality
 
-Observable selectors are provided by adding the `ObservableSelectorMixin` to your component class:
+When declaring a class, any functions specified under the `selectors` key will automatically be converted into ES7 Observables:
+
 ```coffeescript
-{ ObservableSelectorMixin, createClass } = require 'redux-components'
+{ createClass } = require 'redux-components'
 
 MyClass = createClass {
-	mixins: [ ObservableSelectorMixin ]
 	...
 	selectors: {
 		mySelector: (state) -> state.myValue
@@ -17,8 +17,6 @@ MyClass = createClass {
 	...
 }
 ```
-
-Behind the scenes, this mixin ensures that when an instance of your component is mounted, all of the `selectors` on the instance will be augmented to conform to the [ES7 Observable](https://github.com/tc39/proposal-observable) pattern.
 
 Here are the details:
 
@@ -37,4 +35,4 @@ subscription.unsubscribe()
 
 - Observable selectors assume conformance with the Redux contract, and therefore use identity (`===`) comparison to detect changes. Your Redux stores are expected to return unequal objects when changes are made.
 
-- Your component must be mounted to a store before you may subscribe to observable selectors. (This means, inter alia, that while inside a component's `componentWillMount` method, you cannot observe the selectors of that component. You must wait until `componentDidMount`.)
+- Selectors are only active when a component is mounted. You may still attach an `Observer` to a selector even when a component is not mounted, but the `Observer` will not be attached until it is.

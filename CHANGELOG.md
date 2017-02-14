@@ -16,8 +16,6 @@ We've made some changes to make observable selectors more convenient. None of th
 
 ### Added `component.isMounted()` API
 
-As we roll out increased support for dynamic mounting, knowing whether or not a component is currently mounted becomes increasingly relevant. In previous versions this could be checked by looking for the `__mounted` internal variable on the component instance (which is now deprecated)
-
 There is now a `component.isMounted()` API which returns true when the component is mounted and false otherwise.
 
 ## 0.3.0

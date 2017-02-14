@@ -2,9 +2,11 @@
 
 ## State tree design
 
-Broadly speaking, there are two ways to manage your Redux state tree using redux-components. You can let redux-components manage the root of your tree (as well as all subnodes) or your state tree can be managed manually, with redux-components being mounted at one or more subnodes of the state tree.
+Broadly speaking, there are two ways to manage your Redux state tree using redux-components. You can let redux-components manage the root of your tree, or your state tree can be managed manually, with redux-components being mounted at one or more subnodes of the state tree.
 
-We discuss both of these cases.
+Note that even if you let redux-components manage your root node, you can still attach any reducer you want, including reducers from external libraries, to nodes beneath your root node. For ease of use, we recommend letting redux-components manage your root node.
+
+We discuss both cases below.
 
 ### redux-component at the root
 
@@ -37,7 +39,7 @@ store = createStore( (x) -> x )
 mountRootComponent(store, rootComponent)
 ```
 
-> * When using this approach, you can still attach reducers not managed by redux-components to nodes of your state tree beneath the root. Use `SubtreeMixin`.
+> * When using this approach, you can still attach reducers not managed by redux-components to nodes of your state tree beneath the root. Use `SubtreeMixin` or `redux-components-map`.
 
 ### Manual mounting
 
