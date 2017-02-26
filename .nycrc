@@ -1,0 +1,7 @@
+{
+  "include": [
+    "coverage/build/*.js"
+  ],
+  "sourceMap": false,
+  "instrument": false
+}
