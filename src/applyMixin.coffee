@@ -1,4 +1,4 @@
-import { assign, chain } from './util'
+import { chain } from './util'
 import invariant from 'invariant'
 import ReduxComponent from './ReduxComponent'
 
@@ -16,7 +16,7 @@ concatKeyHandler = (spec, mixin, key, val) ->
 
 assignKeyHandler = (spec, mixin, key, val) ->
 	invariant(typeof(val) is 'object', "mixin key `#{key}` must be an object")
-	spec[key] = assign(spec[key] or {}, val)
+	spec[key] = Object.assign(spec[key] or {}, val)
 
 bannedKeyHandler = (spec, mixin, key, val) ->
 	invariant(false, "mixin key `#{key}` would shadow a documented key on the ReduxComponent instance, and is therefore forbidden")

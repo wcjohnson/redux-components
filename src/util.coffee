@@ -1,6 +1,3 @@
-export assign = (dst, src) ->
-	(if src.hasOwnProperty(k) then dst[k] = src[k]) for k of src; dst
-
 export chain = (one, two) -> -> one.apply(@, arguments); two.apply(@, arguments)
 
 export get = (object, path) ->
