@@ -40,7 +40,6 @@ mixinKeyHandlers = {
 	# getReducer: enforce function, uniqueness.
 	getReducer: (spec, mixin, key, val) ->
 		invariant(typeof(val) is 'function', "mixin key `#{key}` must be a function")
-		invariant(!spec[key], "A component specification can have only one `getReducer`. You have mixins providing multiples. Check your list of mixins.")
 		spec[key] = val
 	# verbs: concatenate arrays
 	verbs: concatKeyHandler
