@@ -2,7 +2,7 @@ import { combineReducers } from 'redux'
 import invariant from 'invariant'
 import ReduxComponent from './ReduxComponent'
 import createClass from './createClass'
-
+import { willMountComponent, didMountComponent, willUnmountComponent } from './mountComponent'
 
 ##### SubtreeMixin
 attachComponent = (parentComponent, key, component) ->
@@ -12,36 +12,37 @@ attachComponent = (parentComponent, key, component) ->
 	parentComponent[key] = component
 	childPath = parentComponent.path.concat( [ key ] )
 	component.__willMount(parentComponent.store, childPath, parentComponent)
-	# Return the reducer
-	component.reducer
+	component
 
 applyDescriptor = (parentComponent, key, descriptor) ->
 	attachComponent(parentComponent, key, createComponent(descriptor))
 
 export SubtreeMixin = {
+	getReducer: -> @subtreeReducer
+
 	componentWillMount: ->
 		# Sanity check that our component supports subtrees
 		if process.env.NODE_ENV isnt 'production'
 			invariant(typeof @getSubtree is 'function', "redux-component of type #{@displayName} (mounted at location #{@path}) is using SubtreeMixin, but does not have a getSubtree() method.")
 
-		# Get the subtree structure
-		subtree = @getSubtree()
-		# Conjure child components and gather their reducers
-		__reducerMap = {}
-		for key, descriptor of subtree
-			__reducerMap[key] = applyDescriptor(@, key, descriptor)
-		# Create composite reducer for parent component
-		reducer = combineReducers(__reducerMap)
-		@getReducer = -> reducer
+		# Create subcomponents
+		@__subtree = {}
+		for key, descriptor of @getSubtree()
+			@__subtree[key] = applyDescriptor(@, key, descriptor)
 
-		# Monkey-patch didMount to call subtree didMounts in the right order.
-		myDidMount = @__originalDidMount = @componentDidMount
-		@componentDidMount = ->
-			@[k]?.__didMount() for k of __reducerMap
-			myDidMount?.call(@)
+		# Create reducer
+		reducerMap = {}
+		for key, component of @__subtree
+			reducerMap[key] = component.reducer
+		@subtreeReducer = combineReducers(reducerMap)
+
+	componentDidMount: ->
+		didMountComponent(component) for key, component of @__subtree
+		undefined
 
 	componentWillUnmount: ->
-		@componentDidMount = @__originalDidMount
+		willUnmountComponent(component) for key, component of @__subtree
+		undefined
 }
 
 ##### createComponent

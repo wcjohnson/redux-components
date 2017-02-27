@@ -1,5 +1,21 @@
 # 0.3
 
+## 0.3.3
+
+### SubtreeMixin changes
+
+The new mounting system enabled a cleanup of the `SubtreeMixin` internals, including the removal of the `didMount` monkey patch. This should not be a breaking change for those following the API, but may break code relying on subtree internals.
+
+- `SubtreeMixin` components now support dynamic mounting. (Meaning that the `SubtreeMixin` component can be dynamically mounted, not that its contents can change dynamically -- please use `redux-components-map` if you need that functionality.)
+
+- A new documented field, `this.subtreeReducer`, exists on all `SubtreeMixin` component instances. This is the reducer obtained by `combineReducers` over the subcomponents. Using this functionality, it is now possible to write custom reducers for `SubtreeMixin` components that fallback on the combined reducer when they don't understand an action.
+
+- The `__reducerMap` and `__originalDidMount` undocumented fields no longer exist.
+
+### Miscellaneous
+
+- The `Object.assign` polyfill has been removed. Your runtime must support `Object.assign` natively, or you must polyfill it yourself.
+
 ## 0.3.2
 
 ### Observable selector changes

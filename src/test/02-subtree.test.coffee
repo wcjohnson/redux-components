@@ -1,7 +1,7 @@
 { inspect } = require 'util'
 
 { expect, assert } = require 'chai'
-{ createClass, mountRootComponent, createComponent, SubtreeMixin } = require '..'
+{ createClass, mountRootComponent, createComponent, SubtreeMixin, willUnmountComponent } = require '..'
 { makeAStore } = require './helpers/store'
 
 describe 'subtree: ', ->
@@ -20,6 +20,8 @@ describe 'subtree: ', ->
 					console.log "Subcomponent.willMount"
 				componentDidMount: ->
 					console.log "Subcomponent.didMount"
+				componentWillUnmount: ->
+					console.log "Subcomponent.willUnmount"
 				getReducer: -> (state = {}, action) ->
 					switch action.type
 						when @SET then action.payload or {}
@@ -50,7 +52,15 @@ describe 'subtree: ', ->
 				componentWillMount: ->
 					console.log "RootComponent.willMount"
 				componentDidMount: ->
+					assert(@foo.isMounted())
+					assert(@bar.isMounted())
+					assert(@deep.isMounted())
 					console.log "RootComponent.didMount"
+				componentWillUnmount: ->
+					assert(not @foo.isMounted())
+					assert(not @bar.isMounted())
+					assert(not @deep.isMounted())
+					console.log "RootComponent.willUnmount"
 				getSubtree: -> {
 					foo: new Subcomponent()
 					bar: Subcomponent
@@ -86,3 +96,6 @@ describe 'subtree: ', ->
 			expect(rootComponentInstance.foo.getValue()).to.equal('foo')
 			expect(rootComponentInstance.bar.getValue()).to.equal('bar')
 			expect(rootComponentInstance.deep.zazz.getValue()).to.equal('deep.zazz')
+
+		it 'should unmount correctly', ->
+			willUnmountComponent(rootComponentInstance)

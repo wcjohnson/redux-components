@@ -1,6 +1,12 @@
 # redux-components
 A component model for Redux state trees based on the React.js component model and other familiar design patterns from the React ecosystem.
 
+## What's New
+
+- We've been making a lot of great improvements. Check out the [Change Log](CHANGELOG.md) for details -- particularly if you are moving to a higher significant version digit!
+
+- Check out [redux-components-map](https://github.com/wcjohnson/redux-components-map) for a solution to a common use case: dynamic tree structure changes while your app is running.
+
 ## Documentation
 > **NB:** redux-components is a tool that interoperates with [Redux](http://redux.js.org/). This documentation presumes a solid grasp of the fundamentals found in the [Redux docs](http://redux.js.org) -- particularly the concepts of the Redux state tree, reducers, action creators, and selectors.
 
