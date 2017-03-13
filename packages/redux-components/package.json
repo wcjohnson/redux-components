@@ -12,11 +12,12 @@
     "build:babel:commonjs": "mkdirp lib && cross-env BABEL_ENV=commonjs babel build/coffee --out-dir lib",
     "build": "npm run build:coffee && npm run build:babel:commonjs",
     "test": "npm run build && npm run test:mocha",
+    "test:debug": "npm run build && npm run test:mocha:debug",
     "test:mocha": "mocha --recursive lib/_tests_/*.test.js",
+    "test:mocha:debug": "node --inspect --debug-brk node_modules/.bin/_mocha --recursive lib/_tests_/*.test.js",
 
     "build:babel:es": "cross-env BABEL_ENV=es babel build --out-dir es",
     "build:babel:istanbul": "mkdir -p coverage/build && cross-env BABEL_ENV=istanbul babel build --out-dir coverage/build",
-    "test:debug": "node --inspect --debug-brk node_modules/.bin/_mocha --recursive lib/test/*.test.js",
     "coverage:build": "npm run build:babel:istanbul",
     "coverage:test": "node_modules/.bin/_mocha --recursive -- coverage/build/test/*.test.js",
     "coverage:report": "nyc --reporter=lcov npm run coverage:test",
