@@ -3,6 +3,7 @@ import DefaultMixin from './DefaultMixin'
 import ReduxComponent from './ReduxComponent'
 
 dontBindThese = {
+	state: true
 	applyMixin: true
 	updateReducer: true
 	isMounted: true
@@ -10,10 +11,19 @@ dontBindThese = {
 	componentDidMount: true
 	componentWillUnmount: true
 	getReducer: true
+	reducer: true
 	__willMount: true
 	__willUnmount: true
 	__didMount: true
 	__init: true
+	__internalReducer: true
+}
+
+dontPrototypeThese = {
+	verbs: true
+	actionCreators: true
+	actionDispatchers: true
+	selectors: true
 }
 
 export default createClass = (spec) ->
@@ -25,10 +35,8 @@ export default createClass = (spec) ->
 	SpecifiedReduxComponent = ->
 		# Allow Class() instead of new Class() if desired.
 		if not (@ instanceof SpecifiedReduxComponent) then return new SpecifiedReduxComponent()
-		# Call prototype init
-		@__init()
-		# Magic bind all the functions on the prototype
-		(@[k] = f.bind(@)) for k,f of SpecifiedReduxComponent.prototype when typeof(f) is 'function' and (not dontBindThese[k])
+		# Call ReduxComponent constructor first
+		ReduxComponent.call(@)
 		# Constructor must return this.
 		@
 
@@ -37,9 +45,24 @@ export default createClass = (spec) ->
 	SpecifiedReduxComponent.prototype.constructor = SpecifiedReduxComponent
 	SpecifiedReduxComponent.prototype.__spec = spec
 	# Apply spec to prototype, statics to constructor
-	for own k,v of newSpec
+	for own k,v of newSpec when (not dontPrototypeThese[k])
 		SpecifiedReduxComponent.prototype[k] = v
 	for own k,v of (newSpec.statics or {})
 		SpecifiedReduxComponent[k] = v
+
+	# 0.4.0: ES classes: move static properties onto the constructor
+	if newSpec.verbs
+		SpecifiedReduxComponent.verbs = newSpec.verbs
+	for meldKey in ['actionCreators', 'actionDispatchers', 'selectors']
+		SpecifiedReduxComponent[meldKey] = []
+		if newSpec[meldKey]
+			for k,v of newSpec[meldKey]
+				SpecifiedReduxComponent.prototype[k] = v
+				SpecifiedReduxComponent[meldKey].push(k)
+	SpecifiedReduxComponent.magicBind = []
+	for k of SpecifiedReduxComponent.prototype
+		if not dontBindThese[k]
+			if typeof(SpecifiedReduxComponent.prototype[k]) is 'function'
+				SpecifiedReduxComponent.magicBind.push(k)
 
 	SpecifiedReduxComponent
