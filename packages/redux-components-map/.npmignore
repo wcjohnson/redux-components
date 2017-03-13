@@ -1,0 +1,10 @@
+.git*
+docs/
+*.swp
+.DS_Store
+coverage/
+build/
+node_modules/
+book.json
+coffeelint.json
+.eslintrc
