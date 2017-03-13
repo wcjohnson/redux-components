@@ -65,11 +65,8 @@ export createComponent = (descriptor) ->
 		component.getSubtree = (-> descriptor)
 		component
 	else if typeof(descriptor) is 'function'
-		if descriptor.length > 0 # this is a raw reducer
-			component = new ReducerNonce()
-			component.getReducer = (-> descriptor)
-			component
-		else # this is a function which will produce a descriptor
-			throw new Error("pure reducer: descriptor function should be a reducer (must have at least one argument)")
+		component = new ReducerNonce()
+		component.getReducer = (-> descriptor)
+		component
 	else
 		throw new Error("invalid component descriptor")
