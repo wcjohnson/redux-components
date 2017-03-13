@@ -1,3 +1,17 @@
+# 0.4
+
+## 0.4.0
+
+### Miscellaneous
+
+#### Git mono-repo and Lerna build chain
+
+The `redux-components` modules have been moved into a mono-repo managed by Lerna.
+
+Regular users consuming the package via NPM are not impacted by this change.
+
+Those consuming the package as a Git submodule (including many internal projects) will unfortunately suffer breakages. These projects should stay on the `0.3` branch until they can be refactored. The `0.4` branch is particularly well suited for importation into upstream projects using Lerna.
+
 # 0.3
 
 ## 0.3.3

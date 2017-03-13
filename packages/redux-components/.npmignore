@@ -1,10 +1,9 @@
-coverage/
 build/
 node_modules/
 docs/
 doc/
-lib/test/
-es/test/
+lib/_test_/
+es/_test_/
 .nyc_output/
 
 .git*

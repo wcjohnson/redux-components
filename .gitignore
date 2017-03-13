@@ -1,7 +1,8 @@
 /node_modules
-/build
-/coverage
-/.nyc_output
+/packages/*/node_modules
+/packages/*/build
+/packages/*/lib
+/packages/*/es
 /doc
 /logs
 /es
@@ -12,3 +13,4 @@ npm-debug.log
 .npm/
 .vagrant/
 *.sublime-workspace
+lerna-debug.log
