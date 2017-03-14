@@ -1,13 +1,9 @@
 import createClass from './createClass'
-import ObservableSelectorMixin from './ObservableSelectorMixin'
 
 # A ValueComponent holds an opaque value. The only action is SET, which changes the
 # value to the payload of the action.
 export default ValueComponent = createClass {
 	displayName: 'ValueComponent'
-
-	mixins: [ ObservableSelectorMixin ]
-
 	verbs: [ 'SET' ]
 
 	getReducer: -> (state = null, action) ->

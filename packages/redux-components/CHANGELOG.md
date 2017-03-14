@@ -2,15 +2,27 @@
 
 ## 0.4.0
 
-### Miscellaneous
+### Observable selectors
 
-#### Git mono-repo and Lerna build chain
+- **BREAKING:** Observable selectors are now what RxJS refers to as `BehaviorSubject`s. They cache their current value and new subscribers will immediately receive the latest value. (In previous versions they were ordinary `Subject`s and would not emit until the store changed.)
+
+- **BREAKING:** `makeSelectorsObservable` has been removed. The default behavior is to make all selectors observable.
+
+- Internal implementation is now handled by the `observable-utils` library. This is a minimalistic library that transforms observables based on the TC39 observables spec.
+
+### Git mono-repo and Lerna build chain
 
 The `redux-components` modules have been moved into a mono-repo managed by Lerna.
 
 Regular users consuming the package via NPM are not impacted by this change.
 
 Those consuming the package as a Git submodule (including many internal projects) will unfortunately suffer breakages. These projects should stay on the `0.3` branch until they can be refactored. The `0.4` branch is particularly well suited for importation into upstream projects using Lerna.
+
+- *POTENTIALLY BREAKING:* A number of utility functions (including most of the Observable implementation) have been factored out to other libraries as part of this change. These were not public API.
+
+### Miscellaneous
+
+- Because of the switchover to ES classes, the `DefaultMixin` is no longer necessary. It is still exported as an empty object for compatibility purposes.
 
 # 0.3
 

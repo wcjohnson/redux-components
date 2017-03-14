@@ -1,5 +1,4 @@
 import createClass from './createClass'
-import ObservableSelectorMixin from './ObservableSelectorMixin'
 
 shallowEqual = (a, b) ->
 	for key of a
@@ -12,9 +11,6 @@ shallowEqual = (a, b) ->
 # and MERGE.
 export default ObjectComponent = createClass {
 	displayName: 'ObjectComponent'
-
-	mixins: [ ObservableSelectorMixin ]
-
 	verbs: [ 'SET', 'MERGE' ]
 
 	getReducer: -> (state = {}, action) ->

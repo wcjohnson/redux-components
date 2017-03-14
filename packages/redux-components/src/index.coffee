@@ -4,7 +4,6 @@ import DefaultMixin from './DefaultMixin'
 import { mountRootComponent, willMountComponent, didMountComponent, willUnmountComponent } from './mountComponent'
 import ReduxComponent from './ReduxComponent'
 import ObservableSelectorMixin from './ObservableSelectorMixin'
-import { makeSelectorsObservable } from './makeSelectorObservable'
 import { createComponent, SubtreeMixin } from './subtree'
 import ValueComponent from './ValueComponent'
 import ObjectComponent from './ObjectComponent'
@@ -21,7 +20,6 @@ export {
 	createComponent
 	SubtreeMixin
 	ObservableSelectorMixin
-	makeSelectorsObservable
 	ValueComponent
 	ObjectComponent
 }

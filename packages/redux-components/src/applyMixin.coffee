@@ -1,5 +1,5 @@
-import { chain } from './util'
-import invariant from 'invariant'
+import chain from 'nanotools/lib/chain'
+import invariant from 'nanotools/lib/invariant'
 import ReduxComponent from './ReduxComponent'
 
 # Handle various special mixin keys

@@ -1,5 +1,4 @@
 import applyMixin from './applyMixin'
-import DefaultMixin from './DefaultMixin'
 import ReduxComponent from './ReduxComponent'
 
 dontBindThese = {
@@ -29,7 +28,6 @@ dontPrototypeThese = {
 export default createClass = (spec) ->
 	# Apply default mixin, then setup the spec
 	newSpec = { applyMixin }
-	newSpec.applyMixin(newSpec, DefaultMixin)
 	newSpec.applyMixin(newSpec, spec)
 
 	SpecifiedReduxComponent = ->

@@ -1,0 +1,23 @@
+{
+  "plugins": [
+  ],
+  "env": {
+    "commonjs": {
+      "plugins": [
+        ["transform-es2015-modules-commonjs", { "loose": true }],
+        ["transform-es2015-classes"]
+      ]
+    },
+    "es": {
+      "plugins": [
+      ]
+    },
+    "istanbul": {
+      "plugins": [
+        ["transform-es2015-modules-commonjs", { "loose": true }],
+        ["transform-es2015-classes"],
+        ["istanbul"]
+      ]
+    }
+  }
+}

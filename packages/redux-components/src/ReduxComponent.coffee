@@ -1,7 +1,8 @@
-import invariant from 'invariant'
-import { get, nullIdentity } from './util'
+import invariant from 'nanotools/lib/invariant'
+import get from 'nanotools/lib/get'
+import identityReducer from 'nanotools/lib/identityReducer'
+import iteratePrototypeChain from 'nanotools/lib/iteratePrototypeChain'
 import makeSelectorObservable from './makeSelectorObservable'
-
 slice = [].slice
 
 # Indirect reducer to allow components to dynamically update reducers.
@@ -18,13 +19,6 @@ scopeSelector = (sel, self) -> ->
 	fwdArgs = slice.call(arguments)
 	fwdArgs[0] = self.state
 	sel.apply(self, fwdArgs)
-
-iteratePrototypeChain = (obj, func) ->
-	proto = Object.getPrototypeOf(obj)
-	while (proto isnt null) and (proto.constructor isnt Object)
-		func(proto, obj)
-		proto = Object.getPrototypeOf(proto)
-	return
 
 performMagicBinding = (proto) ->
 	constructor = proto.constructor
@@ -55,7 +49,7 @@ performMagicBinding = (proto) ->
 
 export default class ReduxComponent
 	constructor: ->
-		@__internalReducer = nullIdentity
+		@__internalReducer = identityReducer
 		@reducer = indirectReducer.bind(@)
 		iteratePrototypeChain(@, performMagicBinding.bind(@))
 
@@ -77,20 +71,33 @@ export default class ReduxComponent
 			(@[verb] = "#{stringPath}:#{verb}") for verb in verbs
 
 		@componentWillMount?()
-		#@reducer = indirectReducer.bind(@)
 		@updateReducer()
 		undefined
 
 	__didMount: ->
 		@__mounted = true
+		# Magic-bind selectors
+		for key in @__getMagicallyBoundKeys('selectors')
+			@[key]?.mount?()
+		# Execute handlers
 		@componentDidMount?()
 		undefined
 
 	__willUnmount: ->
 		invariant(@__mounted, "redux-component of type #{@displayName} was unmounted when not mounted. This can indicate an issue in a dynamic reducer component such as redux-components-map.")
 		@componentWillUnmount?()
-		@__internalReducer = nullIdentity
+		# Disconnect selectors from store
+		for key in @__getMagicallyBoundKeys('selectors')
+			@[key]?.unmount?()
+		@__internalReducer = identityReducer
 		delete @__mounted
+
+	__getMagicallyBoundKeys: (type) ->
+		result = []
+		iteratePrototypeChain(@, (proto) ->
+			result = result.concat(proto.constructor?[type] or [])
+		)
+		result
 
 	Object.defineProperty(@prototype, 'state', {
 		configurable: false

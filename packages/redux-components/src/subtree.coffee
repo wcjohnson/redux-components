@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import invariant from 'invariant'
+import invariant from 'nanotools/lib/invariant'
 import ReduxComponent from './ReduxComponent'
 import createClass from './createClass'
 import { willMountComponent, didMountComponent, willUnmountComponent } from './mountComponent'

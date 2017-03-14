@@ -57,10 +57,13 @@ describe 'observable selectors: ', ->
 			console.log(inspect(rootComponentInstance))
 
 		it 'should observe after mutation by an action', ->
+			console.log "connecting Observer"
 			subscription = rootComponentInstance.foo.getValue.subscribe(
 				expectTestSequence([ ((x) -> x is 'bar'), ((x) -> x is 'hello world')] )
 			)
+			console.log "setting Value('hello world')"
 			rootComponentInstance.foo.setValue('hello world')
+			console.log "did set Value('hello world')"
 			subscription.unsubscribe()
 
 		it 'should unsubscribe', ->
@@ -79,8 +82,9 @@ describe 'observable selectors: ', ->
 			fooComponent = new Subcomponent
 			rootComponentInstance = createComponent( { foo: fooComponent } )
 			fooComponent.getValue.subscribe(
-				expectTestSequence([ ((x) -> x is 'bar') ] )
+				expectTestSequence([
+					(x) -> x is undefined
+					(x) -> x is 'bar'
+				])
 			)
-			expect(fooComponent.__deferObservedSelectors).to.be.ok
 			mountRootComponent(store, rootComponentInstance)
-			expect(fooComponent.__deferObservedSelectors).to.not.be.ok
