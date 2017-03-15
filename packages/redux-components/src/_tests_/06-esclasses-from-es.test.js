@@ -32,8 +32,6 @@ describe('ES classes from JS:', function() {
 			getValue: selector(),
 			amIBound: selector()
 		})
-		IntSubcomponent.actionCreators = ['setValue']
-		IntSubcomponent.selectors = ['getValue', 'amIBound']
 		Subcomponent = IntSubcomponent
 	})
 
