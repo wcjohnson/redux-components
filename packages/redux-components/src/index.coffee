@@ -6,7 +6,9 @@ import ObservableSelectorMixin from './ObservableSelectorMixin'
 import { createComponent, SubtreeMixin } from './subtree'
 import ValueComponent from './ValueComponent'
 import ObjectComponent from './ObjectComponent'
-import define from './define'
+import decorate from './decorate'
+import action from './decorators/action'
+import selector from './decorators/selector'
 
 export {
 	applyMixin
@@ -21,5 +23,7 @@ export {
 	ObservableSelectorMixin
 	ValueComponent
 	ObjectComponent
-	define
+	decorate
+	action
+	selector
 }

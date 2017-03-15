@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { mountRootComponent, ReduxComponent } from '..';
+import { mountRootComponent, ReduxComponent, decorate, action, selector } from '..';
 import { makeAStore } from './helpers/store';
 
 describe('ES classes from JS:', function() {
@@ -27,6 +27,11 @@ describe('ES classes from JS:', function() {
 			amIBound() { return this.SET }
 		}
 		IntSubcomponent.verbs = ['SET']
+		decorate(IntSubcomponent, {
+			setValue: action(),
+			getValue: selector(),
+			amIBound: selector()
+		})
 		IntSubcomponent.actionCreators = ['setValue']
 		IntSubcomponent.selectors = ['getValue', 'amIBound']
 		Subcomponent = IntSubcomponent

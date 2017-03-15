@@ -1,7 +1,7 @@
 { expect } = require 'chai'
 { inspect } = require 'util'
 
-{ mountRootComponent, createComponent, ReduxComponent } = require '..'
+{ mountRootComponent, createComponent, ReduxComponent, decorate, action, selector } = require '..'
 { makeAStore } = require './helpers/store'
 
 describe 'ES classes: ', ->
@@ -52,8 +52,12 @@ describe 'ES classes: ', ->
 				amIBound: (state) -> @SET
 
 				@verbs = ['SET']
-				@actionCreators = ['setValue']
-				@selectors = ['getValue', 'amIBound']
+
+			decorate(Subcomponent, {
+				setValue: action()
+				getValue: selector()
+				amIBound: selector()
+			})
 
 		it 'should mount instance of class on store', ->
 			store = makeAStore()
@@ -86,8 +90,12 @@ describe 'ES classes: ', ->
 				amIBound: (state) -> @SET
 
 				@verbs = ['SET']
-				@actionCreators = ['setValue']
-				@selectors = ['getValue', 'amIBound']
+
+			decorate(RootComponent, {
+				setValue: action()
+				getValue: selector()
+				amIBound: selector()
+			})
 
 			class Subcomponent extends RootComponent
 				getReducer: -> (state = {}, action) ->
@@ -100,8 +108,11 @@ describe 'ES classes: ', ->
 				myGet: (state) -> @MYSET
 
 				@verbs = ['MYSET']
-				@actionCreators = ['mySet']
-				@selectors = ['myGet']
+
+			decorate(Subcomponent, {
+				mySet: action()
+				myGet: selector()
+			})
 
 		it 'should mount instance of class on store', ->
 			store = makeAStore()

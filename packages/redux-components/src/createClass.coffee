@@ -1,6 +1,6 @@
 import applyMixin from './applyMixin'
 import ReduxComponent from './ReduxComponent'
-import define from './define'
+import decorate from './decorate'
 import action from './decorators/action'
 import selector from './decorators/selector'
 
@@ -53,25 +53,28 @@ export default createClass = (spec) ->
 	for own k,v of (newSpec.statics or {})
 		SpecifiedReduxComponent[k] = v
 
-	# 0.4.0: ES classes: move static properties onto the constructor
-	if newSpec.verbs
-		SpecifiedReduxComponent.verbs = newSpec.verbs
-	for k,v of newSpec.actionCreators or {}
-		SpecifiedReduxComponent.prototype[k] = v
-		define(SpecifiedReduxComponent, { "#{k}": action() } )
-	for k,v of newSpec.actionDispatchers or {}
-		SpecifiedReduxComponent.prototype[k] = v
-		define(SpecifiedReduxComponent, { "#{k}": action({isDispatcher: true}) } )
-	for k,v of newSpec.selectors or {}
-		SpecifiedReduxComponent.prototype[k] = v
-		define(SpecifiedReduxComponent, { "#{k}": selector() } )
-
+	# Magic bind stuff on prototype
 	SpecifiedReduxComponent.magicBind = []
 	for k of SpecifiedReduxComponent.prototype
 		if not dontBindThese[k]
 			if typeof(SpecifiedReduxComponent.prototype[k]) is 'function'
 				SpecifiedReduxComponent.magicBind.push(k)
 
-	console.log "afterSpec", inspect(SpecifiedReduxComponent)
+	# 0.4.0: ES classes: move static properties onto the constructor
+	if newSpec.verbs
+		SpecifiedReduxComponent.verbs = newSpec.verbs
+	for k,v of newSpec.actionCreators or {}
+		SpecifiedReduxComponent.prototype[k] = v
+		decorate(SpecifiedReduxComponent, { "#{k}": action() } )
+	for k,v of newSpec.actionDispatchers or {}
+		SpecifiedReduxComponent.prototype[k] = v
+		decorate(SpecifiedReduxComponent, { "#{k}": action({isDispatcher: true}) } )
+	for k,v of newSpec.selectors or {}
+		SpecifiedReduxComponent.prototype[k] = v
+		decorate(SpecifiedReduxComponent, { "#{k}": selector({isObservable: true}) } )
+
+
+
+	console.log "afterSpec", {spec, result: inspect(SpecifiedReduxComponent) }
 
 	SpecifiedReduxComponent
