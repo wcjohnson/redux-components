@@ -1,12 +1,17 @@
 import createMemoizingGetter from 'nanotools/lib/createMemoizingGetter'
 import makeSelectorObservable from '../makeSelectorObservable'
 
-augmentSelector = (selector, instance, makeObservable) ->
-	boundSelector = (state, args...) -> selector.call(this, instance.state, args...)
+augmentSelector = (selector, instance, makeScoped, makeObservable) ->
+	if makeScoped
+		boundSelector = (state, args...) -> selector.call(this, instance.state, args...)
+	else
+		boundSelector = (args...) -> selector.call(this, args...)
+
 	if makeObservable then makeSelectorObservable(instance, boundSelector) else boundSelector
 
 export default selector = (opts) ->
-	if opts then { isObservable } = opts
+	opts = Object.assign({ isObservable: false, isScoped: true }, opts)
+	{ isObservable, isScoped } = opts
 
 	(proto, key, descriptor) ->
 		originalSelector = descriptor.value
@@ -16,5 +21,5 @@ export default selector = (opts) ->
 
 		{
 			configurable: true
-			get: createMemoizingGetter(proto, key, originalSelector, -> augmentSelector(originalSelector, this, isObservable))
+			get: createMemoizingGetter(proto, key, originalSelector, -> augmentSelector(originalSelector, this, isScoped, isObservable))
 		}

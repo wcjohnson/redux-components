@@ -3,6 +3,7 @@ import ReduxComponent from './ReduxComponent'
 import decorate from './decorate'
 import action from './decorators/action'
 import selector from './decorators/selector'
+import bind from './decorators/bind'
 
 import { inspect } from 'util'
 
@@ -54,11 +55,9 @@ export default createClass = (spec) ->
 		SpecifiedReduxComponent[k] = v
 
 	# Magic bind stuff on prototype
-	SpecifiedReduxComponent.magicBind = []
 	for k of SpecifiedReduxComponent.prototype
-		if not dontBindThese[k]
-			if typeof(SpecifiedReduxComponent.prototype[k]) is 'function'
-				SpecifiedReduxComponent.magicBind.push(k)
+		if (not dontBindThese[k]) and (typeof SpecifiedReduxComponent.prototype[k] is 'function')
+			decorate(SpecifiedReduxComponent, { "#{k}": bind })
 
 	# 0.4.0: ES classes: move static properties onto the constructor
 	if newSpec.verbs
