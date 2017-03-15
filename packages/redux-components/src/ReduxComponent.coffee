@@ -9,56 +9,19 @@ slice = [].slice
 indirectReducer = (state, action) ->
 	@__internalReducer.call(@, state, action)
 
-# Bind an action to automatically dispatch to the right store.
-dispatchAction = (actionCreator, self) -> ->
-	action = actionCreator.apply(self, arguments)
-	if action? then self.store.dispatch(action)
-
-# Scope a selector to a component.
-scopeSelector = (sel, self) -> ->
-	fwdArgs = slice.call(arguments)
-	fwdArgs[0] = self.state
-	sel.apply(self, fwdArgs)
-
-performMagicBinding = (proto) ->
-	constructor = proto.constructor
-	if not constructor then return
-
-	if constructor.magicBind
-		for key in constructor.magicBind
-			func = @[key]
-			if typeof func is 'function' then @[key] = func.bind(@)
-
-	if constructor.actionCreators
-		for key in constructor.actionCreators
-			func = @[key]
-			if func then @[key] = func.bind(@)
-
-	if constructor.actionDispatchers
-		for key in constructor.actionDispatchers
-			func = @[key]
-			if func then @[key] = dispatchAction(func, @)
-
-	if constructor.selectors
-		for key in constructor.selectors
-			func = @[key]
-			scoped = scopeSelector(func, @)
-			@[key] = makeSelectorObservable(@, scoped)
-
-	return
-
 export default class ReduxComponent
 	constructor: ->
 		@__internalReducer = identityReducer
 		@reducer = indirectReducer.bind(@)
-		iteratePrototypeChain(@, performMagicBinding.bind(@))
+		for key in @__getMagicallyBoundKeys('magicBind')
+			@[key] = @[key].bind(@)
 
 	updateReducer: ->
 		# XXX: should we invariant() that the reducer is an actual reducer?
 		if process.env.NODE_ENV isnt 'production'
 			invariant(typeof @getReducer is 'function', "redux-component of type #{@displayName} (mounted at location #{@path}) is updating its reducer, but does not have a getReducer() method.")
 		@__internalReducer = @getReducer(@state)
-		undefined
+		return
 
 	isMounted: -> !!(@__mounted)
 
@@ -66,13 +29,13 @@ export default class ReduxComponent
 		invariant(not @__mounted, "redux-component of type #{@displayName} was multiply initialized. This can indicate a cycle in your component graph, which is illegal. Make sure each instance is only used once in your tree. If you wish to use a component in multiple places, construct additional instances.")
 
 		# Scope verbs
-		if (verbs = @constructor.verbs)
+		if (verbs = @__getMagicallyBoundKeys('verbs'))
 			stringPath = @path.join('.')
 			(@[verb] = "#{stringPath}:#{verb}") for verb in verbs
 
 		@componentWillMount?()
 		@updateReducer()
-		undefined
+		return
 
 	__didMount: ->
 		@__mounted = true
@@ -81,7 +44,7 @@ export default class ReduxComponent
 			@[key]?.mount?()
 		# Execute handlers
 		@componentDidMount?()
-		undefined
+		return
 
 	__willUnmount: ->
 		invariant(@__mounted, "redux-component of type #{@displayName} was unmounted when not mounted. This can indicate an issue in a dynamic reducer component such as redux-components-map.")
@@ -91,6 +54,7 @@ export default class ReduxComponent
 			@[key]?.unmount?()
 		@__internalReducer = identityReducer
 		delete @__mounted
+		return
 
 	__getMagicallyBoundKeys: (type) ->
 		result = []

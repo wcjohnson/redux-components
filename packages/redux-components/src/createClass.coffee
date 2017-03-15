@@ -1,5 +1,10 @@
 import applyMixin from './applyMixin'
 import ReduxComponent from './ReduxComponent'
+import define from './define'
+import action from './decorators/action'
+import selector from './decorators/selector'
+
+import { inspect } from 'util'
 
 dontBindThese = {
 	state: true
@@ -51,16 +56,22 @@ export default createClass = (spec) ->
 	# 0.4.0: ES classes: move static properties onto the constructor
 	if newSpec.verbs
 		SpecifiedReduxComponent.verbs = newSpec.verbs
-	for meldKey in ['actionCreators', 'actionDispatchers', 'selectors']
-		SpecifiedReduxComponent[meldKey] = []
-		if newSpec[meldKey]
-			for k,v of newSpec[meldKey]
-				SpecifiedReduxComponent.prototype[k] = v
-				SpecifiedReduxComponent[meldKey].push(k)
+	for k,v of newSpec.actionCreators or {}
+		SpecifiedReduxComponent.prototype[k] = v
+		define(SpecifiedReduxComponent, { "#{k}": action() } )
+	for k,v of newSpec.actionDispatchers or {}
+		SpecifiedReduxComponent.prototype[k] = v
+		define(SpecifiedReduxComponent, { "#{k}": action({isDispatcher: true}) } )
+	for k,v of newSpec.selectors or {}
+		SpecifiedReduxComponent.prototype[k] = v
+		define(SpecifiedReduxComponent, { "#{k}": selector() } )
+
 	SpecifiedReduxComponent.magicBind = []
 	for k of SpecifiedReduxComponent.prototype
 		if not dontBindThese[k]
 			if typeof(SpecifiedReduxComponent.prototype[k]) is 'function'
 				SpecifiedReduxComponent.magicBind.push(k)
+
+	console.log "afterSpec", inspect(SpecifiedReduxComponent)
 
 	SpecifiedReduxComponent

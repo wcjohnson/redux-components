@@ -2,8 +2,7 @@
   "name": "redux-components-monorepo",
   "version": "0.0.1",
   "description": "Lerna mono-repo for redux-components and related packages",
-  "scripts": {
-  },
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "https://github.com/wcjohnson/redux-components.git"
@@ -15,8 +14,9 @@
   },
   "homepage": "https://github.com/wcjohnson/redux-components",
   "devDependencies": {
+    "babel-eslint": "^7.1.1",
+    "eslint": "^3.17.1",
     "lerna": "2.0.0-beta.38"
   },
-  "dependencies": {
-  }
+  "dependencies": {}
 }

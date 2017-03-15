@@ -1,19 +1,14 @@
 {
+  "parser": "babel-eslint",
 	"rules": {
-    "no-undef": 0,
 		"linebreak-style": [
 			2,
 			"unix"
 		],
-		"semi": [
-			2,
-			"always"
-		],
     "no-console": 0
 	},
-	"env": {
-		"es6": true,
-		"node": true
+  "parserOptions": {
+		"sourceType": "module"
 	},
 	"extends": "eslint:recommended"
 }
