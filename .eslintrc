@@ -10,5 +10,8 @@
   "parserOptions": {
 		"sourceType": "module"
 	},
+  "env": {
+    "mocha": true
+  },
 	"extends": "eslint:recommended"
 }

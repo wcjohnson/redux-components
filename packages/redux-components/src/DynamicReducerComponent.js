@@ -8,9 +8,14 @@ export default class DynamicReducerComponent extends ReduxComponent {
 		this.__internalReducer = identityReducer
 	}
 
+	getInitialState() {
+		return {}
+	}
+
 	// Introduce a level of reducer indirection, so this component can modify
 	// its own reducer.
 	reducer(state, action) {
+		if(state === undefined) state = this.getInitialState()
 		return this.__internalReducer(state, action)
 	}
 
@@ -18,9 +23,9 @@ export default class DynamicReducerComponent extends ReduxComponent {
 	replaceReducer(nextReducer) {
 		/* eslint-disable no-undef */
 		if (process.env.NODE_ENV !== 'production') {
+			/* eslint-enable no-undef */
 			invariant(typeof nextReducer === 'function', `DynamicReducerComponent of type ${this.displayName} (mounted at location ${this.path}) is replacing its reducer with a non-function.`)
 		}
-		/* eslint-enable no-undef */
 
 		this.__internalReducer = nextReducer
 

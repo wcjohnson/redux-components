@@ -23,7 +23,7 @@ export default class ReduxComponent
 
 	isMounted: -> !!(@__mounted)
 
-	__willMount: (@store, @path = [], @parentComponent = null) ->
+	__willMount: (@store, path = [], @parentComponent = null) ->
 		invariant(
 			@store?.getState and
 			@store?.dispatch and
@@ -31,20 +31,24 @@ export default class ReduxComponent
 			@store?.replaceReducer,
 			"redux-component of type #{@displayName} was mounted without a proper Store object. Redux components may only be mounted to valid redux stores."
 		)
-		invariant(not @__mounted, "redux-component of type #{@displayName} was multiply mounted. This can indicate a cycle in your component graph, which is illegal. Make sure each instance is only used once in your tree. If you wish to use a component in multiple places, construct additional instances.")
+		invariant(not @__mounted, "redux-component of type #{@displayName} was multiply mounted. This can indicate a cycle in your component graph, which is illegal. Make sure each instance is only used once in your tree. If you wish to use a component in multiple places, construct additional instances. This mounting was at [#{path}]. The previous mounting was at [#{@path}].")
+
+		@path = path
 
 		# Scope verbs
 		if (verbs = @__getMagicallyBoundKeys('verbs'))
 			stringPath = @path.join('.')
 			(@[verb] = "#{stringPath}:#{verb}") for verb in verbs
 
+		# Connect internal subject to store. Selectors should be able to get their initial
+		# values at this point.
+		@_subject.subscription = getObservableFrom(@store).subscribe(@_subject)
+
 		@componentWillMount?()
 		return
 
 	__didMount: ->
 		@__mounted = true
-		# Connect internal subject to store.
-		@_subject.subscription = getObservableFrom(@store).subscribe(@_subject)
 		# Execute handlers
 		@componentDidMount?()
 		return
