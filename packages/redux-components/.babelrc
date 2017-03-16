@@ -8,6 +8,7 @@
         ["transform-es2015-parameters"],
         ["transform-class-properties"],
         ["transform-decorators-legacy"],
+        ["transform-es2015-object-super"],
         ["transform-es2015-classes"]
       ]
     },
@@ -21,6 +22,7 @@
         ["transform-es2015-parameters"],
         ["transform-class-properties"],
         ["transform-decorators-legacy"],
+        ["transform-es2015-object-super"],
         ["transform-es2015-classes"],
         ["istanbul"]
       ]

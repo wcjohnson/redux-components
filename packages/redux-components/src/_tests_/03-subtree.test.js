@@ -12,9 +12,9 @@ describe('subtree', () => {
 		reducer(state = {}, action) {
 			switch(action.type) {
 				case this.SET:
-				return action.payload || {}
+					return action.payload || {}
 				default:
-				return state
+					return state
 			}
 		}
 
@@ -84,7 +84,20 @@ describe('subtree', () => {
 			}) )
 			class extends ReduxComponent {
 				reducer(state = {}, action) {
-					return Object.assign({}, state, {iSaw: action})
+					if (action.type === 'DIDMOUNT') {
+						return Object.assign({}, state, {didMount: true})
+					} else {
+						return Object.assign({}, state, {iSaw: action})
+					}
+				}
+
+				// Test to make sure the superclass is being delegated to
+				componentWillMount() {
+					this.willMountRan = true
+				}
+
+				componentDidMount() {
+					this.store.dispatch({type: 'DIDMOUNT'})
 				}
 			}
 		})
@@ -94,7 +107,9 @@ describe('subtree', () => {
 			treeRoot = new DecoratedComponent
 			expect(treeRoot.isMounted()).to.not.be.ok
 			mountRootComponent(store, treeRoot)
+			expect(treeRoot.willMountRan).to.be.ok
 			expect(treeRoot.isMounted()).to.be.ok
+			expect(treeRoot.state.didMount).to.be.ok
 			expect(treeRoot.store).to.equal(store)
 			expect(treeRoot.path).to.deep.equal([])
 		})
@@ -108,6 +123,8 @@ describe('subtree', () => {
 
 		it('should do all the things', () => {
 			treeRoot.a.set(42)
+			// Make sure local state is retained after subreducer
+			expect(treeRoot.state.didMount).to.be.ok
 			expect(treeRoot.a.get()).to.equal(42)
 			expect(treeRoot.state.iSaw).to.deep.equal({type: 'a:SET', payload: 42})
 			expect(treeRoot.b.d.state.action).to.deep.equal({type: 'a:SET', payload: 42})
