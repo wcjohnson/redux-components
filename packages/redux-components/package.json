@@ -12,17 +12,17 @@
     "build:coffee": "coffee --compile --output build/intermediate/ src/",
     "build:babel:commonjs": "mkdirp lib && cross-env BABEL_ENV=commonjs babel build/intermediate --out-dir lib",
     "build": "npm run build:setup && npm run build:coffee && npm run build:babel:commonjs",
-    "test": "npm run build && npm run test:mocha",
+    "test": "npm run test:mocha",
     "test:debug": "npm run build && npm run test:mocha:debug",
-    "test:mocha": "mocha --recursive lib/_tests_/*.test.js",
-    "test:mocha:debug": "node --inspect --debug-brk node_modules/.bin/_mocha --recursive lib/_tests_/*.test.js",
-
-    "build:babel:es": "cross-env BABEL_ENV=es babel build --out-dir es",
-    "build:babel:istanbul": "mkdir -p coverage/build && cross-env BABEL_ENV=istanbul babel build --out-dir coverage/build",
+    "test:mocha": "mocha --recursive lib/_tests_/*.js",
+    "test:mocha:debug": "node --inspect --debug-brk node_modules/.bin/_mocha --recursive lib/_tests_/*.js",
+    "build:babel:istanbul": "mkdirp build/coverage && cross-env BABEL_ENV=istanbul babel build/intermediate --out-dir build/coverage",
     "coverage:build": "npm run build:babel:istanbul",
-    "coverage:test": "node_modules/.bin/_mocha --recursive -- coverage/build/test/*.test.js",
+    "coverage:test": "node_modules/.bin/_mocha --recursive -- build/coverage/_tests_/*.test.js",
     "coverage:report": "nyc --reporter=lcov npm run coverage:test",
-    "coverage": "npm run build:coffee && npm run coverage:build && npm run coverage:report"
+    "coverage": "npm run build:coffee && npm run coverage:build && npm run coverage:report",
+
+    "build:babel:es": "cross-env BABEL_ENV=es babel build --out-dir es"
   },
   "keywords": [
     "redux",
@@ -45,9 +45,13 @@
     "babel-plugin-transform-es2015-modules-commonjs": "^6.23.0",
     "babel-plugin-transform-es2015-classes": "^6.23.0",
     "babel-plugin-transform-es2015-parameters": "^6.23.0",
+    "babel-plugin-transform-es2015-spread": "^6.22.0",
+    "babel-plugin-transform-es2015-template-literals": "^6.22.0",
     "babel-plugin-transform-es2015-object-super": "^6.22.0",
     "babel-plugin-transform-class-properties": "^6.23.0",
     "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-plugin-lightscript": "^0.2.0",
     "chai": "^3.5.0",
     "coffeescript": "2.0.0-alpha1",
     "cross-env": "^3.1.3",
@@ -60,6 +64,7 @@
   },
   "dependencies": {
     "nanotools": "^0.1.1",
-    "observable-utils": "^0.1.1"
+    "observable-utils": "^0.1.1",
+    "babel-runtime": "^6.23.0"
   }
 }

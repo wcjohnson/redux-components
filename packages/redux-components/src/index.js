@@ -9,16 +9,16 @@ import createComponent from './createComponent'
 import DynamicReducerComponent from './DynamicReducerComponent'
 
 export {
-	mountRootComponent
-	willMountComponent
-	didMountComponent
-	willUnmountComponent
-	ReduxComponent
-	decorate
-	action
-	selector
-	bind
-	withSubtree
-	createComponent
+	mountRootComponent,
+	willMountComponent,
+	didMountComponent,
+	willUnmountComponent,
+	ReduxComponent,
+	decorate,
+	action,
+	selector,
+	bind,
+	withSubtree,
+	createComponent,
 	DynamicReducerComponent
 }

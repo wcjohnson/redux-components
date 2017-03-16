@@ -12,8 +12,8 @@
     "build:coffee": "coffee --compile --output build/intermediate/ src/",
     "build:babel:commonjs": "mkdirp lib && cross-env BABEL_ENV=commonjs babel build/intermediate --out-dir lib",
     "build": "npm run build:setup && npm run build:coffee && npm run build:babel:commonjs",
-    "test": "npm run build && npm run test:mocha",
-    "test:debug": "npm run build && npm run test:mocha:debug",
+    "test": "npm run test:mocha",
+    "test:debug": "npm run test:mocha:debug",
     "test:mocha": "mocha --recursive lib/_tests_/*.test.js",
     "test:mocha:debug": "node --inspect --debug-brk node_modules/.bin/_mocha --recursive lib/_tests_/*.test.js",
 

@@ -3,5 +3,6 @@
     "coverage/build/*.js"
   ],
   "sourceMap": false,
-  "instrument": false
+  "instrument": false,
+  "report-dir": "./build/coverage/report"
 }

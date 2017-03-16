@@ -2,7 +2,7 @@ import createMemoizingGetter from 'nanotools/lib/createMemoizingGetter'
 
 getActionDispatcherDescriptor = (proto, key, actionCreator) ->
 	actionDispatcher = (args...) ->
-		@store.dispatch(actionCreator.call(this, args...))
+		@store.dispatch(actionCreator.apply(this, args))
 
 	{
 		configurable: true

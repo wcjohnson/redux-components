@@ -1,29 +1,36 @@
 {
   "plugins": [
+    ["lightscript"],
+    ["transform-class-properties"],
+    ["transform-decorators-legacy"]
   ],
   "env": {
     "commonjs": {
       "plugins": [
         ["transform-es2015-modules-commonjs", { "loose": true }],
-        ["transform-es2015-parameters"],
         ["transform-class-properties"],
         ["transform-decorators-legacy"],
+        ["transform-es2015-parameters"],
         ["transform-es2015-object-super"],
-        ["transform-es2015-classes"]
+        ["transform-es2015-classes"],
+        ["transform-es2015-spread", { "loose": true }],
+        ["transform-es2015-template-literals"],
+        ["transform-runtime"]
       ]
     },
     "es": {
-      "plugins": [
-      ]
     },
     "istanbul": {
       "plugins": [
         ["transform-es2015-modules-commonjs", { "loose": true }],
-        ["transform-es2015-parameters"],
         ["transform-class-properties"],
         ["transform-decorators-legacy"],
+        ["transform-es2015-parameters"],
         ["transform-es2015-object-super"],
         ["transform-es2015-classes"],
+        ["transform-es2015-spread", { "loose": true }],
+        ["transform-es2015-template-literals"],
+        ["transform-runtime"],
         ["istanbul"]
       ]
     }

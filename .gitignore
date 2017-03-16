@@ -14,3 +14,4 @@ npm-debug.log
 .vagrant/
 *.sublime-workspace
 lerna-debug.log
+.nyc_output/

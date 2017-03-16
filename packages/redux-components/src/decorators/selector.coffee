@@ -5,7 +5,7 @@ augmentSelector = (selector, instance, makeScoped, makeObservable) ->
 	if makeScoped
 		boundSelector = (state, args...) -> selector.call(this, instance.state, args...)
 	else
-		boundSelector = (args...) -> selector.call(this, args...)
+		boundSelector = (args...) -> selector.apply(this, args)
 
 	if makeObservable then makeSelectorObservable(instance, boundSelector) else boundSelector
 
