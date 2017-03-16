@@ -1,6 +1,6 @@
 { expect } = require 'chai'
 
-{ createClass, mountRootComponent, createComponent } = require 'redux-components'
+{ createClass, mountRootComponent, createComponent } = require 'redux-components-legacy'
 { makeAStore, testComponentMixin } = require './helpers/store'
 { ComponentMap } = require '..'
 

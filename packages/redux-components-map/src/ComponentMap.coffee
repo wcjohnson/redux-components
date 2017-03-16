@@ -1,4 +1,4 @@
-import { createClass, createComponent, ObservableSelectorMixin } from 'redux-components'
+import { createClass, createComponent } from 'redux-components-legacy'
 import combineReducers from './combineReducers'
 
 metadataSymbol = '@@metadata'
@@ -13,7 +13,6 @@ export default ComponentMap = (typeMap) ->
 
 	createClass {
 		displayName: 'ComponentMap'
-		mixins: [ ObservableSelectorMixin ]
 		verbs: [ 'COMPONENT_MAP_ADD', 'COMPONENT_MAP_REMOVE', 'COMPONENT_MAP_BULK' ]
 
 		selectors: {

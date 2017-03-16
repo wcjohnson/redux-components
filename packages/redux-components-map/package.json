@@ -50,6 +50,6 @@
   },
   "dependencies": {
     "redux": "^3.6.0",
-    "redux-components": "^0.4.0"
+    "redux-components-legacy": "^0.4.0"
   }
 }
