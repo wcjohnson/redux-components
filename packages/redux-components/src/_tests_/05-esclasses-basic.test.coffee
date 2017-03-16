@@ -14,7 +14,7 @@ describe 'ES classes: ', ->
 	describe 'trivial component: ', ->
 		it 'should create class', ->
 			class Subcomponent extends ReduxComponent
-				getReducer: -> (state = {}, action) ->
+				reducer: (state = {}, action) ->
 					switch action.type
 						when 'SET' then action.payload or {}
 						else state
@@ -41,7 +41,7 @@ describe 'ES classes: ', ->
 	describe 'component with magic binding: ', ->
 		it 'should create class', ->
 			class Subcomponent extends ReduxComponent
-				getReducer: -> (state = {}, action) ->
+				reducer: (state = {}, action) ->
 					switch action.type
 						when @SET then action.payload or {}
 						else state
@@ -98,7 +98,7 @@ describe 'ES classes: ', ->
 			})
 
 			class Subcomponent extends RootComponent
-				getReducer: -> (state = {}, action) ->
+				reducer: (state = {}, action) ->
 					switch action.type
 						when @SET then action.payload or {}
 						when @MYSET then 42

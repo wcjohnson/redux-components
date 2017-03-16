@@ -8,14 +8,12 @@ describe('ES classes from JS:', function() {
 
 	it('should create class', function() {
 		class IntSubcomponent extends ReduxComponent {
-			getReducer() {
-				return function(state = {}, action) {
-					switch(action.type) {
-						case this.SET:
-						return action.payload || {}
-						default:
-						return state
-					}
+			reducer(state = {}, action) {
+				switch(action.type) {
+					case this.SET:
+					return action.payload || {}
+					default:
+					return state
 				}
 			}
 

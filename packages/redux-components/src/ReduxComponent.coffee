@@ -1,39 +1,37 @@
 import invariant from 'nanotools/lib/invariant'
 import get from 'nanotools/lib/get'
-import identityReducer from 'nanotools/lib/identityReducer'
 import iteratePrototypeChain from 'nanotools/lib/iteratePrototypeChain'
 import createSubject from 'observable-utils/lib/createSubject'
 import getObservableFrom from 'observable-utils/lib/getObservableFrom'
-import makeSelectorObservable from './makeSelectorObservable'
 slice = [].slice
-
-# Indirect reducer to allow components to dynamically update reducers.
-indirectReducer = (state, action) ->
-	@__internalReducer.call(@, state, action)
 
 export default class ReduxComponent
 	constructor: ->
-		@__internalReducer = identityReducer
-		@reducer = indirectReducer.bind(@)
+		if process.env.NODE_ENV isnt 'production'
+			invariant(typeof @reducer is 'function', "redux-component of type #{@displayName} has no reducer.")
+		@reducer = @reducer.bind(@)
 		@_subject = createSubject()
+
+	# Default reducer for a ReduxComponent is the identity reducer.
+	reducer: (state, action) ->
+		if state is undefined then null else state
 
 	# Internal function which will return a proxy subject between us and the underlying
 	# store.
 	__getSubject: ->
 		@_subject
 
-	updateReducer: ->
-		# XXX: should we invariant() that the reducer is an actual reducer?
-		if process.env.NODE_ENV isnt 'production'
-			invariant(typeof @getReducer is 'function', "redux-component of type #{@displayName} (mounted at location #{@path}) is updating its reducer, but does not have a getReducer() method.")
-		@__internalReducer = @getReducer(@state)
-		return
-
 	isMounted: -> !!(@__mounted)
 
 	__willMount: (@store, @path = [], @parentComponent = null) ->
-		invariant(@store, "redux-component of type #{@displayName} was mounted without a proper Store object. Redux components may only be mounted to valid redux stores.")
-		invariant(not @__mounted, "redux-component of type #{@displayName} was multiply initialized. This can indicate a cycle in your component graph, which is illegal. Make sure each instance is only used once in your tree. If you wish to use a component in multiple places, construct additional instances.")
+		invariant(
+			@store?.getState and
+			@store?.dispatch and
+			@store?.subscribe and
+			@store?.replaceReducer,
+			"redux-component of type #{@displayName} was mounted without a proper Store object. Redux components may only be mounted to valid redux stores."
+		)
+		invariant(not @__mounted, "redux-component of type #{@displayName} was multiply mounted. This can indicate a cycle in your component graph, which is illegal. Make sure each instance is only used once in your tree. If you wish to use a component in multiple places, construct additional instances.")
 
 		# Scope verbs
 		if (verbs = @__getMagicallyBoundKeys('verbs'))
@@ -41,7 +39,6 @@ export default class ReduxComponent
 			(@[verb] = "#{stringPath}:#{verb}") for verb in verbs
 
 		@componentWillMount?()
-		@updateReducer()
 		return
 
 	__didMount: ->
@@ -58,8 +55,9 @@ export default class ReduxComponent
 		# Disconnect selectors from store
 		@_subject.subscription?.unsubscribe()
 		delete @_subject.subscription
-		@__internalReducer = identityReducer
 		delete @store
+		delete @path
+		delete @parentComponent
 		delete @__mounted
 		return
 
@@ -75,4 +73,11 @@ export default class ReduxComponent
 		enumerable: true
 		get: ->
 			if @store? then get(@store.getState(), @path) else undefined
+	})
+
+	Object.defineProperty(@prototype, 'displayName', {
+		configurable: false
+		enumerable: true
+		get: ->
+			(Object.getPrototypeOf(this))?.constructor?.name or '(unknown)'
 	})
