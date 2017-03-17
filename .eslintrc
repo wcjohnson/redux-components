@@ -1,11 +1,12 @@
 {
-  "parser": "babel-eslint",
+  "parser": "wcjohnson-babel-eslint",
 	"rules": {
 		"linebreak-style": [
 			2,
 			"unix"
 		],
-    "no-console": 0
+    "no-console": 0,
+    "no-unexpected-multiline": 0
 	},
   "parserOptions": {
 		"sourceType": "module"

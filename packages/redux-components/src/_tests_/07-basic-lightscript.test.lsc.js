@@ -3,21 +3,19 @@ import { inspect } from 'util'
 import { mountRootComponent, ReduxComponent, action, selector } from '..'
 import { makeAStore } from './helpers/store'
 
+describe('basic tests', ->
+  var BaseComponent, Subcomponent, treeRoot, store
 
-describe('basic tests', () ->
-  var BaseComponent, Subcomponent, treeRoot, store;
-
-  describe('basic component', () => {
-    it('should create class and mount', () => {
+  describe('basic component', ->
+    it('should create class and mount', ->
       now BaseComponent = class extends ReduxComponent {
-        constructor() {
+        constructor() ->
           super()
           this.someInternalState = 31337
-        }
 
         static verbs = ['SCOPED_SET']
 
-        reducer(state = {}, action) {
+        reducer(state = {}, action) ->
           switch(action.type) {
             case 'SET':
               return action.payload || {}
@@ -26,32 +24,21 @@ describe('basic tests', () ->
             default:
               return state
           }
-        }
 
         @action()
-        plainSet(value) {
-          return { type: 'SET', payload: value }
-        }
+        plainSet(value) -> ({ type: 'SET', payload: value })
 
         @action({ withDispatcher: 'doSetWithDispatcher' })
-        setWithDispatcher(value) {
-          return { type: 'SET', payload: value }
-        }
+        setWithDispatcher(value) -> ({ type: 'SET', payload: value })
 
         @action({ isDispatcher: true })
-        iAmADispatcher() {
-          return { type: this.SCOPED_SET, payload: this.someInternalState }
-        }
+        iAmADispatcher() -> ({ type: this.SCOPED_SET, payload: this.someInternalState })
 
         @selector()
-        getValue(state) {
-          return state
-        }
+        getValue(state) -> state
 
         @selector()
-        getInternalValue() {
-          return this.someInternalState
-        }
+        getInternalValue() -> this.someInternalState
       }
 
       now store = makeAStore()
@@ -59,20 +46,18 @@ describe('basic tests', () ->
       expect(treeRoot.isMounted()).to.not.be.ok
       mountRootComponent(store, treeRoot)
       expect(treeRoot.isMounted()).to.be.ok
-    })
+    )
 
-    it('should log the component to the console', () => {
-      console.log(inspect(treeRoot))
-    })
+    it('should log the component to the console', => console.log(inspect(treeRoot)) )
 
-    it('should know about stores and states', () => {
+    it('should know about stores and states', => {
       expect(treeRoot.store).to.equal(store)
       expect(treeRoot.path).to.deep.equal([])
       expect(store.getState()).to.deep.equal({})
       expect(treeRoot.state).to.deep.equal({})
     })
 
-    it('should respond to various actions', () => {
+    it('should respond to various actions', => {
       store.dispatch({type: 'SET', payload: 42})
       expect(treeRoot.state).to.equal(42)
       store.dispatch(treeRoot.plainSet(43))
@@ -85,12 +70,12 @@ describe('basic tests', () ->
       expect(treeRoot.state).to.equal(31337)
     })
 
-    it('should work with selectors', () => {
+    it('should work with selectors', => {
       treeRoot.doSetWithDispatcher(42)
       expect(treeRoot.getValue()).to.equal(42)
       expect(treeRoot.getInternalValue()).to.equal(31337)
     })
-  })
+  )
 
   describe('extends', () => {
     it('should create subclass and mount', () => {
