@@ -1,0 +1,10 @@
+import { createStore, applyMiddleware } from 'redux'
+import ReduxDebug from 'redux-debug'
+import ReduxFreeze from 'redux-freeze'
+
+export makeAStore(initialState) ->
+  createStore(
+    (x) -> x
+    initialState
+    applyMiddleware(ReduxDebug(console.log), ReduxFreeze)
+  )

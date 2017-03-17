@@ -8,10 +8,8 @@
   "scripts": {
     "prepublish": "npm run clean && npm run build",
     "clean": "rimraf lib build es",
-    "build:setup": "mkdirp build/intermediate && cp -R src/* build/intermediate",
-    "build:coffee": "coffee --compile --output build/intermediate/ src/",
-    "build:babel:commonjs": "mkdirp lib && cross-env BABEL_ENV=commonjs babel build/intermediate --out-dir lib --extensions \".js\",\".lsc\"",
-    "build": "npm run build:setup && npm run build:coffee && npm run build:babel:commonjs",
+    "build:babel:commonjs": "mkdirp lib && cross-env BABEL_ENV=commonjs babel src --out-dir lib --extensions \".js\",\".lsc\"",
+    "build": "npm run build:babel:commonjs",
     "test": "npm run test:mocha",
     "test:debug": "npm run build && npm run test:mocha:debug",
     "test:mocha": "mocha --recursive lib/_tests_/*.js",
