@@ -21,7 +21,7 @@ export default action(opts) ->
     originalActionCreator = descriptor.value
 
     if typeof originalActionCreator !== 'function':
-      throw new Error("redux-components: @action decorator (applied to #{proto.constructor?.name}.#{key}) can only be applied to action creators.")
+      throw new Error(`redux-components: @action decorator (applied to ${proto.constructor?.name}.${key}) can only be applied to action creators.`)
 
     if isDispatcher:
       // Only create a dispatcher.

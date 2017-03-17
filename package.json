@@ -14,9 +14,9 @@
   },
   "homepage": "https://github.com/wcjohnson/redux-components",
   "devDependencies": {
-    "babel-eslint": "^7.1.1",
     "eslint": "^3.17.1",
-    "lerna": "2.0.0-beta.38"
+    "lerna": "2.0.0-beta.38",
+    "lightscript-eslint": "^0.2.1"
   },
   "dependencies": {}
 }

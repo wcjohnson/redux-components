@@ -1,5 +1,5 @@
 {
-  "parser": "wcjohnson-babel-eslint",
+  "parser": "lightscript-eslint",
 	"rules": {
 		"linebreak-style": [
 			2,
