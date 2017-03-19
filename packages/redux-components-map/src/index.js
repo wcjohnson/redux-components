@@ -1,5 +1,3 @@
 import ComponentMap from './ComponentMap'
 
-export {
-	ComponentMap
-}
+export default ComponentMap
