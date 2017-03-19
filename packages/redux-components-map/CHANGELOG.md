@@ -1,3 +1,14 @@
+# 0.4
+
+### Port to `redux-components` 0.4
+
+We now use the ES2015 class-based API introduced in `redux-components` 0.4.
+
+### API additions
+
+- `.has(key)`: returns true if a key is in the map.
+- `.forEach(func, thisArg)`: Iterates the map, calling `func(value, key, map)` for each component in the map.
+
 # 0.1
 
 ### Preloading

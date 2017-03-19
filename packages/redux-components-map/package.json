@@ -10,14 +10,14 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/wcjohnson/redux-components-map.git"
+    "url": "https://github.com/wcjohnson/redux-components.git"
   },
   "author": "William C. Johnson <wcjohnson@oigroup.net> (https://github.com/wcjohnson)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/wcjohnson/redux-components-map/issues"
+    "url": "https://github.com/wcjohnson/redux-components/issues"
   },
-  "homepage": "https://github.com/wcjohnson/redux-components-map",
+  "homepage": "https://github.com/wcjohnson/redux-components",
   "main": "lib/index.js",
   "jsnext:main": "es/index.js",
   "module": "es/index.js",
