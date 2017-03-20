@@ -1,6 +1,11 @@
 import ReduxComponent from './ReduxComponent'
 import withSubtree from './decorators/withSubtree'
 
+function createTreeComponent(shape) {
+	var clazz = withSubtree(() => shape)(ReduxComponent)
+	return new clazz()
+}
+
 export default function createComponent(descriptor) {
 	if (descriptor instanceof ReduxComponent) {
 		// Just a component
@@ -11,12 +16,11 @@ export default function createComponent(descriptor) {
 	} else if ( typeof descriptor === 'function' ) {
 		// Pure reducer function -- wrap
 		var result = new ReduxComponent()
-		result.reducer = descriptor
+		result.reducer = descriptor.bind(result)
 		return result
 	} else if ( (typeof descriptor === 'object') && (!!descriptor) && (!Array.isArray(descriptor)) ) {
-		// Subtree description -- wrap in subtree
-		var clazz = withSubtree(() => descriptor)(ReduxComponent)
-		return new clazz()
+		// Subtree descriptor -- wrap in subtree
+		return createTreeComponent(descriptor)
 	} else {
 		throw new Error('invalid component descriptor')
 	}
