@@ -1,5 +1,8 @@
 # redux-components
 
+[![NPM](https://nodei.co/npm/redux-components.png)](https://npmjs.org/package/redux-components)
+[![Join the chat at https://gitter.im/redux-components/Lobby](https://badges.gitter.im/redux-components/Lobby.svg)](https://gitter.im/redux-components/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 > Are you looking for the redux-components website? It's here: [https://wcjohnson.github.io/redux-components](https://wcjohnson.github.io/redux-components)
 
 A component model for Redux state trees based on the React.js component model and other familiar design patterns from the React ecosystem.
