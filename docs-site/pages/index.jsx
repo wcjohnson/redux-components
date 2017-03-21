@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router'
 
 import { Container, Grid, Span } from 'react-responsive-grid'
 
@@ -15,8 +16,8 @@ export default class FrontPage extends React.Component {
           </Span>
           <Span columns={6} last className="text-center">
             <h2>Learn</h2>
-            <div>Docs</div>
-            <div>Gitter</div>
+            <div><Link to="docs/">Docs</Link></div>
+            <div><a target="_blank" href="https://gitter.im/redux-components/Lobby">Gitter</a></div>
           </Span>
           <Span columns={12} last>
             <hr />

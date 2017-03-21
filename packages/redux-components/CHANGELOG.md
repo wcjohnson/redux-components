@@ -2,27 +2,21 @@
 
 ## 0.4.0
 
-### Observable selectors
+### **MAJOR BREAKING CHANGE** ES2015+ API
 
-- **BREAKING:** Observable selectors are now what RxJS refers to as `BehaviorSubject`s. They cache their current value and new subscribers will immediately receive the latest value. (In previous versions they were ordinary `Subject`s and would not emit until the store changed.)
+- We've dropped our legacy CoffeeScript toolchain and moved to an ES2015 class-based API. This represents a totally breaking change to the redux-components API which is not backwards compatible.
 
-- **BREAKING:** `makeSelectorsObservable` has been removed. The default behavior is to make all selectors observable.
+- With the release of this new API, we consider ourselves to be on the 1.0 track. The general shape of the API is now frozen except for bugfixes. The next major release will be 1.0.0.
 
-- Internal implementation is now handled by the `observable-utils` library. This is a minimalistic library that transforms observables based on the TC39 observables spec.
+- In order to ease migration, we've developed [redux-components-legacy](https://github.com/wcjohnson/redux-components/packages/redux-components-legacy), a compatibility shim that implements the 0.3.x API on top of the new 0.4 internals. `redux-components-legacy` passes all of the 0.3.x unit tests, and is the recommended migration path forward for any apps on the 0.3 branch.
+
+- You can also keep using the 0.3.x series, which will continue to receive bug fixes.
 
 ### Git mono-repo and Lerna build chain
 
-The `redux-components` modules have been moved into a mono-repo managed by Lerna.
-
-Regular users consuming the package via NPM are not impacted by this change.
-
-Those consuming the package as a Git submodule (including many internal projects) will unfortunately suffer breakages. These projects should stay on the `0.3` branch until they can be refactored. The `0.4` branch is particularly well suited for importation into upstream projects using Lerna.
+The `redux-components` modules have been moved into a mono-repo managed by Lerna. Those embedding as a Git submodule should update accordingly (or stay on the 0.3 branch.)
 
 - *POTENTIALLY BREAKING:* A number of utility functions (including most of the Observable implementation) have been factored out to other libraries as part of this change. These were not public API.
-
-### Miscellaneous
-
-- Because of the switchover to ES classes, the `DefaultMixin` is no longer necessary. It is still exported as an empty object for compatibility purposes.
 
 # 0.3
 
