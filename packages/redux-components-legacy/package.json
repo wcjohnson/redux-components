@@ -1,6 +1,6 @@
 {
   "name": "redux-components-legacy",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Backwards-compatible implementation of the redux-components 0.3.x API on top of the 1.0 library.",
   "main": "lib/index.js",
   "jsnext:main": "es/index.js",
@@ -16,7 +16,6 @@
     "test:debug": "npm run test:mocha:debug",
     "test:mocha": "mocha --recursive lib/_tests_/*.test.js",
     "test:mocha:debug": "node --inspect --debug-brk node_modules/.bin/_mocha --recursive lib/_tests_/*.test.js",
-
     "build:babel:es": "cross-env BABEL_ENV=es babel build --out-dir es",
     "build:babel:istanbul": "mkdir -p coverage/build && cross-env BABEL_ENV=istanbul babel build --out-dir coverage/build",
     "coverage:build": "npm run build:babel:istanbul",
@@ -55,7 +54,7 @@
     "mkdirp": "^0.5.1"
   },
   "dependencies": {
-    "redux-components": "0.4.0",
+    "redux-components": "^0.4.1",
     "nanotools": "^0.1.1"
   }
 }

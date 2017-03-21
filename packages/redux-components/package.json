@@ -1,6 +1,6 @@
 {
   "name": "redux-components",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "A component model for Redux state trees based on the React.js component model.",
   "main": "lib/index.js",
   "jsnext:main": "es/index.js",
@@ -19,7 +19,6 @@
     "coverage:test": "node_modules/.bin/_mocha --recursive -- build/coverage/_tests_/*.test.js",
     "coverage:report": "nyc --reporter=lcov npm run coverage:test",
     "coverage": "npm run build:coffee && npm run coverage:build && npm run coverage:report",
-
     "build:babel:es": "cross-env BABEL_ENV=es babel build --out-dir es"
   },
   "keywords": [
