@@ -1,4 +1,6 @@
 # redux-components
+
+[![Join the chat at https://gitter.im/redux-components/Lobby](https://badges.gitter.im/redux-components/Lobby.svg)](https://gitter.im/redux-components/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 A component model for Redux state trees based on the React.js component model and other familiar design patterns from the React ecosystem.
 
 ## What's New
