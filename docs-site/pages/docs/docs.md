@@ -2,9 +2,15 @@
 
 ## Before We Begin
 
-> Example code in this document is written in ES2015+ syntax. In particular, you will need
-> `babel-plugin-transform-class-properties` and `babel-plugin-transform-decorators-legacy`
-> to compile the examples as written.
+### Redux
+
+redux-components is a library that aims to improve implementation, readability, and code reuse for state models based on [Redux](http://redux.js.org). We assume that if you're here, you're using Redux and are familiar with all the core concepts described in [its documentation](http://redux.js.org). If not, read that first.
+
+### A Note on Example Code
+
+Example code in this document is written in ES2015+ syntax. In particular, you will need `babel-plugin-transform-class-properties` and `babel-plugin-transform-decorators-legacy` to compile the examples as written.
+
+If you can't (or won't) use futuristic code transforms, check out the FAQ entry: [I Don't Have Decorators](#faq)
 
 ## Components
 
@@ -35,7 +41,7 @@ export class SimpleComponent extends ReduxComponent {
     return { type: this.SET, payload: value }
   }
 
-  @selector()
+  @selector({isObservable: true})
   get(state) {
     return state
   }
@@ -46,9 +52,9 @@ As you can see, our `SimpleComponent` consists of four fundamental parts: **verb
 
 #### Verbs
 
-You'll know from the Redux documentation that your application state is manipulated only by actions, and that every action has a `type`.
+You'll know from the Redux documentation that your application state is manipulated only by actions, and that every action is identified by a string `type`.
 
-Well, verbs are strings that serve as the `type`s of actions. Think of them as what the reducer looks at when it decides what to do. In baseline Redux, verbs are just plain strings -- but in redux-components they have some additional "magic" behavior designed to help you reuse components more easily, which we will explain later. For now, just think of them as names for the things you want your reducer to do.
+Well, verbs are the strings that serve as the `type`s of actions. Think of them as what the reducer looks at when it decides what to do. In baseline Redux, verbs are just plain strings -- but in redux-components they have some additional "magic" behavior designed to help you reuse components more easily, which we will explain later. For now, just think of them as names for the things you want your reducer to do.
 
 As you can see, our `SimpleComponent` does only one thing: `SET`.
 
@@ -85,6 +91,8 @@ A **selector**, described in the Redux docs under [Computing Derived Data](http:
 Selectors in redux-components are methods on component classes with the **`@selector` decorator** applied to them. Redux-components adds some magic to selectors to make them better. In particular, selectors in redux-components are **scoped** by default -- instead of receiving the state of the whole Redux store, they receive the state of the component instance they are attached to. This makes it easy to write components that don't depend on the state shape of the application they are used in. Selectors are also bound to the instance and so have access to all the instance's properties.
 
 Our `SimpleComponent` has a selector `component.get()`, which will simply return the state of the component, which is the last value set with `component.set(value)` or null.
+
+> You may have noticed the `{isObservable: true}` modifier attached to the selector. Don't worry, we'll explain what that does later, in [Observable Selectors].
 
 ### Connecting to a Store
 
@@ -221,12 +229,14 @@ redux-components ships with just one higher-order component, `withSubtree()`. (I
 Suppose you want to write a type of component that has some functionality of its own, but also has child components. That's where the **withSubtree** HOC comes in:
 
 ```javascript
-import { ReduxComponent, withSubtree, mountRootComponent } from 'redux-components'
+import {
+  ReduxComponent, withSubtree, mountRootComponent
+} from 'redux-components'
 import { SimpleComponent } from SimpleComponent
 import { createStore } from 'redux'
 
-// Create a parent SimpleComponent class that embeds a child SimpleComponent at
-// `this.child`.
+// Create a parent SimpleComponent class that embeds a child SimpleComponent
+// at `this.child`.
 const ParentComponent = withSubtree( () => {
   child: SimpleComponent
 })(SimpleComponent)
@@ -302,7 +312,7 @@ var currentState = Observable.from(simpleComponentInstance.get)
 // This will immediately print 'hello world', because new subscribers always
 // get called with the current value. (BehaviorSubject in rxjs terminology)
 var subscription = currentState.subscribe({
-  next: (nextState) -> console.log("I just saw a state change:", nextState)
+  next: (nextState) => console.log("I just saw a state change:", nextState)
 })
 
 // This will cause a state change, and your observer will then print
@@ -318,11 +328,15 @@ simpleComponentInstance.set('goodbye world')
 
 ## Patterns
 
+> This whole section is a WIP. Bear with us.
+
 ### Singleton Components
 
-Create component instances as singletons. Mount all your singletons with createComponent. Reference the singletons in your state code and then you can refactor your tree at will without breakage.
+Create component instances as singletons. Mount all your singletons to a root store with createComponent. Reference the singletons in your app code.
 
 ## Antipatterns
+
+> Coming soon.
 
 ## FAQ
 
@@ -363,6 +377,6 @@ SimpleComponent.verbs = ['SET']
 // decorator syntax and apply the decorators imperatively:
 decorate(SimpleComponent, {
   set: action({isDispatcher: true})
-  get: selector()
+  get: selector({isObservable: true})
 })
 ```

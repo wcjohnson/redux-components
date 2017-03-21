@@ -42,7 +42,8 @@ function transformMarkdown() {
       sanitize: { clobber: ["name"] },
       traverse: docTraverser,
       remarkReactComponents: {
-        CodeSection: CodeSection
+        CodeSection: CodeSection,
+        h2: Heading
       }
     })
     .process(docMD)
@@ -78,6 +79,13 @@ function CodeSection({code}) {
     <code dangerouslySetInnerHTML={{ __html: html }} />
   </pre>
 }
+
+function Heading({ children, id }) { return(
+  <div>
+    <h2 id={id}>{children}</h2>
+    <hr style={{position: 'relative', bottom: 15}}/>
+  </div>
+)}
 
 TocSection.contextTypes = {
   activeSections: React.PropTypes.object.isRequired
