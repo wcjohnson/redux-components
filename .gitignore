@@ -3,10 +3,6 @@
 /packages/*/build
 /packages/*/lib
 /packages/*/es
-/doc
-/logs
-/es
-/lib
 npm-debug.log
 
 .v8flags.*

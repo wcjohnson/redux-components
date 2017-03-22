@@ -11,7 +11,7 @@
     "build:babel:commonjs": "mkdirp lib && cross-env BABEL_ENV=commonjs babel src --out-dir lib",
     "build": "npm run build:babel:commonjs",
     "test": "npm run test:mocha",
-    "test:debug": "npm run build && npm run test:mocha:debug",
+    "test:debug": "npm run test:mocha:debug",
     "test:mocha": "mocha --recursive lib/_tests_/*.js",
     "test:mocha:debug": "node --inspect --debug-brk node_modules/.bin/_mocha --recursive lib/_tests_/*.js",
     "build:babel:istanbul": "mkdirp build/coverage && cross-env BABEL_ENV=istanbul babel src --out-dir build/coverage",
@@ -35,7 +35,7 @@
   "bugs": {
     "url": "https://github.com/wcjohnson/redux-components/issues"
   },
-  "homepage": "https://github.com/wcjohnson/redux-components",
+  "homepage": "https://wcjohnson.github.io/redux-components/",
   "devDependencies": {
     "babel-cli": "^6.23.0",
     "babel-plugin-istanbul": "^3.1.2",

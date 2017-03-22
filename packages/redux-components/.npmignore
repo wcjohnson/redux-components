@@ -8,7 +8,4 @@ doc/
 *.swp
 .DS_Store
 .editorconfig
-
-book.json
-coffeelint.json
 .eslintrc
