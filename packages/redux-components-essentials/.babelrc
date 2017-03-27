@@ -1,0 +1,26 @@
+{
+  "plugins": [
+    ["lightscript"],
+    ["transform-class-properties"],
+    ["transform-decorators-legacy"],
+    ["transform-runtime"]
+  ],
+  "presets": [
+    ["env", {
+      "targets": {
+        "ie": 10
+      }
+    }]
+  ],
+  "env": {
+    "commonjs": {
+    },
+    "es": {
+    },
+    "istanbul": {
+      "plugins": [
+        ["istanbul"]
+      ]
+    }
+  }
+}

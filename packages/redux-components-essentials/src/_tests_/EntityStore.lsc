@@ -1,0 +1,34 @@
+import { assert } from 'chai'
+import { mountRootComponent } from 'redux-components'
+import EntityStore from '../EntityStore'
+import makeStore from './helpers/makeStore'
+
+describe('entity store', ->
+  let es, store
+  it('should create', ->
+    now es = new (EntityStore( (x) -> x.id ))
+    now store = makeStore()
+    mountRootComponent(store, es)
+  )
+
+  it('should update', ->
+    es.update({id: 1, value: 'one'})
+  )
+
+  it('should return same state when there are no changes', ->
+    es.update({id: 1, value: 'two'})
+    state = es.state
+    es.update({id: 1, value: 'two'})
+    assert(es.state == state)
+  )
+
+  it('should delete', ->
+    es.update([{id: 2, value: 'three'}, {id: 3, value: 'four'}])
+    assert.deepEqual(es.getById(2), { id: 2, value: 'three'})
+    es.delete(2)
+    assert(!es.getById(2))
+    state = es.state
+    es.delete(2)
+    assert(es.state == state)
+  )
+)

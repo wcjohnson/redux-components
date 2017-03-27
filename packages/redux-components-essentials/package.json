@@ -1,0 +1,59 @@
+{
+  "name": "redux-components-essentials",
+  "version": "0.4.0",
+  "description": "A lightweight, cherry-pickable bundle of helpful redux-components.",
+  "main": "lib/index.js",
+  "scripts": {
+    "prepublish": "npm run clean && npm run build",
+    "clean": "rimraf lib build es",
+    "build:babel:commonjs": "mkdirp lib && cross-env BABEL_ENV=commonjs babel src --out-dir lib --extensions \".js\",\".lsc\"",
+    "build": "npm run build:babel:commonjs",
+    "test": "npm run test:mocha",
+    "test:debug": "npm run build && npm run test:mocha:debug",
+    "test:mocha": "mocha --recursive lib/_tests_/*.js",
+    "test:mocha:debug": "node --inspect --debug-brk node_modules/.bin/_mocha --recursive lib/_tests_/*.js",
+    "build:babel:istanbul": "mkdirp build/coverage && cross-env BABEL_ENV=istanbul babel build/intermediate --out-dir build/coverage",
+    "coverage:build": "npm run build:babel:istanbul",
+    "coverage:test": "node_modules/.bin/_mocha --recursive -- build/coverage/_tests_/*.test.js",
+    "coverage:report": "nyc --reporter=lcov npm run coverage:test",
+    "coverage": "npm run build:coffee && npm run coverage:build && npm run coverage:report",
+    "build:babel:es": "cross-env BABEL_ENV=es babel build --out-dir es"
+  },
+  "keywords": [
+    "redux",
+    "redux-components"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wcjohnson/redux-components.git"
+  },
+  "author": "William C. Johnson <wcjohnson@oigroup.net> (https://github.com/wcjohnson)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/wcjohnson/redux-components/issues"
+  },
+  "homepage": "https://github.com/wcjohnson/redux-components",
+  "devDependencies": {
+    "babel-cli": "^6.23.0",
+    "babel-preset-env": "^1.2.2",
+    "babel-plugin-istanbul": "^3.1.2",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-plugin-transform-class-properties": "^6.23.0",
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "chai": "^3.5.0",
+    "cross-env": "^3.1.3",
+    "mocha": "^2.4.5",
+    "redux": "^3.6.0",
+    "redux-debug": "^1.0.3",
+    "redux-freeze": "^0.1.5",
+    "rimraf": "^2.6.1",
+    "mkdirp": "^0.5.1"
+  },
+  "dependencies": {
+    "arrify": "^1.0.1",
+    "babel-runtime": "^6.23.0",
+    "nanotools": "^0.1.1",
+    "observable-utils": "^0.1.1",
+    "redux-components": "^0.4.0"
+  }
+}
