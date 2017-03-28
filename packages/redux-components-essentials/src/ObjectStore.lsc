@@ -1,0 +1,34 @@
+import ReduxComponent from 'redux-components/lib/ReduxComponent'
+import action from 'redux-components/lib/decorators/action'
+import selector from 'redux-components/lib/decorators/selector'
+
+// An ObjectStore is a state node that stores an object of which the reducer
+// is shallowly aware. State changes are checked for shallow equality and
+// keys can be merged.
+export default class ObjectStore extends ReduxComponent:
+  static verbs = ['SET', 'MERGE']
+
+  reducer(state = {}, action) ->
+    if action.type == this.SET:
+      if shallowEqual(state, action.payload):
+        state
+      else:
+        Object.assign({}, action.payload)
+
+    elif action.type == this.MERGE:
+      if shallowEqual(state, maybeNextState = Object.assign({}, state, action.payload)):
+        state
+      else:
+        maybeNextState
+
+    else:
+      state
+
+  @action({isDispatcher: true})
+  set(obj) -> ({ type: this.SET, payload: obj })
+
+  @action({isDispatcher: true})
+  merge(obj) -> ({ type: this.MERGE, payload: obj })
+
+  @selector({isObservable: true})
+  get(state) -> state
