@@ -1,10 +1,11 @@
 import ReduxComponent from 'redux-components/lib/ReduxComponent'
 import action from 'redux-components/lib/decorators/action'
 import selector from 'redux-components/lib/decorators/selector'
+import shallowEqual from 'nanotools/lib/shallowEqual'
 
 // An ObjectStore is a state node that stores an object of which the reducer
 // is shallowly aware. State changes are checked for shallow equality and
-// keys can be merged.
+// payloads can be shallow merged.
 export default class ObjectStore extends ReduxComponent:
   static verbs = ['SET', 'MERGE']
 
