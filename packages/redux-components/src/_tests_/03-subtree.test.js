@@ -1,4 +1,4 @@
-import { expect } from 'chai'
+import { expect, assert } from 'chai'
 import { mountRootComponent, ReduxComponent, action, selector, withSubtree, createComponent } from '..'
 import { makeAStore } from './helpers/store'
 
@@ -130,6 +130,37 @@ describe('subtree', () => {
 			expect(treeRoot.b.d.state.action).to.deep.equal({type: 'a:SET', payload: 42})
 			subBranch.set(90210)
 			expect(treeRoot.b.c.get()).to.equal(90210)
+		})
+	})
+
+	describe('redux reducer contract tests', () => {
+		it('should remake', () => {
+			DecoratedComponent = @withSubtree( () => ({
+				a: BaseComponent,
+			}) )
+			class extends ReduxComponent {
+				reducer(state = {}, action) {
+					if (action.type === 'DIDMOUNT') {
+						return Object.assign({}, state, {didMount: true})
+					} else {
+						return state
+					}
+				}
+			}
+		})
+
+		it('should create and mount', () => {
+			store = makeAStore()
+			treeRoot = new DecoratedComponent
+			mountRootComponent(store, treeRoot)
+		})
+
+		it('should honor redux contract', () => {
+			treeRoot.a.set(31337)
+			var state1 = treeRoot.state, state2 = treeRoot.a.state
+			treeRoot.a.set(31337)
+			assert(treeRoot.a.state === state2, "branch was mutated")
+			assert(treeRoot.state === state1, "root was mutated")
 		})
 	})
 })
