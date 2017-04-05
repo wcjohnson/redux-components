@@ -1,17 +1,18 @@
 {
-  "name": "redux-components",
-  "version": "0.4.2",
-  "description": "A component model for Redux state trees based on the React.js component model.",
+  "name": "redux-components-essentials",
+  "version": "0.4.0",
+  "description": "A lightweight, cherry-pickable bundle of helpful redux-components.",
   "main": "lib/index.js",
   "scripts": {
     "prepublish": "npm run clean && npm run build",
     "clean": "rimraf lib build es",
-    "build:babel:commonjs": "mkdirp lib && cross-env BABEL_ENV=commonjs babel src --out-dir lib",
-    "build:babel:debug": "mkdirp lib && cross-env BABEL_ENV=commonjs babel src --out-dir lib --source-maps",
-    "build:babel:istanbul": "mkdirp build/coverage && cross-env BABEL_ENV=istanbul babel src --out-dir build/coverage",
+    "build:babel:base": "babel -x \".js\",\".lsc\"",
+    "build:babel:commonjs": "mkdirp lib && cross-env BABEL_ENV=commonjs npm run build:babel:base -- src --out-dir lib",
+    "build:babel:debug": "mkdirp lib && cross-env BABEL_ENV=commonjs npm run build:babel:base -- src --out-dir lib --source-maps",
+    "build:babel:istanbul": "mkdirp build/coverage && cross-env BABEL_ENV=istanbul npm run build:babel:base -- src --out-dir build/coverage",
     "build": "npm run build:babel:commonjs",
     "test": "npm run build && npm run test:mocha",
-    "test:debug": "npm run test:mocha:debug",
+    "test:debug": "npm run build:babel:debug && npm run test:mocha:debug",
     "test:mocha": "mocha --recursive lib/_tests_/*.js",
     "test:mocha:debug": "node --inspect --debug-brk node_modules/.bin/_mocha --recursive lib/_tests_/*.js",
     "coverage:build": "npm run build:babel:istanbul",
@@ -21,8 +22,7 @@
   },
   "keywords": [
     "redux",
-    "flux",
-    "component"
+    "redux-components"
   ],
   "repository": {
     "type": "git",
@@ -33,14 +33,14 @@
   "bugs": {
     "url": "https://github.com/wcjohnson/redux-components/issues"
   },
-  "homepage": "https://wcjohnson.github.io/redux-components/",
+  "homepage": "https://github.com/wcjohnson/redux-components",
   "devDependencies": {
     "babel-cli": "^6.23.0",
     "babel-preset-env": "^1.2.2",
-    "babel-plugin-istanbul": "^3.1.2",
+    "babel-plugin-istanbul": "^4.1.1",
+    "babel-plugin-transform-runtime": "^6.23.0",
     "babel-plugin-transform-class-properties": "^6.23.0",
     "babel-plugin-transform-decorators-legacy": "^1.3.4",
-    "babel-plugin-transform-runtime": "^6.23.0",
     "chai": "^3.5.0",
     "cross-env": "^3.1.3",
     "mocha": "^2.4.5",
@@ -51,8 +51,10 @@
     "mkdirp": "^0.5.1"
   },
   "dependencies": {
+    "arrify": "^1.0.1",
+    "babel-runtime": "^6.23.0",
     "nanotools": "^0.1.1",
     "observable-utils": "^0.1.1",
-    "babel-runtime": "^6.23.0"
+    "redux-components": "^0.4.0"
   }
 }

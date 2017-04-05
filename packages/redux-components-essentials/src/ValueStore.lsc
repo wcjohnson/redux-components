@@ -1,0 +1,19 @@
+import ReduxComponent from 'redux-components/lib/ReduxComponent'
+import action from 'redux-components/lib/decorators/action'
+import selector from 'redux-components/lib/decorators/selector'
+
+// A ValueStore is a state node that stores a fully-opaque value.
+export default class ValueStore extends ReduxComponent:
+  static verbs = ['SET']
+
+  reducer(state = null, action) ->
+    if action.type == this.SET:
+      if action.payload != undefined: action.payload else: null
+    else:
+      state
+
+  @action({isDispatcher: true})
+  set(value) -> ({ type: this.SET, payload: value })
+
+  @selector({isObservable: true})
+  get(state) -> state

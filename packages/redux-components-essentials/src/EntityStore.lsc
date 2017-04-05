@@ -1,0 +1,47 @@
+import ReduxComponent from 'redux-components/lib/ReduxComponent'
+import action from 'redux-components/lib/decorators/action'
+import selector from 'redux-components/lib/decorators/selector'
+import arrify from 'arrify'
+import shallowEqual from 'nanotools/lib/shallowEqual'
+import isEmptyObject from 'nanotools/lib/isEmptyObject'
+{ assign } = Object
+
+identity(x) -> x
+
+// Higher-order component. Given functions for equality testing and identification
+// of entities, create an entity store that stores opaque entities by id.
+export default EntityStore(identify, serialize = identity, equalityTest = shallowEqual) ->
+  return class extends ReduxComponent:
+    static verbs = ['UPDATE', 'DELETE']
+
+    reducer(state = {}, action) ->
+      if action.type == this.UPDATE:
+        updates = {for elem entity in action.payload:
+          const id = identify(entity), data = serialize(entity), current = state[id]
+          if (!current or !equalityTest(current, data)): (id, {}~assign(current, data))
+        }
+        if(!isEmptyObject(updates)): ({}~assign(state, updates)) else: state
+
+      elif action.type == this.DELETE:
+        let nextState = state
+        for elem id in action.payload: if nextState[id]:
+          if nextState == state: now nextState = Object.assign({}, state)
+          delete nextState[id]
+        nextState
+
+      else:
+        state
+
+    @action({isDispatcher: true})
+    create(entities) -> ({ type: this.UPDATE, payload: arrify(entities) })
+
+    @action({isDispatcher: true})
+    update(partialEntities) -> ({ type: this.UPDATE, payload: arrify(partialEntities) })
+
+    @action({isDispatcher: true})
+    delete(ids) -> ({type: this.DELETE, payload: arrify(ids) })
+
+    @selector()
+    byId(state) -> state
+
+    getById(id) -> this.state[id]

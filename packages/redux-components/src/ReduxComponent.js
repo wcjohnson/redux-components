@@ -6,9 +6,6 @@ import getObservableFrom from 'observable-utils/lib/getObservableFrom'
 
 export default class ReduxComponent {
   constructor() {
-    if (process.env.NODE_ENV !== 'production') {
-      invariant(typeof this.reducer === 'function', `redux-component of type ${this.displayName} has no reducer.`);
-    }
     this.reducer = this.reducer.bind(this);
     this._subject = createSubject();
   }
