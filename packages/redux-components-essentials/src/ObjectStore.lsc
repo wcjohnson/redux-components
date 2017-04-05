@@ -17,7 +17,8 @@ export default class ObjectStore extends ReduxComponent:
         Object.assign({}, action.payload)
 
     elif action.type == this.MERGE:
-      if shallowEqual(state, maybeNextState = Object.assign({}, state, action.payload)):
+      maybeNextState = Object.assign({}, state, action.payload)
+      if shallowEqual(state, maybeNextState):
         state
       else:
         maybeNextState
