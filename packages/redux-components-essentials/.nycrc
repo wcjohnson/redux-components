@@ -1,0 +1,8 @@
+{
+  "include": [
+    "coverage/build/*.js"
+  ],
+  "sourceMap": false,
+  "instrument": false,
+  "report-dir": "./build/coverage/report"
+}

@@ -6,7 +6,6 @@
 			"unix"
 		],
     "no-console": 0,
-    "no-undef": 0,
     "no-extra-semi": 0
 	},
   "parserOptions": {

@@ -19,6 +19,10 @@
     },
     "istanbul": {
       "plugins": [
+        ["lightscript"],
+        ["transform-class-properties"],
+        ["transform-decorators-legacy"],
+        ["transform-runtime"],
         ["istanbul"]
       ]
     }
