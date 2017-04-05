@@ -11,19 +11,14 @@ export default function withSubtree(getSubtree) {
 
 		reducer(state, action) {
 			var superReducer = super.reducer
-			if (superReducer && (superReducer !== identityReducer) ) {
-				var nextState = state
-				// Merge subtree state only if it changes.
-				var nextSubtreeState = this.__subtreeReducer(state, action)
-				if (nextSubtreeState !== state) {
-					nextState = Object.assign({}, state, nextSubtreeState)
-				}
-				// Call superclass reducer.
-				return superReducer(nextState, action)
-			} else {
-				// Save an object creation in the most common case.
-				return this.__subtreeReducer(state, action)
+			var nextState = state
+			// Merge subtree state only if it changes.
+			var nextSubtreeState = this.__subtreeReducer(state, action)
+			if (nextSubtreeState !== state) {
+				nextState = Object.assign({}, state, nextSubtreeState)
 			}
+			// Call superclass reducer.
+			return superReducer(nextState, action)
 		}
 	}
 }

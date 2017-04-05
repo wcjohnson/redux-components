@@ -1,6 +1,6 @@
 {
   "include": [
-    "coverage/build/*.js"
+    "build/coverage/**.js"
   ],
   "sourceMap": false,
   "instrument": false,

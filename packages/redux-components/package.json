@@ -3,23 +3,21 @@
   "version": "0.4.2",
   "description": "A component model for Redux state trees based on the React.js component model.",
   "main": "lib/index.js",
-  "jsnext:main": "es/index.js",
-  "module": "es/index.js",
   "scripts": {
     "prepublish": "npm run clean && npm run build",
     "clean": "rimraf lib build es",
     "build:babel:commonjs": "mkdirp lib && cross-env BABEL_ENV=commonjs babel src --out-dir lib",
+    "build:babel:debug": "mkdirp lib && cross-env BABEL_ENV=commonjs babel src --out-dir lib --source-maps",
+    "build:babel:istanbul": "mkdirp build/coverage && cross-env BABEL_ENV=istanbul babel src --out-dir build/coverage",
     "build": "npm run build:babel:commonjs",
-    "test": "npm run test:mocha",
+    "test": "npm run build && npm run test:mocha",
     "test:debug": "npm run test:mocha:debug",
     "test:mocha": "mocha --recursive lib/_tests_/*.js",
     "test:mocha:debug": "node --inspect --debug-brk node_modules/.bin/_mocha --recursive lib/_tests_/*.js",
-    "build:babel:istanbul": "mkdirp build/coverage && cross-env BABEL_ENV=istanbul babel src --out-dir build/coverage",
     "coverage:build": "npm run build:babel:istanbul",
-    "coverage:test": "node_modules/.bin/_mocha --recursive -- build/coverage/_tests_/*.test.js",
+    "coverage:test": "node_modules/.bin/_mocha --recursive -- build/coverage/_tests_/*.js",
     "coverage:report": "nyc --reporter=lcov npm run coverage:test",
-    "coverage": "npm run coverage:build && npm run coverage:report",
-    "build:babel:es": "cross-env BABEL_ENV=es babel build --out-dir es"
+    "coverage": "npm run coverage:build && npm run coverage:report"
   },
   "keywords": [
     "redux",
