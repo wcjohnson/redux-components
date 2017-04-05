@@ -44,7 +44,8 @@ export default class ReduxComponent {
     this.parentComponent = parentComponent;
     this.path = path;
     // Scope verbs
-    if ( (verbs = this.__getMagicallyBoundKeys('verbs')) ) {
+    verbs = this.__getMagicallyBoundKeys('verbs')
+    if (verbs) {
       stringPath = this.path.join('.');
       for (i = 0, len = verbs.length; i < len; i++) {
         verb = verbs[i];
