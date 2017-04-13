@@ -40,7 +40,7 @@
   "homepage": "https://github.com/wcjohnson/redux-components",
   "devDependencies": {
     "babel-cli": "^6.23.0",
-    "babel-plugin-istanbul": "^3.1.2",
+    "babel-plugin-istanbul": "^4.1.1",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.23.0",
     "babel-plugin-transform-es2015-classes": "^6.23.0",
     "babel-plugin-transform-es2015-parameters": "^6.23.0",
