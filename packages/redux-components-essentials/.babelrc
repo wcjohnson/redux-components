@@ -1,6 +1,6 @@
 {
   "plugins": [
-    ["lightscript"],
+    ["@oigroup/babel-plugin-lightscript"],
     ["transform-class-properties"],
     ["transform-decorators-legacy"],
     ["transform-runtime"]
