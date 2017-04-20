@@ -59,7 +59,7 @@ mixinKeyHandlers = {
 export default baseApplyMixin = (spec, mixin) ->
 	# Allow the use of ReduxComponentClasses as mixins
 	if mixin?.prototype and (mixin.prototype instanceof ReduxComponent)
-		mixin = mixin.prototype.__spec
+		mixin = mixin.spec
 	# Force mixin of submixins to happen before everything else.
 	if mixin.mixins then mixinKeyHandlers.mixins(spec, mixin, 'mixins', mixin.mixins)
 	# Apply this mixin

@@ -30,6 +30,8 @@ export SubtreeMixin = {
 
 		# Call new willMount
 		lifecycle.componentWillMount.call(this)
+		# COMPAT: allow subtreeReducer to be accessed more directly
+		this.subtreeReducer = this.__subtreeReducer
 
 	componentDidMount: ->
 		@__subtreeDidMount?()

@@ -41,6 +41,13 @@ class LegacyReduxComponent extends DynamicReducerComponent
 		nextReducer = @getReducer(@state)
 		@__internalReducer = nextReducer
 
+setPrototypeProperty = (clazz, k, v) ->
+	if clazz.prototype.hasOwnProperty(k)
+		throw new Error("Duplicate key `#{k}` defined in `createClass` specification for class named `#{clazz.spec.displayName}`")
+
+	clazz.prototype[k] = v
+	return
+
 export default createClass = (spec) ->
 	# Apply default mixin, then setup the spec
 	newSpec = { applyMixin }
@@ -61,8 +68,8 @@ export default createClass = (spec) ->
 		Object.defineProperty(SpecifiedReduxComponent, 'name', { value: spec.displayName })
 	# Apply spec to prototype, statics to constructor
 	for own k,v of newSpec when (not dontPrototypeThese[k])
-		SpecifiedReduxComponent.prototype[k] = v
-		if not dontBindThese[k]
+		setPrototypeProperty(SpecifiedReduxComponent, k, v)
+		if (typeof v is 'function') and (not dontBindThese[k])
 			decorate(SpecifiedReduxComponent, { "#{k}": bind })
 	for own k,v of (newSpec.statics or {})
 		SpecifiedReduxComponent[k] = v
@@ -71,13 +78,13 @@ export default createClass = (spec) ->
 	if newSpec.verbs
 		SpecifiedReduxComponent.verbs = newSpec.verbs
 	for k,v of newSpec.actionCreators or {}
-		SpecifiedReduxComponent.prototype[k] = v
+		setPrototypeProperty(SpecifiedReduxComponent, k, v)
 		decorate(SpecifiedReduxComponent, { "#{k}": action() } )
 	for k,v of newSpec.actionDispatchers or {}
-		SpecifiedReduxComponent.prototype[k] = v
+		setPrototypeProperty(SpecifiedReduxComponent, k, v)
 		decorate(SpecifiedReduxComponent, { "#{k}": action({isDispatcher: true}) } )
 	for k,v of newSpec.selectors or {}
-		SpecifiedReduxComponent.prototype[k] = v
+		setPrototypeProperty(SpecifiedReduxComponent, k, v)
 		decorate(SpecifiedReduxComponent, { "#{k}": selector({isObservable: true}) } )
 
 	SpecifiedReduxComponent
