@@ -8,14 +8,9 @@ export default class DynamicReducerComponent extends ReduxComponent {
 		this.__internalReducer = identityReducer
 	}
 
-	getInitialState() {
-		return {}
-	}
-
 	// Introduce a level of reducer indirection, so this component can modify
 	// its own reducer.
 	reducer(state, action) {
-		if(state === undefined) state = this.getInitialState()
 		return this.__internalReducer(state, action)
 	}
 
