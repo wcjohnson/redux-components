@@ -44,4 +44,4 @@ export default EntityStore(identify, serialize = identity, equalityTest = shallo
     @selector()
     byId(state) -> state
 
-    getById(id) -> this.state[id]
+    getById(id) -> this.state?[id]
