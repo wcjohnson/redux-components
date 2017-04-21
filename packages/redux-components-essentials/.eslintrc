@@ -1,5 +1,5 @@
 {
-  "parser": "lightscript-eslint",
+  "parser": "@oigroup/lightscript-eslint",
 	"rules": {
 		"linebreak-style": [
 			2,

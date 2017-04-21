@@ -36,6 +36,7 @@
   "homepage": "https://github.com/wcjohnson/redux-components",
   "devDependencies": {
     "@oigroup/babel-plugin-lightscript": "^0.5.0",
+    "@oigroup/lightscript-eslint": "^0.5.0",
     "babel-cli": "^6.23.0",
     "babel-preset-env": "^1.2.2",
     "babel-plugin-istanbul": "^4.1.1",
