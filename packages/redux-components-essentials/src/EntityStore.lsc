@@ -41,7 +41,7 @@ export default EntityStore(identify, serialize = identity, equalityTest = shallo
     @action({isDispatcher: true})
     delete(ids) -> ({type: this.DELETE, payload: arrify(ids) })
 
-    @selector()
+    @selector({isObservable: true})
     byId(state) -> state
 
     getById(id) -> this.state?[id]
