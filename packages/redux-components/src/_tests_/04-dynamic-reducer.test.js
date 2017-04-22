@@ -6,18 +6,16 @@ describe('dynamic reducer', () => {
 	var BaseComponent, treeRoot, store;
 
 	it('should initialize', () => {
+		var initialState = { magicWord: 'please'}
+
 		BaseComponent = class extends DynamicReducerComponent {
 			static verbs = ['CHANGE_MAGIC_WORD']
 
-			getInitialState() {
-				return { magicWord: 'please' }
-			}
-
 			componentWillMount() {
 				this._subscription = this.whatsTheMagicWord.subscribe({
-					next: (val) => {
+					next: (val = 'please') => {
 						console.log("observer saw", val)
-						this.replaceReducer( (state, action) => {
+						this.replaceReducer( (state = initialState, action) => {
 							switch(action.type) {
 								case val:
 									return Object.assign({}, state, { gotTheMagicWord: true })

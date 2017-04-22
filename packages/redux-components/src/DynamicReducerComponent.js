@@ -2,16 +2,21 @@ import ReduxComponent from './ReduxComponent'
 import identityReducer from 'nanotools/lib/identityReducer'
 import invariant from 'nanotools/lib/invariant'
 
+function indirectReducer(state, action) {
+	return this.__internalReducer(state, action)
+}
+
 export default class DynamicReducerComponent extends ReduxComponent {
 	constructor() {
 		super()
-		this.__internalReducer = identityReducer
-	}
-
-	// Introduce a level of reducer indirection, so this component can modify
-	// its own reducer.
-	reducer(state, action) {
-		return this.__internalReducer(state, action)
+		// Initial reducer is as defined on the class body.
+		if(this.reducer) {
+			this.__internalReducer = this.reducer;
+		} else {
+			this.__internalReducer = identityReducer;
+		}
+		// Replace reducer with a layer of indirection
+		this.reducer = indirectReducer.bind(this)
 	}
 
 	// Imitate the Redux API
