@@ -55,8 +55,8 @@
   "dependencies": {
     "arrify": "^1.0.1",
     "babel-runtime": "^6.23.0",
-    "nanotools": "^0.1.1",
-    "observable-utils": "^0.1.1",
+    "nanotools": "^0.1.4",
+    "observable-utils": "^0.1.6",
     "redux-components": "^0.4.3"
   }
 }

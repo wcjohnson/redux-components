@@ -51,8 +51,8 @@
     "mkdirp": "^0.5.1"
   },
   "dependencies": {
-    "nanotools": "^0.1.1",
-    "observable-utils": "^0.1.1",
+    "nanotools": "^0.1.4",
+    "observable-utils": "^0.1.6",
     "babel-runtime": "^6.23.0"
   }
 }

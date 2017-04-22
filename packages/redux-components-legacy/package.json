@@ -55,6 +55,6 @@
   },
   "dependencies": {
     "redux-components": "^0.4.3",
-    "nanotools": "^0.1.1"
+    "nanotools": "^0.1.4"
   }
 }
