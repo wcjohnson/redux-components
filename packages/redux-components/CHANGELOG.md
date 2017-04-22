@@ -1,6 +1,24 @@
 # 0.4
 
-## 0.4.0
+## 0.4.4
+
+### API: `DynamicReducerComponent` no longer has a `getInitialState()` method
+
+This way of populating state was not consistent with idiomatic Redux, where initial state is provided either by `createStore` or by default reducer args. `getInitialState` was removed in favor of using one of these idiomatic constructions.
+
+(Technically this would be a major semver bump, but since the API was not yet documented, a minor bump is being issued.)
+
+## 0.4.3
+
+Miscellaneous nits only; no major changes.
+
+## 0.4.2
+
+### Bugfix: Reducer noise in subtrees
+
+A component using `withSubtree` would receive a new state in its reducer even if none of the subcomponents issued a state change. This has been corrected.
+
+## 0.4.1
 
 ### **MAJOR BREAKING CHANGE** ES2015+ API
 

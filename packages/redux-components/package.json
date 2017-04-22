@@ -11,7 +11,7 @@
     "build:babel:istanbul": "mkdirp build/coverage && cross-env BABEL_ENV=istanbul babel src --out-dir build/coverage",
     "build": "npm run build:babel:commonjs",
     "test": "npm run build && npm run test:mocha",
-    "test:debug": "npm run test:mocha:debug",
+    "test:debug": "npm run build:babel:debug && npm run test:mocha:debug",
     "test:mocha": "mocha --recursive lib/_tests_/*.js",
     "test:mocha:debug": "node --inspect --debug-brk node_modules/.bin/_mocha --recursive lib/_tests_/*.js",
     "coverage:build": "npm run build:babel:istanbul",
