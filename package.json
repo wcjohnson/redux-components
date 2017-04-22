@@ -2,7 +2,10 @@
   "name": "redux-components-monorepo",
   "version": "0.0.1",
   "description": "Lerna mono-repo for redux-components and related packages",
-  "scripts": {},
+  "scripts": {
+    "rebuild:full": "rimraf node_modules && npm install && npm run rebuild",
+    "rebuild": "lerna clean --yes && lerna bootstrap && lerna run test"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/wcjohnson/redux-components.git"
