@@ -19,8 +19,9 @@ export default function makeSelectorObservable(componentInstance, selector) {
 				// Selectors expect to receive valid states, not undefined, so only call
 				// the selector when the state is fully realized.
 				var observeState = function() {
-					if (!componentInstance.store) return
-					var state = componentInstance.store.getState()
+					var store = componentInstance.store
+					if (!store) return
+					var state = store.getState()
 					if (state !== undefined) {
 						var val = selector(state)
 						if (val !== lastSeenValue) { lastSeenValue = val; subj.next(val) }
