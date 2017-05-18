@@ -54,5 +54,8 @@
     "nanotools": "^0.1.7",
     "observable-utils": "^0.1.9",
     "babel-runtime": "^6.23.0"
-  }
+  },
+  "files": [
+    "lib"
+  ]
 }

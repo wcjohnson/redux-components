@@ -3,8 +3,6 @@
   "version": "0.4.4",
   "description": "Backwards-compatible implementation of the redux-components 0.3.x API on top of the 1.0 library.",
   "main": "lib/index.js",
-  "jsnext:main": "es/index.js",
-  "module": "es/index.js",
   "scripts": {
     "prepublish": "npm run clean && npm run build",
     "clean": "rimraf lib build es",
@@ -56,5 +54,8 @@
   "dependencies": {
     "redux-components": "^0.4.4",
     "nanotools": "^0.1.4"
-  }
+  },
+  "files": [
+    "lib"
+  ]
 }
