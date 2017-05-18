@@ -7,6 +7,7 @@
   "presets": [
     ["env", {
       "targets": {
+        "node": 4,
         "ie": 10
       }
     }]
