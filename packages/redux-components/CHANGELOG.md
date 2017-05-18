@@ -1,5 +1,10 @@
 # 0.4
 
+## 0.4.5
+
+### Bug Fixes:
+- `withSubtree` now calls super class reducers with proper `this` context.
+
 ## 0.4.4
 
 ### API: `DynamicReducerComponent` no longer has a `getInitialState()` method

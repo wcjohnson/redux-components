@@ -18,7 +18,7 @@ export default function withSubtree(getSubtree) {
 				nextState = Object.assign({}, state, nextSubtreeState)
 			}
 			// Call superclass reducer.
-			return superReducer(nextState, action)
+			return superReducer.call(this, nextState, action)
 		}
 	}
 }
