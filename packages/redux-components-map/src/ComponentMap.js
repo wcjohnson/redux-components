@@ -1,7 +1,7 @@
 import combineReducers from 'nanotools/lib/combineReducers'
 import identityReducer from 'nanotools/lib/identityReducer'
 import invariant from 'nanotools/lib/invariant'
-import { DynamicReducerComponent } from 'redux-components'
+import DynamicReducerComponent from 'redux-components/lib/DynamicReducerComponent'
 import MapMetadata from './util/MapMetadata'
 import diff from './util/diff'
 import metadataSymbol from './util/metadataSymbol'
@@ -20,7 +20,6 @@ export default function ComponentMap(typeMap) {
     }
 
     updateReducer() {
-      console.log("updateReducer", this.reducerMap)
       this.replaceReducer(combineReducers(this.reducerMap))
     }
 

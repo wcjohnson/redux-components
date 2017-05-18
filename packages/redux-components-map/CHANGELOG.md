@@ -1,5 +1,12 @@
 # 0.4
 
+## 0.4.5
+
+- Removing a map entry will now always remove the corresponding data, even if no other node in the map changes. (`combineReducers` fix)
+- Removed extraneous debugging code.
+
+## 0.4.0
+
 ### Port to `redux-components` 0.4
 
 We now use the ES2015 class-based API introduced in `redux-components` 0.4.
