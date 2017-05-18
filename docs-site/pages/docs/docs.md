@@ -326,6 +326,39 @@ simpleComponentInstance.set('goodbye world')
 
 - redux-components doesn't depend on or import any particular observable library; we write to the TC39 API and you can choose your preferred implementation thereof. redux-components is *not compatible* with pre-TC39 legacy observable libraries. You will have to shim them to TC39 if you want compatibility.
 
+## Advanced Topics
+
+### Dynamic Reducers
+
+Sometimes it is necessary to swap out reducers on a live store at runtime, as evidenced by Redux's own `store.replaceReducer()` function. `redux-components` provides a similar functionality in `DynamicReducerComponent`:
+
+```js
+import { DynamicReducerComponent } from 'redux-components'
+
+export class DynamicComponent extends DynamicReducerComponent {
+  reducer(state, action) { ... }
+
+  swapTheReducer() {
+    this.replaceReducer((state, action) => { ... })
+  }
+}
+```
+
+If you inherit `DynamicReducerComponent` rather than `ReduxComponent`, a layer of indirection will be introduced between your component's reducer and the outside world. The `this.replaceReducer(nextReducer)` method can then be used to transparently modify your component's reducer at runtime. Because of the layer of indirection, you do not have to worry about re-mounting or any external references to your component -- the new reducer will be called automatically.
+
+> **NB:** Dynamic reducers are very tricky to get right. In this author's experience, even those well-versed in Redux can easily break the Redux contract by using them. Please use them sparingly and think carefully about design beforehand.
+
+### `redux-components-list` and `redux-components-map`
+
+The most common use cases for dynamic reducers are scenarios where the user would want a `Map` or `List` data structure where the entries are themselves `ReduxComponents`. We provide separate NPM modules for each of these use cases:
+
+- [redux-components-list](https://www.npmjs.com/package/redux-components-list)
+- [redux-components-map](https://www.npmjs.com/package/redux-components-map)
+
+Using these components is usually better than attempting to write a `DynamicReducerComponent` on one's own. However, they should still only be used when needed; please read the docs carefully before using them.
+
+> **NB** Especially note that these should not be used to store ordinary Maps and Lists; that's what plain JS objects and arrays are for. Only when the Redux tree structure itself (as opposed to the state) is dynamic should these be used.
+
 ## Patterns
 
 > This whole section is a WIP. Bear with us.
