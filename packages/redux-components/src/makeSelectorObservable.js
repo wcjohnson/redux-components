@@ -8,13 +8,13 @@ export default function makeSelectorObservable(componentInstance, selector) {
 
 	// Make the selector a Subject.
 	var subj = createBehaviorSubject({
-		onObserversChanged: function(observers) {
+		onObserversChanged: function(observers, observerAdded) {
 			observerCount = observers.length
 			if (observerCount === 0) {
 				// No subscribers left; remove upstream subscription.
 				if(subscription) subscription.unsubscribe()
 				subscription = undefined
-			} else if (observerCount === 1) {
+			} else if (observerCount === 1 && observerAdded) {
 				// This closure will observe and select from the store.
 				// Selectors expect to receive valid states, not undefined, so only call
 				// the selector when the state is fully realized.
