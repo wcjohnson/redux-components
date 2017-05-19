@@ -15,16 +15,6 @@ class BaseComponent extends ReduxComponent {
     }
   }
 
-  @action()
-  plainSet(value) {
-    return { type: 'SET', payload: value }
-  }
-
-  @action({ withDispatcher: 'doSetWithDispatcher' })
-  setWithDispatcher(value) {
-    return { type: 'SET', payload: value }
-  }
-
   @action({ isDispatcher: true })
   set(x) { return { type: this.SCOPED_SET, payload: x } }
 
@@ -50,6 +40,19 @@ describe("basic tests", () => {
 
     myComponentList.splice(0, 1)
     assert(myComponentList.get(0).get() === "world")
+  })
 
+  it("should observe toArray", () => {
+    var store = makeAStore()
+
+    var MyComponentList = ComponentList(() => BaseComponent)
+    var myComponentList = new MyComponentList()
+    mountRootComponent(store, myComponentList)
+
+    myComponentList.toArray.subscribe({
+      next: (val) => console.log("!!!! next", val)
+    })
+
+    myComponentList.push(true)
   })
 })

@@ -1,8 +1,10 @@
 import ReduxComponent from 'redux-components/lib/ReduxComponent'
 import withSubtree from 'redux-components/lib/decorators/withSubtree'
 import action from 'redux-components/lib/decorators/action'
+import selector from 'redux-components/lib/decorators/selector'
 import ComponentMap from 'redux-components-map'
 import cuid from 'cuid'
+import createBehaviorSubject from 'observable-utils/lib/createBehaviorSubject'
 
 export default function ComponentList(typeMap) {
   // Support objects as typemaps
@@ -16,6 +18,23 @@ export default function ComponentList(typeMap) {
     _map: ComponentMapClass
   }))(class ComponentList extends ReduxComponent {
     static verbs = ['INTERNAL_SPLICE']
+
+    constructor() {
+      super()
+
+      // toArray observable
+      // TODO: clean this up somehow
+      var subj = createBehaviorSubject()
+      this._internalList.subscribe({
+        next: () => subj.next(this.toArray())
+      })
+      var myToArray = this.toArray
+      var nextToArray = function() {
+        return myToArray.call(this);
+      }
+      Object.assign(nextToArray, subj)
+      this.toArray = nextToArray
+    }
 
     reducer(state, action) {
       // Initial state
@@ -46,11 +65,24 @@ export default function ComponentList(typeMap) {
       }
     }
 
+    @selector({isObservable: true})
+    _internalList(state) {
+      return state.list || []
+    }
+
     // API: get(i)
     // Get the i'th entry in the list
     get(i) {
-      if(i >= 0 && i < this.state.list.length)
-        return this._map.get(this.state.list[i])
+      var list = this.state.list
+      if (!list) return undefined
+      if(i >= 0 && i < list.length)
+        return this._map.get(list[i])
+    }
+
+    // API: toArray()
+    // Convert to a plain JS array of ReduxComponents
+    toArray() {
+      return this.map(x => x)
     }
 
     // API: splice(index, howmany, ...descriptors)
@@ -79,7 +111,9 @@ export default function ComponentList(typeMap) {
     }
 
     get length() {
-      return this.state.list.length;
+      var state = this.state
+      if (!state) return 0
+      return state.list.length
     }
 
     // API: push(...descriptors)
@@ -103,8 +137,11 @@ export default function ComponentList(typeMap) {
     // API: map(callback, thisArg)
     map(callback, thisArg) {
       var result = []
-      for (var i = 0; i < this.length; i++)
-        result.push(callback.call(thisArg, this.get(i), i, this))
+      var state = this.state
+      if (!state || !state.list) return result
+      var list = state.list
+      for (var i = 0; i < list.length; i++)
+        result.push(callback.call(thisArg, this._map.get(list[i]), i, this))
       return result
     }
   }) // class ComponentList
