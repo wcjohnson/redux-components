@@ -139,7 +139,7 @@ describe('subtree', () => {
 				a: BaseComponent,
 			}) )
 			class extends ReduxComponent {
-				reducer(state = {}, action) {
+				reducer(state, action) {
 					if (action.type === 'DIDMOUNT') {
 						return Object.assign({}, state, {didMount: true})
 					} else {
@@ -150,7 +150,7 @@ describe('subtree', () => {
 		})
 
 		it('should create and mount', () => {
-			store = makeAStore()
+			store = makeAStore({ a: 1, b: 1 })
 			treeRoot = new DecoratedComponent
 			mountRootComponent(store, treeRoot)
 		})

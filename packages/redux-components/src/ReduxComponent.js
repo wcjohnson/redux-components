@@ -8,6 +8,11 @@ export default class ReduxComponent {
   constructor() {
     this.reducer = this.reducer.bind(this);
     this._subject = createSubject();
+
+    // Event ordering: child components always get events before parents
+    this.getSubject().subscribe({
+      next: state => this.__notifyChildren(state)
+    })
   }
 
   reducer(state, action) {
@@ -18,9 +23,16 @@ export default class ReduxComponent {
     }
   }
 
+  getSubject() {
+    return this._subject;
+  }
+
+  // Backwards compatibility with internal API callers.
   __getSubject() {
     return this._subject;
   }
+
+  __notifyChildren() {}
 
   isMounted() {
     return !!this.__mounted;
@@ -51,8 +63,10 @@ export default class ReduxComponent {
         this[verb] = `${stringPath}:${verb}`;
       }
     }
-    // Connect observers to store
-    this._subject.subscription = getObservableFrom(this.store).subscribe(this._subject);
+    // Component at root of a tree or subtree gets a direct connection to the store.
+    if (!parentComponent) {
+      this._subject.subscription = getObservableFrom(this.store).subscribe(this._subject);
+    }
     // Lifecycle
     if (typeof this.componentWillMount === "function") {
       this.componentWillMount();
