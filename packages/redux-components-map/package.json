@@ -1,6 +1,6 @@
 {
   "name": "redux-components-map",
-  "version": "0.4.5",
+  "version": "0.4.6",
   "description": "A Map component for redux-components, implementing a keyed tree of subcomponents that can be dynamically modified.",
   "keywords": [
     "redux",
@@ -38,7 +38,7 @@
     "cuid": "^1.3.8",
     "mkdirp": "^0.5.1",
     "mocha": "^2.4.5",
-    "redux-components-legacy": "^0.4.5",
+    "redux-components-legacy": "^0.4.6",
     "redux-debug": "^1.0.3",
     "redux-devtools-instrument": "^1.3.3",
     "redux-freeze": "^0.1.5",
@@ -46,7 +46,7 @@
   },
   "dependencies": {
     "nanotools": "^0.1.8",
-    "redux-components": "^0.4.5"
+    "redux-components": "^0.4.6"
   },
   "files": [
     "lib"

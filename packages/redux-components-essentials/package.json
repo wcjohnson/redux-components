@@ -1,6 +1,6 @@
 {
   "name": "redux-components-essentials",
-  "version": "0.4.5",
+  "version": "0.4.6",
   "description": "A lightweight, cherry-pickable bundle of helpful redux-components.",
   "main": "lib/index.js",
   "scripts": {
@@ -57,7 +57,7 @@
     "babel-runtime": "^6.23.0",
     "nanotools": "^0.1.8",
     "observable-utils": "^0.1.9",
-    "redux-components": "^0.4.5"
+    "redux-components": "^0.4.6"
   },
   "files": [
     "lib"

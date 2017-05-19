@@ -1,6 +1,6 @@
 {
   "name": "redux-components-list",
-  "version": "0.4.5",
+  "version": "0.4.6",
   "description": "A List component for redux-components, implementing an arraylike collection of subcomponents that can be dynamically modified.",
   "keywords": [
     "redux",
@@ -51,8 +51,8 @@
     "cuid": "^1.3.8",
     "nanotools": "^0.1.8",
     "observable-utils": "^0.1.9",
-    "redux-components": "^0.4.5",
-    "redux-components-map": "^0.4.5"
+    "redux-components": "^0.4.6",
+    "redux-components-map": "^0.4.6"
   },
   "files": [
     "lib"
