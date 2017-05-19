@@ -1,5 +1,15 @@
 # 0.4
 
+## 0.4.6
+
+### API: `ReduxComponent.getSubject()` is now public API.
+
+It is now possible to retrieve the observable that each ReduxComponent uses to attach to the store state. Usage of this mechanism should be rare, as observable selectors are the preferred mechanism -- however, some edge cases can require direct access to this API.
+
+### Bug Fixes:
+- Observable event ordering in `withSubtree` has been corrected so that child observables will always fire before parents. This brings observable events in line with the lifecycle methods in terms of sequencing.
+- `makeSelectorObservable` condition for triggering subscription has been corrected, eliminating duplicate calls to observers.
+
 ## 0.4.5
 
 ### Bug Fixes:
