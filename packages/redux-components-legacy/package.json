@@ -52,7 +52,7 @@
     "rimraf": "^2.6.1"
   },
   "dependencies": {
-    "nanotools": "^0.1.4",
+    "nanotools": "^0.1.8",
     "redux-components": "^0.4.5"
   },
   "files": [
