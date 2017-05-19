@@ -24,7 +24,7 @@
     "clean": "rimraf lib build es",
     "build:babel:commonjs": "mkdirp lib && cross-env BABEL_ENV=commonjs babel src --out-dir lib",
     "build": "npm run build:babel:commonjs",
-    "test": "npm run test:mocha",
+    "test": "npm run build && npm run test:mocha",
     "test:debug": "npm run test:mocha:debug",
     "test:mocha": "mocha --recursive lib/_tests_/*.test.js",
     "test:mocha:debug": "node --inspect --debug-brk node_modules/.bin/_mocha --recursive lib/_tests_/*.test.js",
@@ -45,7 +45,7 @@
     "rimraf": "^2.6.1"
   },
   "dependencies": {
-    "nanotools": "^0.1.7",
+    "nanotools": "^0.1.8",
     "redux-components": "^0.4.5"
   },
   "files": [

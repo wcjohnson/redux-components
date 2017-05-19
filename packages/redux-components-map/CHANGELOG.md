@@ -1,5 +1,10 @@
 # 0.4
 
+## 0.4.6
+
+- Fix for child event ordering
+- Further fixes related to `combineReducers`
+
 ## 0.4.5
 
 - Removing a map entry will now always remove the corresponding data, even if no other node in the map changes. (`combineReducers` fix)

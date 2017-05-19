@@ -58,7 +58,7 @@ export default function diff(typeMap, metadata) {
   for(k in componentMap) {
     reducerMap[k] = componentMap[k].reducer
   }
-  this.updateReducer()
+  this.updateReducer(removed.length > 0)
   // # Step 7: Run didMount on the added components
   added.forEach( k => componentMap[k].__didMount() )
 

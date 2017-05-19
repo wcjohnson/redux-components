@@ -19,8 +19,16 @@ export default function ComponentMap(typeMap) {
       this.metadata = new MapMetadata()
     }
 
-    updateReducer() {
-      this.replaceReducer(combineReducers(this.reducerMap))
+    __notifyChildren(state) {
+      this.metadata.getSubject().next(state)
+      var componentMap = this.componentMap
+      for(var k in componentMap) {
+        componentMap[k].getSubject().next(state)
+      }
+    }
+
+    updateReducer(didDropKeys) {
+      this.replaceReducer(combineReducers(this.reducerMap, didDropKeys))
     }
 
     componentWillMount() {
