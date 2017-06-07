@@ -1,5 +1,9 @@
 # 0.4
 
+## 0.4.7
+
+- Fixed a packaging bug resulting in ES6 code slipping into the production bundle. Upgrading from 0.4.6 is recommended for anyone in an ES5 environment.
+
 ## 0.4.6
 
 - Fix for child event ordering

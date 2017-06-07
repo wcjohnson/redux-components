@@ -1,33 +1,20 @@
 {
   "plugins": [
+    ["transform-class-properties"],
+    ["transform-decorators-legacy"],
+    ["transform-runtime"]
+  ],
+  "presets": [
+    ["env", {
+      "targets": {
+        "node": 4,
+        "ie": 10
+      }
+    }]
   ],
   "env": {
-    "commonjs": {
-      "plugins": [
-        ["transform-es2015-modules-commonjs", { "loose": true }],
-        ["transform-class-properties"],
-        ["transform-decorators-legacy"],
-        ["transform-es2015-parameters"],
-        ["transform-es2015-object-super"],
-        ["transform-es2015-classes"],
-        ["transform-es2015-spread", { "loose": true }],
-        ["transform-es2015-template-literals"]
-      ]
-    },
-    "es": {
-      "plugins": [
-      ]
-    },
     "istanbul": {
       "plugins": [
-        ["transform-es2015-modules-commonjs", { "loose": true }],
-        ["transform-class-properties"],
-        ["transform-decorators-legacy"],
-        ["transform-es2015-parameters"],
-        ["transform-es2015-object-super"],
-        ["transform-es2015-classes"],
-        ["transform-es2015-spread", { "loose": true }],
-        ["transform-es2015-template-literals"],
         ["istanbul"]
       ]
     }
