@@ -1,6 +1,6 @@
 {
   "name": "redux-components-map",
-  "version": "0.4.6",
+  "version": "0.4.7",
   "description": "A Map component for redux-components, implementing a keyed tree of subcomponents that can be dynamically modified.",
   "keywords": [
     "redux",
@@ -50,9 +50,9 @@
     "rimraf": "^2.6.1"
   },
   "dependencies": {
+    "babel-runtime": "^6.23.0",
     "nanotools": "^0.1.8",
-    "redux-components": "^0.4.6",
-    "babel-runtime": "^6.23.0"
+    "redux-components": "^0.4.6"
   },
   "files": [
     "lib"

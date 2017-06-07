@@ -1,6 +1,6 @@
 {
   "name": "redux-components-essentials",
-  "version": "0.4.6",
+  "version": "0.4.7",
   "description": "A lightweight, cherry-pickable bundle of helpful redux-components.",
   "main": "lib/index.js",
   "scripts": {
