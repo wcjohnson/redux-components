@@ -52,7 +52,8 @@
     "nanotools": "^0.1.8",
     "observable-utils": "^0.1.9",
     "redux-components": "^0.4.6",
-    "redux-components-map": "^0.4.6"
+    "redux-components-map": "^0.4.6",
+    "babel-runtime": "^6.23.0"
   },
   "files": [
     "lib"
