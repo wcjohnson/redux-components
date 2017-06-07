@@ -1,27 +1,23 @@
 {
   "plugins": [
-    ["@oigroup/babel-plugin-lightscript"],
-    ["transform-class-properties"],
-    ["transform-decorators-legacy"],
     ["transform-runtime"]
   ],
   "presets": [
-    ["env", {
-      "targets": {
-        "ie": 10
+    [
+      "@oigroup/babel-preset-lightscript",
+      {
+        "env": {
+          "targets": {
+            "ie": 10,
+            "node": 4
+          }
+        }
       }
-    }]
+    ]
   ],
   "env": {
-    "commonjs": {
-    },
-    "es": {
-    },
     "istanbul": {
       "plugins": [
-        ["lightscript"],
-        ["transform-class-properties"],
-        ["transform-decorators-legacy"],
         ["transform-runtime"],
         ["istanbul"]
       ]
