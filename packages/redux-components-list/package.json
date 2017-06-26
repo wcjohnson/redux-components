@@ -51,7 +51,7 @@
     "babel-runtime": "^6.23.0",
     "cuid": "^1.3.8",
     "nanotools": "^0.1.8",
-    "observable-utils": "^0.1.9",
+    "observable-utils": "^0.1.10",
     "redux-components": "^0.4.6",
     "redux-components-map": "^0.4.7"
   },
