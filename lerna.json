@@ -2,8 +2,7 @@
   "lerna": "2.0.0-rc.4",
   "hoist": true,
   "packages": [
-    "packages/*",
-    "submodules/toolbelt/packages/*"
+    "packages/*"
   ],
   "version": "independent"
 }
