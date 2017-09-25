@@ -19,6 +19,12 @@ export SubtreeMixin = {
 		lifecycle = createSubtreeLifecycleMethods(@getSubtree, null, null, () => this.__originalUnmount())
 		@__subtreeDidMount = lifecycle.componentDidMount
 
+		@__notifyChildren = (state) =>
+			if @__subtreeKeys
+				keys = @__subtreeKeys
+				for i in [0...keys.length]
+					this[keys[i]].getSubject().next(state)
+
 		# Rework the unmount method to honor the lifecycle contract
 		@__originalUnmount = this.componentWillUnmount
 		actualUnmount = lifecycle.componentWillUnmount
