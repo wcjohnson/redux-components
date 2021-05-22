@@ -1,14 +1,12 @@
 {
   "plugins": [
     ["transform-class-properties"],
-    ["transform-decorators-legacy"],
-    ["transform-runtime"]
+    ["transform-decorators-legacy"]
   ],
   "presets": [
     ["env", {
       "targets": {
-        "node": 4,
-        "ie": 10
+        "node": 12
       }
     }]
   ],
