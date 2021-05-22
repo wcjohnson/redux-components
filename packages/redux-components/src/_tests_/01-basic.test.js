@@ -2,6 +2,7 @@ import { expect } from 'chai'
 import { inspect } from 'util'
 import { mountRootComponent, ReduxComponent, action, selector } from '..'
 import { makeAStore } from './helpers/store'
+import getObservableFrom from 'observable-utils/lib/getObservableFrom'
 
 
 describe('basic tests', () => {
@@ -55,6 +56,8 @@ describe('basic tests', () => {
 			}
 
 			store = makeAStore()
+			console.dir(store)
+			expect(getObservableFrom(store)).to.be.ok
 			treeRoot = new BaseComponent
 			expect(treeRoot.isMounted()).to.not.be.ok
 			mountRootComponent(store, treeRoot)
