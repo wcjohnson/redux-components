@@ -1,6 +1,6 @@
 {
   "name": "redux-components-legacy",
-  "version": "0.4.6",
+  "version": "0.4.7",
   "description": "Backwards-compatible implementation of the redux-components 0.3.x API on top of the 1.0 library.",
   "main": "lib/index.js",
   "scripts": {
@@ -39,7 +39,6 @@
   "devDependencies": {
     "babel-cli": "^6.24.1",
     "babel-plugin-istanbul": "^4.1.4",
-    "babel-plugin-transform-es2015-classes": "^6.24.1",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.24.1",
     "babel-plugin-transform-es2015-parameters": "^6.24.1",
     "chai": "^3.5.0",
@@ -52,8 +51,8 @@
     "rimraf": "^2.6.1"
   },
   "dependencies": {
-    "nanotools": "^0.1.8",
-    "redux-components": "^0.4.6"
+    "nanotools": "^0.1.9",
+    "redux-components": "^0.4.7"
   },
   "files": [
     "lib"

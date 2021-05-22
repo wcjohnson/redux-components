@@ -1,6 +1,6 @@
 {
   "name": "redux-components-list",
-  "version": "0.4.7",
+  "version": "0.4.8",
   "description": "A List component for redux-components, implementing an arraylike collection of subcomponents that can be dynamically modified.",
   "keywords": [
     "redux",
@@ -27,7 +27,7 @@
     "test": "npm run build && npm run test:only",
     "test:debug": "npm run build && npm run test:only:debug",
     "test:only": "mocha --recursive lib/_tests_/*.test.js",
-    "test:only:debug": "node --inspect --debug-brk node_modules/.bin/_mocha --recursive lib/_tests_/*.test.js"
+    "test:only:debug": "node --inspect-brk node_modules/.bin/_mocha --recursive lib/_tests_/*.test.js"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
@@ -42,18 +42,18 @@
     "eslint": "^3.19.0",
     "mkdirp": "^0.5.1",
     "mocha": "^2.4.5",
+    "redux": "^4.1.0",
     "redux-debug": "^1.0.3",
     "redux-devtools-instrument": "^1.3.3",
     "redux-freeze": "^0.1.5",
     "rimraf": "^2.6.1"
   },
   "dependencies": {
-    "babel-runtime": "^6.23.0",
     "cuid": "^1.3.8",
-    "nanotools": "^0.1.8",
-    "observable-utils": "^0.1.10",
-    "redux-components": "^0.4.6",
-    "redux-components-map": "^0.4.7"
+    "nanotools": "^0.1.9",
+    "observable-utils": "^0.1.11",
+    "redux-components": "^0.4.7",
+    "redux-components-map": "^0.4.8"
   },
   "files": [
     "lib"
